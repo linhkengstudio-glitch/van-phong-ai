@@ -111,7 +111,7 @@
         </div>
         <div class="leading-tight">
           <div class="text-xs font-bold text-white tracking-wide">VĂN PHÒNG AI 3D</div>
-          <div class="text-[9px] text-cyan-400 uppercase tracking-widest">BẢN v8.0 • THỰC THI ĐÚNG VIỆC CEO GIAO</div>
+          <div class="text-[9px] text-cyan-400 uppercase tracking-widest">BẢN v8.2 • 100% DỮ LIỆU THỰC TẾ (KHÔNG SỐ LIỆU ẢO)</div>
         </div>
       </div>
 
@@ -135,12 +135,12 @@
           <div class="text-[8px] text-slate-400 uppercase">CHỜ/NGHỈ</div>
         </div>
         <div class="leading-none text-center border-l border-slate-800 pl-2.5 cursor-pointer" onclick="rotateDevEnvironmentHolder()" title="Bấm để chuyển quyền giữ Phòng chạy thử">
-          <div id="hudDevRoomStatus" class="font-extrabold text-emerald-300 text-xs">trống 59 phút</div>
+          <div id="hudDevRoomStatus" class="font-extrabold text-emerald-300 text-xs">đang trống</div>
           <div class="text-[8px] text-slate-400 uppercase">CHẠY THỬ</div>
         </div>
         <div class="leading-none text-center border-l border-slate-800 pl-2.5">
           <div id="hudBlockedCount" class="font-extrabold text-white text-xs">0/0</div>
-          <div class="text-[8px] text-slate-400 uppercase">9 VIỆC</div>
+          <div class="text-[8px] text-slate-400 uppercase">HẠNG MỤC</div>
         </div>
       </div>
 
@@ -196,7 +196,7 @@
         </button>
 
         <button onclick="openPluginHubModal()" class="w-full px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/30 transition flex items-center gap-2 text-left">
-          <span>🔌</span> <span class="truncate">Kho Plugin / Chat AI Ngoài (<span id="activePluginCount">18</span>)</span>
+          <span>🔌</span> <span class="truncate">Kho Plugin / Chat AI Ngoài (<span id="activePluginCount">10</span>)</span>
         </button>
 
         <button id="btnToggle3D2D" onclick="toggleViewMode3D2D()" class="w-full px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 transition flex items-center gap-2 text-left">
@@ -252,7 +252,7 @@
       <div class="bg-[#080d1a] px-4 py-2.5 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs">
         <div class="flex flex-wrap items-center gap-3">
           <span class="font-bold text-white">Màn hình Tổng Holo (Bản 2D)</span>
-          <span class="text-slate-400">Dự án: <strong id="wallProjectTitle" class="text-cyan-300">Hệ thống Web App Quản lý Bán hàng & AI Chatbot</strong></span>
+          <span class="text-slate-400">Dự án: <strong id="wallProjectTitle" class="text-cyan-300">Chưa có dự án đang chạy — Chờ Chị (CEO) giao việc</strong></span>
           <span id="wallPhaseBadge" class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">Đang vận hành</span>
         </div>
         <div class="flex flex-wrap items-center gap-2">
@@ -272,11 +272,11 @@
 
       <div class="p-4 space-y-3">
         <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
-          <span id="wallCurrentStepText" class="text-slate-200 font-semibold">Khôi đang phân tích yêu cầu của CEO...</span>
+          <span id="wallCurrentStepText" class="text-slate-200 font-semibold">Toàn bộ nhân sự đang nghỉ ngơi (0 việc đang chạy)...</span>
           <div class="flex items-center gap-2">
-            <span id="wallProgressPercent" class="text-emerald-400 font-mono-code font-bold">38%</span>
+            <span id="wallProgressPercent" class="text-emerald-400 font-mono-code font-bold">0%</span>
             <div class="w-32 h-2 bg-slate-800 rounded-full overflow-hidden">
-              <div id="wallProgressBar" class="h-full bg-emerald-400" style="width: 38%"></div>
+              <div id="wallProgressBar" class="h-full bg-emerald-400" style="width: 0%"></div>
             </div>
           </div>
         </div>
@@ -287,10 +287,10 @@
             <div class="text-xs font-bold text-slate-300">BẢNG NHÂN SỰ TRỰC TIẾP</div>
             <div id="liveStaffRosterTable" class="space-y-1.5 max-h-60 overflow-y-auto"></div>
             <div class="grid grid-cols-4 gap-2 pt-2 text-center">
-              <div class="bg-slate-900 p-1.5 rounded"><div id="kpiActiveAgents" class="text-xs font-bold text-cyan-400">4 / 10</div><div id="kpiStandbyCount" class="text-[9px] text-slate-400">6 dự bị rảnh</div></div>
-              <div class="bg-slate-900 p-1.5 rounded"><div id="kpiCodeTestLoops" class="text-xs font-bold text-amber-400">Vòng #1</div><div id="kpiBugCount" class="text-[9px] text-emerald-400">0 bug</div></div>
-              <div class="bg-slate-900 p-1.5 rounded"><div id="kpiPendingCEO" class="text-xs font-bold text-rose-400">2</div><div id="kpiStandbyNote" class="text-[9px] text-slate-400">Cần duyệt</div></div>
-              <div class="bg-slate-900 p-1.5 rounded"><div id="kpiExternalCalls" class="text-xs font-bold text-purple-400">18</div><div id="kpiLastExternalTool" class="text-[9px] text-purple-300 truncate">Claude 3.5</div></div>
+              <div class="bg-slate-900 p-1.5 rounded"><div id="kpiActiveAgents" class="text-xs font-bold text-cyan-400">0 / 10</div><div id="kpiStandbyCount" class="text-[9px] text-slate-400">10 đang nghỉ</div></div>
+              <div class="bg-slate-900 p-1.5 rounded"><div id="kpiCodeTestLoops" class="text-xs font-bold text-amber-400">Vòng #0</div><div id="kpiBugCount" class="text-[9px] text-emerald-400">0 bug</div></div>
+              <div class="bg-slate-900 p-1.5 rounded"><div id="kpiPendingCEO" class="text-xs font-bold text-rose-400">0</div><div id="kpiStandbyNote" class="text-[9px] text-slate-400">Cần duyệt</div></div>
+              <div class="bg-slate-900 p-1.5 rounded"><div id="kpiExternalCalls" class="text-xs font-bold text-purple-400">0</div><div id="kpiLastExternalTool" class="text-[9px] text-purple-300 truncate">Chưa gọi</div></div>
             </div>
           </div>
 
@@ -303,13 +303,13 @@
             <div class="flex items-center gap-3">
               <div id="devLockCircle" class="w-10 h-10 rounded-full border-2 border-emerald-400 flex items-center justify-center text-xs font-bold text-emerald-300">DEV</div>
               <div>
-                <div id="devHolderTitle" class="text-sm font-bold text-white">TRỐNG 59 phút</div>
+                <div id="devHolderTitle" class="text-sm font-bold text-white">ĐANG TRỐNG</div>
                 <div id="devHolderSub" class="text-[11px] text-slate-400">Hàng đợi: 0 người chờ</div>
               </div>
             </div>
             <div class="flex justify-between text-[11px] pt-2">
               <span class="font-bold text-amber-300">VIỆC KHÓA & KANBAN</span>
-              <span id="taskSummaryCount" class="text-slate-400">1/4 xong</span>
+              <span id="taskSummaryCount" class="text-slate-400">0/0 xong</span>
             </div>
             <div id="wallTaskList" class="space-y-1.5 max-h-36 overflow-y-auto"></div>
           </div>
@@ -407,7 +407,7 @@
           </div>
 
           <div class="pt-2 border-t border-slate-800 flex items-center justify-between gap-2">
-            <span class="text-[11px] text-slate-400">Trạng thái: <strong id="finalDeliverableStatus" class="text-amber-300">Đang phát triển...</strong></span>
+            <span class="text-[11px] text-slate-400">Trạng thái: <strong id="finalDeliverableStatus" class="text-amber-300">Chưa giao việc (0%)</strong></span>
             <button onclick="closeCEOCommandDrawer(); openProductPreviewModal();" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
               🖥️ Xem Sản Phẩm & Code Thực Tế
             </button>
@@ -441,7 +441,7 @@
         <div class="bg-slate-950 border border-cyan-500/30 rounded-xl p-3.5 space-y-2.5">
           <div class="flex items-center justify-between">
             <label class="text-xs font-bold uppercase tracking-wider text-cyan-400">💬 Hòm thư trao đổi & Nhắn thẳng cho nhân sự này</label>
-            <span id="modalAgentTokenStats" class="text-[11px] font-mono-code text-emerald-400">34.2k tokens • $0.48</span>
+            <span id="modalAgentTokenStats" class="text-[11px] font-mono-code text-emerald-400">0.0k tokens • $0.00</span>
           </div>
           <div id="modalDirectChatFeed" class="space-y-1.5 max-h-36 overflow-y-auto pr-1 text-xs font-mono-code bg-slate-900/90 rounded-lg p-2.5 border border-slate-800"></div>
           <div class="flex gap-2">
@@ -633,7 +633,7 @@
         <div class="rounded-xl bg-emerald-950/40 border border-emerald-500/40 p-3.5 space-y-1.5">
           <div class="font-bold text-emerald-300 text-sm">✅ Chế độ Chi phí hiện tại: 0đ Phát Sinh Thêm</div>
           <p class="text-slate-300 leading-relaxed">
-            Con số <strong class="text-emerald-300">$3,05 Tiền AI hôm nay</strong> trên màn hình là <strong>thước đo giá trị khối lượng công việc</strong> mà 10 nhân sự đã xử lý quy đổi theo lượng Token, <strong>không phải</strong> hóa đơn thu thêm tiền của chị. Khi chị dùng các gói tài khoản AI đã mua sẵn hoặc khóa Gemini miễn phí từ Google, chi phí phát sinh thêm là <strong>0đ</strong>.
+            Con số <strong class="text-emerald-300">Tiền AI hôm nay ($0,00 khi chưa giao việc)</strong> trên màn hình là <strong>thước đo giá trị khối lượng công việc</strong> mà 10 nhân sự đã xử lý quy đổi theo lượng Token, <strong>không phải</strong> hóa đơn thu thêm tiền của chị. Khi chị dùng các gói tài khoản AI đã mua sẵn hoặc khóa Gemini miễn phí từ Google, chi phí phát sinh thêm là <strong>0đ</strong>.
           </p>
         </div>
 
@@ -723,23 +723,18 @@
         grade: 'A+',
         tokensK: 0.0,
         costUSD: 0.00,
-        msgCount: 38,
+        msgCount: 0,
+        devRuns: 0,
+        lastDevRunStage: '',
         deskPos: { x: -14.2, z: -2.0 },
         llm: 'ChatGPT-4o (OpenAI)',
         plugins: ['Task Decomposer Skill', 'ChatGPT-4o Bridge', 'Agent Router MCP'],
         currentTask: 'Đang nghỉ chờ Chị (CEO) giao dự án mới',
-        speech: 'Em (Khôi - Leader) đang trực chờ lệnh. Chị (CEO) giao việc là em phân công cả đội làm ngay!',
-        cardType: 'Điều phối dự án',
-        terminalLines: [
-          '> [KHÔI] Nhận yêu cầu dự án từ Chị (CEO)...',
-          '> [SKILL] Gọi ChatGPT-4o phân rã kiến trúc thành 4 hạng mục...',
-          '> [DISPATCH] Giao việc lập trình chính cho Bàn #3 (Đức)...'
-        ],
-        history: ['Khởi tạo bàn Quản lý Khôi thành công', 'Nhận dự án đầu tiên từ CEO'],
-        inbox: [
-          { from: 'Chị (CEO)', text: 'Giao dự án mới, Khôi nhớ kiểm tra kỹ trước khi trình duyệt nhé!', time: '19:25' },
-          { from: 'Khôi', text: 'Dạ rõ thưa Chị! Em đã chia việc cho Đức (Code) và Minh (Test).', time: '19:26' }
-        ]
+        speech: 'Em (Khôi - Leader) đang nghỉ chờ lệnh. Chị (CEO) giao việc là em phân công cả đội làm ngay!',
+        cardType: 'Đang nghỉ chờ việc',
+        terminalLines: ['> [STANDBY] Bàn #1 (Khôi) đang nghỉ chờ Chị (CEO) giao việc (0 lệnh đang chạy)...'],
+        history: ['Đang ở trạng thái nghỉ chờ lệnh (Chưa có dự án nào được giao)'],
+        inbox: []
       },
       {
         id: 2,
@@ -756,22 +751,18 @@
         grade: 'A+',
         tokensK: 0.0,
         costUSD: 0.00,
-        msgCount: 34,
+        msgCount: 0,
+        devRuns: 0,
+        lastDevRunStage: '',
         deskPos: { x: -6.8, z: -2.0 },
         llm: 'Claude 3.5 Sonnet (Anthropic)',
         plugins: ['CEO Notification Skill', 'Approval Gatekeeper', 'Executive Summary AI'],
-        currentTask: 'Đang nghỉ chờ việc • Trực hộp thư Cần Sếp duyệt',
+        currentTask: 'Đang nghỉ chờ việc • Hộp thư Cần Sếp duyệt: 0 mục',
         speech: 'Hiện chưa có dự án nào đang chạy. Em (Linh) đang nghỉ chờ Chị (CEO) giao việc mới ạ!',
-        cardType: 'Báo cáo CEO',
-        terminalLines: [
-          '> [LINH] Kết nối kênh báo cáo trực tiếp tới Bàn Giám đốc CEO...',
-          '> [WATCH] Đang theo dõi kết quả làm việc giữa Đức (#3) và Minh (#4)...'
-        ],
-        history: ['Thiết lập cổng thông báo ưu tiên cho CEO'],
-        inbox: [
-          { from: 'Đức (#3)', text: 'Nhờ Linh hỏi Sếp xem có cho phép ghi đè file cấu hình cổng thanh toán không?', time: '19:27' },
-          { from: 'Linh', text: 'Ok Đức, mình đã đưa vào mục "Cần Sếp duyệt" để Chị bấm duyệt!', time: '19:27' }
-        ]
+        cardType: 'Đang nghỉ chờ việc',
+        terminalLines: ['> [STANDBY] Bàn #2 (Linh) đang nghỉ • Hộp thư Cần Sếp duyệt: 0 mục...'],
+        history: ['Đang ở trạng thái nghỉ chờ lệnh (Chưa có dự án nào được giao)'],
+        inbox: []
       },
       {
         id: 3,
@@ -788,23 +779,18 @@
         grade: 'A',
         tokensK: 0.0,
         costUSD: 0.00,
-        msgCount: 42,
+        msgCount: 0,
+        devRuns: 0,
+        lastDevRunStage: '',
         deskPos: { x: -14.2, z: 2.0 },
         llm: 'Claude 3.5 Sonnet (Anthropic)',
         plugins: ['Claude 3.5 CodeGen', 'GitHub Copilot MCP', 'Docker Sandbox'],
         currentTask: 'Đang nghỉ chờ lệnh lập trình từ Leader Khôi',
-        speech: 'Đang ngồi nghỉ chờ việc. Khi nào có dự án mới em sẽ code ngay!',
-        cardType: 'Báo cáo Code',
-        terminalLines: [
-          '> [ĐỨC] Nhận đặc tả kỹ thuật từ Bàn #1 (Khôi)...',
-          '> [EXT-AI] Đang gọi Claude 3.5 Sonnet sinh code module UI & State...',
-          '> [BUILD] Đóng gói bản build gửi sang Bàn #4 (Minh)...'
-        ],
-        history: ['Nhận đặc tả kỹ thuật từ Khôi'],
-        inbox: [
-          { from: 'Khôi (#1)', text: 'Đức ưu tiên hoàn thiện giao diện và API giỏ hàng trước nhé.', time: '19:26' },
-          { from: 'Minh (#4)', text: 'Khi nào build xong nhắn mình chạy Playwright test luôn nha!', time: '19:28' }
-        ]
+        speech: 'Đang ngồi nghỉ chờ việc. Khi nào Chị (CEO) giao dự án mới em sẽ code ngay!',
+        cardType: 'Đang nghỉ chờ việc',
+        terminalLines: ['> [STANDBY] Bàn #3 (Đức) đang nghỉ chờ lệnh lập trình...'],
+        history: ['Đang ở trạng thái nghỉ chờ lệnh (0 lượt chạy thử)'],
+        inbox: []
       },
       {
         id: 4,
@@ -821,22 +807,18 @@
         grade: 'A+',
         tokensK: 0.0,
         costUSD: 0.00,
-        msgCount: 36,
+        msgCount: 0,
+        devRuns: 0,
+        lastDevRunStage: '',
         deskPos: { x: -6.8, z: 2.0 },
         llm: 'DeepSeek R1 (Reasoning)',
         plugins: ['Playwright E2E Runner', 'DeepSeek Bug Hunter', 'Jest Unit Test Skill'],
         currentTask: 'Đang nghỉ chờ sản phẩm để kiểm thử khắt khe 100%',
         speech: 'Đang nghỉ ngơi. Hễ có sản phẩm mới là mình kiểm tra đủ 100% yêu cầu của Chị CEO mới duyệt!',
-        cardType: 'Báo cáo Kiểm duyệt',
-        terminalLines: [
-          '> [MINH] Khởi tạo bộ test tự động Playwright & DeepSeek R1...',
-          '> [WAIT] Đang kiểm tra gói build từ Bàn #3 (Đức)...'
-        ],
-        history: ['Chuẩn bị 18 kịch bản kiểm thử tự động'],
-        inbox: [
-          { from: 'Đức (#3)', text: 'Mình vừa đẩy bản v1.1 lên phòng DEV, Minh test giúp nhé!', time: '19:29' },
-          { from: 'Minh', text: 'Đang chạy Playwright quét toàn bộ 4 tab giao diện!', time: '19:29' }
-        ]
+        cardType: 'Đang nghỉ chờ việc',
+        terminalLines: ['> [STANDBY] Bàn #4 (Minh) đang nghỉ chờ bản build để kiểm thử...'],
+        history: ['Đang ở trạng thái nghỉ chờ lệnh (0 vòng kiểm thử)'],
+        inbox: []
       },
       {
         id: 5,
@@ -854,16 +836,18 @@
         grade: 'B+',
         tokensK: 0.0,
         costUSD: 0.00,
-        msgCount: 14,
+        msgCount: 0,
+        devRuns: 0,
+        lastDevRunStage: '',
         deskPos: { x: 0.6, z: -2.0 },
         llm: 'Gemini 2.5 Pro (Google)',
         plugins: ['Figma UI Plugin', 'Tailwind Styler Skill'],
         currentTask: 'Tạm thời chưa có việc gì — Sẵn sàng khi Khôi điều động thiết kế UI/UX',
-        speech: 'Em đang ngồi bàn #5 chờ Khôi giao việc thiết kế giao diện ạ!',
+        speech: 'Em đang ngồi bàn #5 nghỉ chờ Khôi giao việc thiết kế giao diện ạ!',
         cardType: 'Đang chờ việc',
         terminalLines: ['> [STANDBY] Bàn #5 (Vy) đang ở chế độ chờ lệnh...'],
         history: ['Đang ở trạng thái dự bị chờ Khôi phân công'],
-        inbox: [{ from: 'Hệ thống', text: 'Bàn #5 (Vy) sẵn sàng nhận lệnh từ Khôi.', time: '19:20' }]
+        inbox: []
       },
       {
         id: 6,
@@ -881,16 +865,18 @@
         grade: 'B+',
         tokensK: 0.0,
         costUSD: 0.00,
-        msgCount: 16,
+        msgCount: 0,
+        devRuns: 0,
+        lastDevRunStage: '',
         deskPos: { x: 0.6, z: 2.0 },
         llm: 'Perplexity Sonar Research',
         plugins: ['Perplexity Web Search', 'Market Scraper Skill'],
         currentTask: 'Tạm thời chưa có việc gì — Sẵn sàng tra cứu dữ liệu bên ngoài khi Khôi gọi',
-        speech: 'Chào cả phòng, em là Tùng (#6), luôn sẵn sàng tra cứu thông tin và phân tích thị trường khi cần!',
+        speech: 'Chào cả phòng, em là Tùng (#6), đang nghỉ chờ lệnh tra cứu thông tin khi cần!',
         cardType: 'Nhân sự dự bị',
         terminalLines: ['> [STANDBY] Bàn #6 (Tùng) đang chờ lệnh từ Bàn #1 (Khôi)...'],
         history: ['Đang ở trạng thái dự bị chờ Khôi phân công'],
-        inbox: [{ from: 'Hệ thống', text: 'Bàn #6 (Tùng) đã kết nối Perplexity Search.', time: '19:20' }]
+        inbox: []
       },
       {
         id: 7,
@@ -908,16 +894,18 @@
         grade: 'A',
         tokensK: 0.0,
         costUSD: 0.00,
-        msgCount: 11,
+        msgCount: 0,
+        devRuns: 0,
+        lastDevRunStage: '',
         deskPos: { x: -14.2, z: 5.8 },
         llm: 'DeepSeek R1 (Reasoning)',
         plugins: ['OWASP Security Scanner', 'Auth Token Auditor'],
         currentTask: 'Tạm thời chưa có việc gì — Sẵn sàng quét lỗ hổng bảo mật khi Khôi giao',
-        speech: 'Chưa có việc gì, đang trực bảo mật chờ Khôi phân công.',
+        speech: 'Chưa có việc gì, đang nghỉ chờ Khôi phân công rà soát bảo mật.',
         cardType: 'Đang chờ việc',
         terminalLines: ['> [STANDBY] Bàn #7 (Vũ) đang ở chế độ nghỉ chờ việc...'],
         history: ['Đang ở trạng thái dự bị chờ Khôi phân công'],
-        inbox: [{ from: 'Hệ thống', text: 'Bàn #7 (Vũ) sẵn sàng quét OWASP.', time: '19:20' }]
+        inbox: []
       },
       {
         id: 8,
@@ -935,7 +923,9 @@
         grade: 'B',
         tokensK: 0.0,
         costUSD: 0.00,
-        msgCount: 9,
+        msgCount: 0,
+        devRuns: 0,
+        lastDevRunStage: '',
         deskPos: { x: -6.8, z: 5.8 },
         llm: 'ChatGPT-4o (OpenAI)',
         plugins: ['Notion Docs Sync', 'Copywriting AI Skill'],
@@ -944,7 +934,7 @@
         cardType: 'Đang chờ việc',
         terminalLines: ['> [STANDBY] Bàn #8 (Mai) đang chờ lệnh từ Khôi...'],
         history: ['Đang ở trạng thái dự bị chờ Khôi phân công'],
-        inbox: [{ from: 'Hệ thống', text: 'Bàn #8 (Mai) sẵn sàng đồng bộ tài liệu.', time: '19:20' }]
+        inbox: []
       },
       {
         id: 9,
@@ -962,16 +952,18 @@
         grade: 'A',
         tokensK: 0.0,
         costUSD: 0.00,
-        msgCount: 12,
+        msgCount: 0,
+        devRuns: 0,
+        lastDevRunStage: '',
         deskPos: { x: 0.6, z: 5.8 },
         llm: 'OpenAI o3-mini (High-Speed)',
         plugins: ['SQL Query Optimizer', 'Chart Analytics Skill'],
         currentTask: 'Tạm thời chưa có việc gì — Sẵn sàng thiết kế cấu trúc SQL khi Khôi giao',
-        speech: 'Đã sẵn sàng hỗ trợ kiểm tra cơ sở dữ liệu và ghép nền DEV khi Khôi điều động.',
-        cardType: 'Báo cáo',
+        speech: 'Đang nghỉ ngơi, sẵn sàng hỗ trợ cơ sở dữ liệu khi Khôi điều động.',
+        cardType: 'Đang chờ việc',
         terminalLines: ['> [STANDBY] Bàn #9 (Bách) đang rảnh...'],
         history: ['Đang ở trạng thái dự bị chờ Khôi phân công'],
-        inbox: [{ from: 'Hệ thống', text: 'Bàn #9 (Bách) sẵn sàng kiểm tra SQL schema.', time: '19:20' }]
+        inbox: []
       },
       {
         id: 10,
@@ -989,7 +981,9 @@
         grade: 'B+',
         tokensK: 0.0,
         costUSD: 0.00,
-        msgCount: 8,
+        msgCount: 0,
+        devRuns: 0,
+        lastDevRunStage: '',
         deskPos: { x: 7.8, z: 2.0 },
         llm: 'Claude 3.5 Sonnet (Anthropic)',
         plugins: ['Docker Sandbox Runner', 'Cloud Deploy Webhook'],
@@ -998,7 +992,7 @@
         cardType: 'Đang chờ việc',
         terminalLines: ['> [STANDBY] Bàn #10 (Đạt) đang ở chế độ chờ lệnh...'],
         history: ['Đang ở trạng thái dự bị chờ Khôi phân công'],
-        inbox: [{ from: 'Hệ thống', text: 'Bàn #10 (Đạt) kết nối Docker Sandbox thành công.', time: '19:20' }]
+        inbox: []
       }
     ];
 
@@ -1017,21 +1011,18 @@
       projectType: 'custom',
       progress: 0,
       stageIndex: -1,
-      codeTestLoopCount: 1,
+      codeTestLoopCount: 0,
       openBugs: 0,
-      strictQAScore: 92,
-      activeWorkerIds: [3, 5, 9],
-      strictQAChecklist: [
-        { name: 'Đáp ứng 100% yêu cầu gốc của Chị (CEO)', score: 100, passed: true, worker: 'Đức (#3)' },
-        { name: 'Kiểm thử luồng nghiệp vụ & dữ liệu thực tế', score: 95, passed: false, worker: 'Bách (#9)' },
-        { name: 'Kiểm thử giao diện chuẩn xác & không lỗi vặt', score: 90, passed: false, worker: 'Vy (#5)' },
-        { name: 'Rà soát khắt khe các trường hợp ngoại lệ (Minh QA)', score: 85, passed: false, worker: 'Đức (#3)' }
-      ],
-      externalApiCalls: 18,
-      lastExternalTool: 'Claude 3.5 Sonnet',
+      strictQAScore: 0,
+      activeWorkerIds: [],
+      strictQAChecklist: [],
+      externalApiCalls: 0,
+      lastExternalTool: 'Chưa gọi',
       totalCostUSD: 0.00,
-      devHolderName: 'TRỐNG 59 phút',
+      devHolderName: 'ĐANG TRỐNG',
       devHolderAgentId: null,
+      devTestRunsToday: 0,
+      devQueueCount: 0,
       autoScaleStandby: true,
       paused: false,
       simSpeed: 1,
@@ -1040,11 +1031,9 @@
       logFilter: 'all',
       selectedDeskId: null,
       tasks: [],
-      // CHẾ ĐỘ TỰ HÀNH 100%: Không làm phiền CEO bởi các việc kỹ thuật nội bộ (cập nhật DB, mở luồng test trong gói...).
-      // Chỉ đưa vào hộp thư CEO đúng 3 loại: 1. Cấp tài khoản ngoài (ACCOUNT_REQUEST), 2. Chi phí ngoài gói (EXTRA_COST_REQUEST), 3. Sản phẩm cuối cùng đạt 100% (FINAL_PRODUCT).
       ceoInbox: [],
       commsLogs: [
-        { time: '22:30:00', from: 'Hệ thống', to: 'Toàn Văn Phòng', tag: 'core', text: '💤 Văn phòng đang ở chế độ Nghỉ chờ lệnh. Cả 10 nhân sự đang ngồi chơi / ngủ chờ Chị (CEO) giao việc!' }
+        { time: '00:00:00', from: 'Hệ thống', to: 'Toàn Văn Phòng', tag: 'core', text: '💤 Văn phòng đang ở chế độ Nghỉ chờ lệnh (0 việc đang chạy). Tất cả số liệu đều bằng 0 cho tới khi Chị (CEO) giao việc!' }
       ]
     };
 
@@ -1296,7 +1285,7 @@
       ctx.fillText(pulseBlink ? '⚡ ĐANG CHẠY ĐỒNG BỘ' : '● ĐANG CHẠY ĐỒNG BỘ', 525, 69);
 
       const workingCount = agents.filter(a => a.status !== 'STANDBY').length;
-      const idleCount = 10 - workingCount;
+      const idleCount = Math.max(0, agents.length - workingCount);
       const pendingCEO = officeState.ceoInbox.filter(i => !i.resolved).length;
       const totalTokensK = agents.reduce((acc, a) => acc + a.tokensK, 0);
       const totalUSD = agents.reduce((acc, a) => acc + a.costUSD, 0);
@@ -1307,7 +1296,7 @@
         { x: 1200, label: 'BỊ CHẶN', val: String(officeState.openBugs), color: officeState.openBugs > 0 ? '#f43f5e' : '#7dd3fc' },
         { x: 1360, label: 'CẦN DUYỆT', val: String(pendingCEO), color: '#fbbf24' },
         { x: 1530, label: 'PHÒNG DEV', val: officeState.devHolderName, color: '#34d399' },
-        { x: 1850, label: 'VIỆC KHÓA', val: `${pendingCEO + officeState.openBugs} / 9`, color: '#38bdf8' },
+        { x: 1850, label: 'HẠNG MỤC', val: `${officeState.tasks.filter(t => t.status === 'DONE').length} / ${officeState.tasks.length}`, color: '#38bdf8' },
         { x: 2040, label: 'TIỀN AI HÔM NAY', val: `$${totalUSD.toFixed(2)}`, color: '#34d399' },
         { x: 2310, label: 'ĐÃ XỬ LÝ', val: `${totalTokensK.toFixed(1)}k`, color: '#ffffff' }
       ];
@@ -1372,7 +1361,7 @@
       ctx.fillText('TRẠNG THÁI       TÊN        CHỨC VỤ                  CÔNG VIỆC ĐANG LÀM                                  ĐÁNH GIÁ / XỬ LÝ', 44, colTop + 64);
 
       const allRows = [
-        { status: 'WORKING', shortName: 'Chị (CEO)', dept: 'GIÁM ĐỐC', currentTask: 'Ra yêu cầu ban đầu, duyệt mục "Cần Sếp duyệt" & chốt sản phẩm cuối', tokensK: 0.0, grade: 'CEO' },
+        { status: (officeState.hasActiveProject || pendingCEO > 0) ? 'WORKING' : 'STANDBY', shortName: 'Chị (CEO)', dept: 'GIÁM ĐỐC', currentTask: (officeState.hasActiveProject || pendingCEO > 0) ? 'Đang giám sát dự án & duyệt mục Cần Sếp duyệt' : 'Chưa giao việc mới • Đang để văn phòng nghỉ ngơi', tokensK: 0.0, grade: 'CEO' },
         ...agents
       ];
 
@@ -1448,140 +1437,195 @@
         ctx.fillText(`${r.tokensK.toFixed(0)}k`, 968, ry + 36);
       });
 
-      // --- MODULE GIỮA (X: 1054, W: 750): LÕI HOLOGRAM PHÒNG DEV & XẾP HÀNG ---
+      // --- MODULE GIỮA (X: 1054, W: 750): LÕI HOLOGRAM PHÒNG DEV & XẾP HÀNG (100% SỐ LIỆU THỰC TẾ) ---
       drawHoloPanel(ctx, 1054, colTop, 750, colH, 20, 'rgba(5, 18, 42, 0.45)', '#00f2fe', 2.2);
 
       ctx.fillStyle = '#00f2fe';
       ctx.font = '800 22px "JetBrains Mono", monospace';
       ctx.fillText('◈ PHÒNG CHẠY THỬ SẢN PHẨM', 1082, colTop + 36);
 
+      const realDevRuns = officeState.devTestRunsToday || 0;
+      const realQueue = officeState.hasActiveProject ? Math.max(0, (officeState.activeWorkerIds || []).length - 1) : 0;
+      const isDevRoomBusy = officeState.hasActiveProject && !officeState.projectApproved && officeState.stageIndex >= 1 && officeState.stageIndex <= 3;
+
       // Vòng năng lượng kép Arc-Reactor cho Phòng DEV
       ctx.save();
       ctx.beginPath();
       ctx.arc(1140, colTop + 114, 42, 0, Math.PI * 2);
-      ctx.strokeStyle = '#00f2fe';
+      ctx.strokeStyle = isDevRoomBusy ? '#00f2fe' : '#334155';
       ctx.lineWidth = 6;
-      ctx.shadowColor = '#00f2fe';
-      ctx.shadowBlur = 16;
+      if (isDevRoomBusy) {
+        ctx.shadowColor = '#00f2fe';
+        ctx.shadowBlur = 16;
+      }
       ctx.stroke();
       ctx.beginPath();
       ctx.arc(1140, colTop + 114, 30, 0, Math.PI * 1.5);
-      ctx.strokeStyle = '#34d399';
+      ctx.strokeStyle = isDevRoomBusy ? '#34d399' : '#1e293b';
       ctx.lineWidth = 3;
       ctx.stroke();
       ctx.restore();
 
-      ctx.fillStyle = '#34d399';
-      ctx.font = '800 16px "JetBrains Mono", monospace';
-      ctx.fillText('0/9', 1124, colTop + 120);
+      ctx.fillStyle = isDevRoomBusy ? '#34d399' : '#64748b';
+      ctx.font = '800 15px "JetBrains Mono", monospace';
+      ctx.fillText(`${realDevRuns} lượt`, 1112, colTop + 120);
 
-      ctx.fillStyle = '#ffffff';
-      ctx.font = '900 32px "JetBrains Mono", monospace';
-      ctx.fillText(officeState.devHolderName.toUpperCase(), 1205, colTop + 108);
+      ctx.fillStyle = isDevRoomBusy ? '#ffffff' : '#94a3b8';
+      ctx.font = '900 30px "JetBrains Mono", monospace';
+      ctx.fillText((officeState.devHolderName || 'ĐANG TRỐNG').toUpperCase(), 1205, colTop + 108);
       ctx.fillStyle = '#7dd3fc';
-      ctx.font = '700 18px Inter, sans-serif';
-      ctx.fillText('Hàng đợi chạy thử: 0 người chờ  •  Đã chạy thử: 6 lượt hôm nay', 1205, colTop + 138);
+      ctx.font = '700 17px Inter, sans-serif';
+      ctx.fillText(`Hàng đợi chạy thử: ${realQueue} người chờ  •  Đã chạy thử: ${realDevRuns} lượt hôm nay`, 1205, colTop + 138);
 
       const devSteps = [
-        { name: '✓ Xử lý hệ thống', sub: 'Đức (#3)', ok: true },
-        { name: '✓ Ghép sản phẩm', sub: 'Khôi (#1)', ok: true },
-        { name: '✓ Tra cứu dữ liệu', sub: 'Tùng (#6)', ok: true },
-        { name: '● Kiểm tra 100%', sub: 'Minh (#4)', ok: true },
-        { name: '○ Rà soát an toàn', sub: 'Vũ (#7)', ok: false },
-        { name: '○ Trình CEO duyệt', sub: 'Linh (#2)', ok: false }
+        { name: 'Phân rã & điều phối', sub: 'Khôi (#1)', stageReq: 1 },
+        { name: 'Lập trình & ghép nối', sub: 'Đức (#3)', stageReq: 2 },
+        { name: 'Xử lý chuyên môn', sub: 'Đội dự án', stageReq: 2 },
+        { name: 'Kiểm thử 100% QA', sub: 'Minh (#4)', stageReq: 3 },
+        { name: 'Rà soát an toàn', sub: 'Vũ (#7)', stageReq: 4 },
+        { name: 'Trình CEO duyệt', sub: 'Linh (#2)', stageReq: 4 }
       ];
-      const activeDevStepIdx = Math.min(5, Math.max(0, officeState.stageIndex));
+
+      // Chỉ sáng khi thực sự có dự án đang làm hoặc vừa duyệt xong! Khi chưa giao việc (stageIndex < 0), tất cả đều ở trạng thái Chờ (xám).
+      const hasProj = officeState.hasActiveProject || officeState.projectApproved;
+      const curStg = hasProj ? officeState.stageIndex : -1;
+
       devSteps.forEach((st, i) => {
         const sx = 1082 + (i % 3) * 236;
         const sy = colTop + 178 + Math.floor(i / 3) * 76;
-        const isCurrentStep = (i === activeDevStepIdx) && officeState.stageIndex < 5;
+
+        let isDoneStep = false;
+        let isCurrentStep = false;
+        if (hasProj) {
+          if (officeState.projectApproved || curStg === 5) {
+            isDoneStep = true;
+          } else if (curStg > st.stageReq) {
+            isDoneStep = true;
+          } else if (curStg === st.stageReq) {
+            isCurrentStep = true;
+          }
+        }
+
         const stepBg = isCurrentStep
           ? (blinkTick ? 'rgba(245, 158, 11, 0.45)' : 'rgba(6, 78, 59, 0.55)')
-          : 'rgba(6, 24, 52, 0.55)';
+          : (isDoneStep ? 'rgba(6, 55, 48, 0.45)' : 'rgba(6, 20, 42, 0.35)');
         const stepBorder = isCurrentStep
           ? (blinkTick ? '#fbbf24' : '#00f2fe')
-          : (i < activeDevStepIdx ? '#34d399' : '#1e293b');
+          : (isDoneStep ? '#34d399' : 'rgba(51, 65, 85, 0.4)');
 
-        drawHoloPanel(ctx, sx, sy, 220, 62, 10, stepBg, stepBorder, isCurrentStep ? 2.8 : 1.5);
+        drawHoloPanel(ctx, sx, sy, 220, 62, 10, stepBg, stepBorder, isCurrentStep ? 2.8 : 1.2);
 
-        ctx.fillStyle = isCurrentStep ? (blinkTick ? '#fde047' : '#ffffff') : (i <= activeDevStepIdx ? '#34d399' : '#64748b');
-        ctx.font = '800 17px "JetBrains Mono", monospace';
-        ctx.fillText(isCurrentStep ? ('⚡ ' + st.name.slice(2)) : st.name, sx + 14, sy + 28);
-        ctx.fillStyle = isCurrentStep ? '#fef08a' : '#7dd3fc';
+        const prefix = isCurrentStep ? '⚡ ' : (isDoneStep ? '✓ ' : '○ ');
+        ctx.fillStyle = isCurrentStep ? (blinkTick ? '#fde047' : '#ffffff') : (isDoneStep ? '#34d399' : '#64748b');
+        ctx.font = '800 16px "JetBrains Mono", monospace';
+        ctx.fillText(prefix + st.name, sx + 12, sy + 28);
+
+        ctx.fillStyle = isCurrentStep ? '#fef08a' : (isDoneStep ? '#6ee7b7' : '#475569');
         ctx.font = '700 13px Inter, sans-serif';
-        ctx.fillText(isCurrentStep ? (st.sub + ' • ĐANG CHẠY') : st.sub, sx + 14, sy + 48);
+        const subStatus = isCurrentStep ? ' • ĐANG CHẠY' : (isDoneStep ? ' • ĐÃ XONG' : ' • Chưa chạy');
+        ctx.fillText(st.sub + subStatus, sx + 12, sy + 48);
       });
 
       ctx.fillStyle = '#00f2fe';
       ctx.font = '800 16px "JetBrains Mono", monospace';
-      ctx.fillText('◈ LỊCH SỬ DÙNG PHÒNG CHẠY THỬ', 1082, colTop + 372);
+      ctx.fillText('◈ LỊCH SỬ DÙNG PHÒNG CHẠY THỬ (THỰC TẾ HÔM NAY)', 1082, colTop + 372);
 
-      const timelineRows = ['Đức (#3)', 'Minh (#4)', 'Bách (#9)', 'Tùng (#6)', 'Vy (#5)', 'Đạt (#10)'];
-      timelineRows.forEach((name, rIdx) => {
+      const timelineAgentIds = [3, 4, 9, 6, 5, 10];
+      const maxDevRuns = Math.max(1, ...agents.map(a => a.devRuns || 0));
+      timelineAgentIds.forEach((agId, rIdx) => {
+        const agObj = agents.find(a => a.id === agId) || { shortName: 'AI', deskCode: '#' + agId, devRuns: 0, lastDevRunStage: '' };
+        const runs = agObj.devRuns || 0;
         const ty = colTop + 402 + rIdx * 68;
-        ctx.fillStyle = '#e2e8f0';
-        ctx.font = '700 18px Inter, sans-serif';
-        ctx.fillText(name, 1082, ty + 26);
 
-        drawHoloPanel(ctx, 1210, ty + 4, 565, 36, 8, 'rgba(4, 14, 34, 0.5)', 'rgba(56, 189, 248, 0.25)', 1);
+        ctx.fillStyle = runs > 0 ? '#ffffff' : '#64748b';
+        ctx.font = '700 17px Inter, sans-serif';
+        ctx.fillText(`${agObj.shortName} (#${agId})`, 1082, ty + 26);
 
-        const blockX = 1230 + ((rIdx * 82) % 360);
-        const blockW = 65 + ((rIdx * 40) % 110);
-        ctx.fillStyle = rIdx === 0 ? '#00f2fe' : '#38bdf8';
-        roundRect2D(ctx, blockX, ty + 10, blockW, 24, 6, true, false);
+        drawHoloPanel(ctx, 1210, ty + 4, 565, 36, 8, 'rgba(4, 14, 34, 0.5)', runs > 0 ? 'rgba(56, 189, 248, 0.45)' : 'rgba(51, 65, 85, 0.25)', 1);
+
+        if (runs > 0) {
+          const barW = Math.max(90, Math.min(545, Math.round((runs / maxDevRuns) * 545)));
+          ctx.fillStyle = rIdx === 0 ? '#00f2fe' : '#38bdf8';
+          roundRect2D(ctx, 1218, ty + 10, barW, 24, 6, true, false);
+          ctx.fillStyle = '#020617';
+          ctx.font = '800 13px "JetBrains Mono", monospace';
+          ctx.fillText(`${runs} lượt • ${agObj.lastDevRunStage || 'Đã chạy thử'}`, 1228, ty + 27);
+        } else {
+          ctx.fillStyle = '#475569';
+          ctx.font = '600 13px "JetBrains Mono", monospace';
+          ctx.fillText('0 lượt chạy thử — Chưa có tác vụ phát sinh', 1226, ty + 27);
+        }
       });
 
-      // --- MODULE PHẢI (X: 1820, W: 722): VIỆC KHÓA & BIỂU ĐỒ TƯƠNG TÁC ---
+      // --- MODULE PHẢI (X: 1820, W: 722): CHỈ SỐ ĐỒNG BỘ & TƯƠNG TÁC THỰC TẾ ---
       drawHoloPanel(ctx, 1820, colTop, 722, colH, 20, 'rgba(5, 18, 42, 0.45)', '#00f2fe', 2.2);
 
       ctx.fillStyle = '#00f2fe';
       ctx.font = '800 22px "JetBrains Mono", monospace';
       ctx.fillText('◈ CHỈ SỐ ĐỒNG BỘ & ĐỘ PHỦ KIỂM DUYỆT', 1848, colTop + 36);
 
+      const reqCount = (officeState.projectRequirements || []).length;
+      const metric1Pct = hasProj ? (curStg >= 1 ? 100 : 30) : 0;
+      const metric1Right = hasProj ? `Đã chia ${reqCount}/${reqCount} việc` : '0/0 hạng mục';
+
+      const metric2Pct = hasProj ? (officeState.strictQAScore || 0) : 0;
+      const metric2Right = hasProj
+        ? (officeState.openBugs > 0 ? `Đang sửa (${metric2Pct}%)` : `Đạt ${metric2Pct}%`)
+        : 'Chưa chạy (0%)';
+
+      const metric3Pct = hasProj ? (officeState.progress || 0) : 0;
+      const metric3Right = `${metric3Pct}% hoàn tất`;
+
       const lockMetrics = [
-        { label: '01  Phân rã kiến trúc & điều phối (Khôi)', pct: 100, color: '#34d399', right: 'Hoạt động 4/4' },
-        { label: '02  Đồng bộ 0% lỗi đỏ (Đức ⇄ Minh)', pct: officeState.openBugs > 0 ? 65 : 100, color: officeState.openBugs > 0 ? '#f43f5e' : '#00f2fe', right: officeState.openBugs > 0 ? 'Đang vá Bug' : 'Pass 18/18' },
-        { label: '03  Tiến độ tổng thể dự án hiện tại', pct: officeState.progress, color: '#fbbf24', right: `${officeState.progress}% hoàn tất` }
+        { label: '01  Phân rã kiến trúc & điều phối (Khôi)', pct: metric1Pct, color: metric1Pct > 0 ? '#34d399' : '#64748b', right: metric1Right },
+        { label: '02  Độ phủ kiểm thử thực tế (Đức ⇄ Minh)', pct: metric2Pct, color: officeState.openBugs > 0 ? '#f43f5e' : (metric2Pct > 0 ? '#00f2fe' : '#64748b'), right: metric2Right },
+        { label: '03  Tiến độ tổng thể dự án hiện tại', pct: metric3Pct, color: metric3Pct > 0 ? '#fbbf24' : '#64748b', right: metric3Right }
       ];
       lockMetrics.forEach((lm, idx) => {
         const ly = colTop + 70 + idx * 86;
-        ctx.fillStyle = '#f8fafc';
+        ctx.fillStyle = lm.pct > 0 ? '#f8fafc' : '#94a3b8';
         ctx.font = '700 18px Inter, sans-serif';
         ctx.fillText(lm.label, 1848, ly + 20);
         ctx.fillStyle = lm.color;
         ctx.font = '800 14px "JetBrains Mono", monospace';
-        ctx.fillText(lm.right, 2395, ly + 20);
+        ctx.fillText(lm.right, 2365, ly + 20);
 
         ctx.fillStyle = 'rgba(15, 23, 42, 0.65)';
         roundRect2D(ctx, 1848, ly + 34, 666, 16, 8, true, false);
-        ctx.fillStyle = lm.color;
-        roundRect2D(ctx, 1848, ly + 34, Math.max(28, (666 * lm.pct) / 100), 16, 8, true, false);
+        if (lm.pct > 0) {
+          ctx.fillStyle = lm.color;
+          roundRect2D(ctx, 1848, ly + 34, Math.max(18, (666 * lm.pct) / 100), 16, 8, true, false);
+        }
       });
 
       ctx.fillStyle = '#00f2fe';
       ctx.font = '800 16px "JetBrains Mono", monospace';
-      ctx.fillText('◈ LUỒNG TIN GIỮA CÁC PHÒNG — TƯƠNG TÁC HÔM NAY', 1848, colTop + 365);
+      ctx.fillText('◈ LUỒNG TIN GIỮA CÁC PHÒNG — TƯƠNG TÁC THỰC TẾ HÔM NAY', 1848, colTop + 365);
 
-      const topAgents = [...agents].sort((a, b) => b.msgCount - a.msgCount).slice(0, 8);
-      const maxM = Math.max(1, topAgents[0].msgCount);
+      const topAgents = [...agents].sort((a, b) => (b.msgCount || 0) - (a.msgCount || 0)).slice(0, 8);
+      const maxM = Math.max(1, topAgents[0]?.msgCount || 0);
       const barPalette = ['#00f2fe', '#38bdf8', '#34d399', '#fbbf24', '#a855f7', '#f472b6', '#60a5fa', '#94a3b8'];
 
       topAgents.forEach((ag, idx) => {
         const by = colTop + 400 + idx * 54;
-        ctx.fillStyle = '#ffffff';
+        const countVal = ag.msgCount || 0;
+        ctx.fillStyle = countVal > 0 ? '#ffffff' : '#64748b';
         ctx.font = '700 18px Inter, sans-serif';
         ctx.fillText(`${ag.shortName} (${ag.deskCode})`, 1848, by + 22);
 
         const barMaxW = 440;
-        const bw = Math.max(32, Math.round((ag.msgCount / maxM) * barMaxW));
         ctx.fillStyle = 'rgba(15, 23, 42, 0.6)';
         roundRect2D(ctx, 2010, by + 6, barMaxW, 20, 10, true, false);
-        ctx.fillStyle = barPalette[idx % barPalette.length];
-        roundRect2D(ctx, 2010, by + 6, bw, 20, 10, true, false);
 
-        ctx.fillStyle = '#00f2fe';
-        ctx.font = '800 22px "JetBrains Mono", monospace';
-        ctx.fillText(String(ag.msgCount), 2468, by + 22);
+        if (countVal > 0) {
+          const bw = Math.max(24, Math.round((countVal / maxM) * barMaxW));
+          ctx.fillStyle = barPalette[idx % barPalette.length];
+          roundRect2D(ctx, 2010, by + 6, bw, 20, 10, true, false);
+        }
+
+        ctx.fillStyle = countVal > 0 ? '#00f2fe' : '#475569';
+        ctx.font = '800 20px "JetBrains Mono", monospace';
+        ctx.fillText(String(countVal), 2468, by + 22);
       });
 
       if (giantScreenTexture) {
@@ -2770,13 +2814,13 @@
       if (clockEl) clockEl.textContent = d.toTimeString().split(' ')[0];
 
       const workingCount = agents.filter(a => a.status !== 'STANDBY').length;
-      const idleCount = 10 - workingCount;
+      const idleCount = Math.max(0, agents.length - workingCount);
       const pendingCEO = officeState.ceoInbox.filter(i => !i.resolved).length;
 
       document.getElementById('hudWorkingCount').textContent = String(workingCount);
       document.getElementById('hudIdleCount').textContent = String(idleCount);
       document.getElementById('hudCanAnhCount').textContent = String(pendingCEO);
-      document.getElementById('hudBlockedCount').textContent = `${officeState.openBugs + pendingCEO}/9`;
+      document.getElementById('hudBlockedCount').textContent = `${officeState.openBugs + pendingCEO}/${officeState.tasks.length}`;
       document.getElementById('hudDevRoomStatus').textContent = officeState.devHolderName.toLowerCase();
 
       const totalTokensK = agents.reduce((acc, a) => acc + a.tokensK, 0);
@@ -2802,7 +2846,7 @@
         'Bàn #2 (Linh) đã gom hồ sơ vào mục "Cần Sếp duyệt" chờ Chị phê duyệt!',
         'Chị (CEO) đã phê duyệt hoàn tất! Sản phẩm đạt 100%.'
       ];
-      document.getElementById('wallCurrentStepText').textContent = stageDescriptions[officeState.stageIndex] || stageDescriptions[1];
+      document.getElementById('wallCurrentStepText').textContent = (officeState.stageIndex >= 0 && stageDescriptions[officeState.stageIndex]) ? stageDescriptions[officeState.stageIndex] : 'Toàn bộ nhân sự đang nghỉ ngơi (0 việc đang chạy) — Chờ Chị (CEO) giao việc mới.';
 
       const pipeEl = document.getElementById('pipelineStagesContainer');
       if (pipeEl) {
@@ -2836,8 +2880,8 @@
       }
 
       const activeCount = agents.filter(a => a.status !== 'STANDBY').length;
-      document.getElementById('kpiActiveAgents').textContent = `${activeCount} / 10`;
-      document.getElementById('kpiStandbyCount').textContent = `${10 - activeCount} dự bị rảnh`;
+      document.getElementById('kpiActiveAgents').textContent = `${activeCount} / ${agents.length}`;
+      document.getElementById('kpiStandbyCount').textContent = `${agents.length - activeCount} đang nghỉ`;
       document.getElementById('kpiCodeTestLoops').textContent = `Vòng #${officeState.codeTestLoopCount}`;
       document.getElementById('kpiBugCount').textContent = officeState.openBugs > 0 ? `${officeState.openBugs} bug` : '0 bug';
       document.getElementById('kpiPendingCEO').textContent = String(officeState.ceoInbox.filter(i => !i.resolved).length);
@@ -2869,16 +2913,32 @@
     }
 
     function rotateDevEnvironmentHolder() {
+      if (!officeState.hasActiveProject) {
+        officeState.devHolderName = 'ĐANG TRỐNG';
+        officeState.devHolderAgentId = null;
+        document.getElementById('devHolderTitle').textContent = 'ĐANG TRỐNG';
+        document.getElementById('devHolderSub').textContent = 'Chưa có dự án chạy thử (0 người chờ)';
+        updateLiveClockAndHUD();
+        return;
+      }
       const holders = [
-        { id: 3, title: 'Đức giữ 42p', sub: 'Đang chạy: backend-build & hot-reload' },
-        { id: 4, title: 'Minh giữ 25p', sub: 'Đang chạy: Playwright E2E 18 kịch bản' },
-        { id: null, title: 'TRỐNG 59 phút', sub: 'Hàng đợi: 0 người chờ' }
+        { id: 3, title: 'Đức (#3) đang chạy', sub: 'Đang chạy thử bản build thực tế' },
+        { id: 4, title: 'Minh (#4) đang test', sub: 'Đang kiểm thử 100% yêu cầu của CEO' },
+        { id: null, title: 'ĐANG TRỐNG', sub: 'Hàng đợi: 0 người chờ' }
       ];
       const nextIdx = ((officeState._devIdx || 0) + 1) % holders.length;
       officeState._devIdx = nextIdx;
       const h = holders[nextIdx];
       officeState.devHolderName = h.title;
       officeState.devHolderAgentId = h.id;
+      if (h.id) {
+        const ag = agents.find(a => a.id === h.id);
+        if (ag) {
+          ag.devRuns = (ag.devRuns || 0) + 1;
+          ag.lastDevRunStage = h.sub;
+        }
+        officeState.devTestRunsToday = (officeState.devTestRunsToday || 0) + 1;
+      }
       document.getElementById('devHolderTitle').textContent = h.title;
       document.getElementById('devHolderSub').textContent = h.sub;
       updateLiveClockAndHUD();
@@ -3051,8 +3111,12 @@
         officeState.stageIndex = 4;
         officeState.progress = 98;
         officeState.openBugs = 0;
-        officeState.codeTestLoopCount = Math.max(2, officeState.codeTestLoopCount);
+        officeState.codeTestLoopCount = Math.max(1, officeState.codeTestLoopCount);
         officeState.strictQAScore = 100;
+        officeState.devHolderName = 'ĐANG TRỐNG';
+        officeState.devTestRunsToday = Math.max(2, officeState.devTestRunsToday || 0);
+        if (agents[2]) { agents[2].devRuns = Math.max(1, agents[2].devRuns || 0); agents[2].lastDevRunStage = 'Hoàn tất Build 100%'; }
+        if (agents[3]) { agents[3].devRuns = Math.max(1, agents[3].devRuns || 0); agents[3].lastDevRunStage = 'Pass QA 100%'; }
         (officeState.strictQAChecklist || []).forEach(c => { c.score = 100; c.passed = true; });
 
         agents.forEach(ag => {
@@ -3171,11 +3235,18 @@
         officeState.stageIndex = 2;
         officeState.progress += 14;
         const primaryWorker = agents.find(a => a.id === ((officeState.activeWorkerIds && officeState.activeWorkerIds[0]) || 3)) || coder;
-        officeState.devHolderName = `${primaryWorker.shortName} giữ 42p`;
-        primaryWorker.msgCount += 3;
+        officeState.devHolderName = `${primaryWorker.shortName} (#${primaryWorker.id}) đang chạy`;
+        officeState.devTestRunsToday = (officeState.devTestRunsToday || 0) + 1;
+        primaryWorker.devRuns = (primaryWorker.devRuns || 0) + 1;
+        primaryWorker.lastDevRunStage = `Build vòng #${officeState.codeTestLoopCount || 1}`;
+        primaryWorker.msgCount += 2;
         sendRobotToPosition(primaryWorker.id, tester.deskPos.x - 1.0, tester.deskPos.z + 0.7, 100);
       } else if (officeState.progress < 92) {
         officeState.stageIndex = 3;
+        officeState.devHolderName = 'Minh (#4) đang test';
+        officeState.devTestRunsToday = (officeState.devTestRunsToday || 0) + 1;
+        tester.devRuns = (tester.devRuns || 0) + 1;
+        tester.lastDevRunStage = `Kiểm thử QA vòng #${officeState.codeTestLoopCount || 1}`;
         if (officeState.strictQAScore < 100) {
           officeState.openBugs = 1;
           officeState.codeTestLoopCount += 1;
@@ -3188,7 +3259,7 @@
           pushOfficeLog('Bàn #4 (Minh QA)', `${workerToFix.deskCode} (${workerToFix.shortName})`, 'codetest', `⚠️ Minh chấm ${officeState.strictQAScore}% (<100%): Đi sang bàn ${workerToFix.shortName} bắt làm lại đến khi đạt 100%!`);
         } else {
           officeState.progress = 95;
-          officeState.devHolderName = 'TRỐNG 59 phút';
+          officeState.devHolderName = 'ĐANG TRỐNG';
           sendRobotToPosition(4, secretary.deskPos.x + 1.0, secretary.deskPos.z + 0.7, 110);
         }
       } else {
@@ -3492,6 +3563,30 @@ export class CustomCEODeliverable {
 
       generatedDeliverableCustomText = generateTailoredDeliverableCode(brief, clauses);
 
+      const nowTime = new Date().toTimeString().slice(0, 5);
+      agents[0].msgCount = (agents[0].msgCount || 0) + clauses.length;
+      agents[1].msgCount = (agents[1].msgCount || 0) + 1;
+      agents[2].msgCount = (agents[2].msgCount || 0) + 2;
+      agents[3].msgCount = (agents[3].msgCount || 0) + 1;
+      agents[2].devRuns = (agents[2].devRuns || 0) + 1;
+      agents[2].lastDevRunStage = 'Khởi tạo môi trường chạy thử';
+      officeState.devTestRunsToday = (officeState.devTestRunsToday || 0) + 1;
+      officeState.devHolderName = 'Đức (#3) đang chạy';
+      officeState.externalApiCalls = (officeState.externalApiCalls || 0) + uniqueWorkerIds.length + 2;
+      officeState.lastExternalTool = agents[0].llm.split(' ')[0];
+
+      agents[0].inbox.unshift({ from: 'Chị (CEO)', text: brief, time: nowTime });
+      agents[0].terminalLines.unshift(`> [${nowTime}] Phân rã ${clauses.length} hạng mục giao cho: ${assignedNames}`);
+      uniqueWorkerIds.forEach((wid, idx) => {
+        const wAg = agents.find(x => x.id === wid);
+        if (wAg) {
+          const taskClause = clauses[idx % clauses.length] || brief;
+          wAg.inbox.unshift({ from: 'Khôi (#1 - Leader)', text: `Giao hạng mục: "${taskClause}"`, time: nowTime });
+          wAg.terminalLines.unshift(`> [${nowTime}] Bắt đầu thực thi: ${taskClause.slice(0, 70)}...`);
+          wAg.history.unshift(`[${nowTime}] Nhận hạng mục từ Khôi: ${taskClause.slice(0, 60)}`);
+        }
+      });
+
       const briefTok = Math.ceil(brief.length / 3.5) + 600;
       recordAgentTokenUsage(agents[0], briefTok, 950);
       recordAgentTokenUsage(agents[3], briefTok, 720);
@@ -3517,7 +3612,7 @@ export class CustomCEODeliverable {
           enabled: true
         });
       }
-      const enabledCount = EXTERNAL_PLUGINS_CATALOG.filter(p => p.enabled).length + 8;
+      const enabledCount = EXTERNAL_PLUGINS_CATALOG.filter(p => p.enabled).length;
       document.getElementById('activePluginCount').textContent = String(enabledCount);
       if (item && !officeState.resolvedKeys.includes(item.id)) {
         officeState.resolvedKeys.push(item.id);
@@ -3543,7 +3638,7 @@ export class CustomCEODeliverable {
       agents[0].plugins.unshift(nameVal);
       document.getElementById('customToolNameInput').value = '';
       document.getElementById('customToolAccountInput').value = '';
-      const enabledCount = EXTERNAL_PLUGINS_CATALOG.filter(p => p.enabled).length + 8;
+      const enabledCount = EXTERNAL_PLUGINS_CATALOG.filter(p => p.enabled).length;
       document.getElementById('activePluginCount').textContent = String(enabledCount);
       pushOfficeLog('Chị (CEO)', 'Kho Công Cụ Ngoài', 'external', `🔑 Đã cấp tài khoản công cụ mới "${nameVal}" (${accVal}) cho Khôi tùy ý điều phối!`);
       openPluginHubModal();
@@ -3934,7 +4029,7 @@ export class VirtualOfficeDeliverable {
 
     function toggleCatalogPlugin(idx) {
       EXTERNAL_PLUGINS_CATALOG[idx].enabled = !EXTERNAL_PLUGINS_CATALOG[idx].enabled;
-      const enabledCount = EXTERNAL_PLUGINS_CATALOG.filter(p => p.enabled).length + 8;
+      const enabledCount = EXTERNAL_PLUGINS_CATALOG.filter(p => p.enabled).length;
       document.getElementById('activePluginCount').textContent = String(enabledCount);
       openPluginHubModal();
     }
@@ -3973,11 +4068,16 @@ export class VirtualOfficeDeliverable {
       agents.forEach(ag => {
         ag.tokensK = 0.0;
         ag.costUSD = 0.0;
+        ag.msgCount = 0;
+        ag.devRuns = 0;
+        ag.lastDevRunStage = '';
       });
+      officeState.devTestRunsToday = 0;
+      officeState.externalApiCalls = 0;
       saveRosterToStorage();
       setTimeout(() => broadcastOfficeState(true), 50);
       updateLiveClockAndHUD();
-      pushOfficeLog('Chị (CEO)', 'Hệ thống Kế toán Token', 'core', '🔄 Đã đặt lại bộ đếm Token & Tiền AI hôm nay về $0,00.');
+      pushOfficeLog('Chị (CEO)', 'Hệ thống Kế toán Token', 'core', '🔄 Đã đặt lại toàn bộ bộ đếm Token, Tiền AI, Lượt chạy thử & Tin nhắn hôm nay về 0.');
     }
 
     let userGeminiKey = '';
@@ -4003,6 +4103,8 @@ export class VirtualOfficeDeliverable {
           tokensK: a.tokensK,
           costUSD: a.costUSD,
           msgCount: a.msgCount,
+          devRuns: a.devRuns || 0,
+          lastDevRunStage: a.lastDevRunStage || '',
           deskPos: a.deskPos,
           llm: a.llm,
           plugins: a.plugins,
@@ -4019,11 +4121,11 @@ export class VirtualOfficeDeliverable {
 
     function loadSavedRosterFromStorage() {
       try {
-        if (localStorage.getItem('holo_office_schema_version') !== 'v8.0') {
+        if (localStorage.getItem('holo_office_schema_version') !== 'v8.2') {
           localStorage.removeItem('holo_office_roster_v1');
           localStorage.removeItem('holo_office_live_sync_snapshot');
           localStorage.removeItem('holo_office_project_title');
-          localStorage.setItem('holo_office_schema_version', 'v8.0');
+          localStorage.setItem('holo_office_schema_version', 'v8.2');
           return;
         }
         const raw = localStorage.getItem('holo_office_roster_v1');
@@ -4105,7 +4207,9 @@ export class VirtualOfficeDeliverable {
         grade: 'A',
         tokensK: 0.0,
         costUSD: 0.00,
-        msgCount: 5,
+        msgCount: 0,
+        devRuns: 0,
+        lastDevRunStage: '',
         deskPos: chosenPos,
         llm: 'Claude 3.5 Sonnet (Anthropic)',
         plugins: ['ChatGPT-4o Bridge', 'Perplexity Web Search'],
@@ -4140,7 +4244,7 @@ export class VirtualOfficeDeliverable {
     let officeSyncChannel = null;
     let isApplyingRemoteSync = false;
     let lastAppliedSeq = 0;
-    const CLOUD_SYNC_TOPIC = 'holo_office_ceo_sync_v8_vn_9988';
+    const CLOUD_SYNC_TOPIC = 'holo_office_ceo_sync_v82_real_vn_9988';
 
     // Tạo gói dữ liệu đồng bộ siêu gọn (< 1.2KB) để truyền qua đám mây giữa Laptop và PC nhanh tức thì, không bao giờ bị nghẽn!
     function buildSyncSnapshot() {
@@ -4160,6 +4264,8 @@ export class VirtualOfficeDeliverable {
         bugs: officeState.openBugs,
         qa: officeState.strictQAScore,
         dev: officeState.devHolderName,
+        druns: officeState.devTestRunsToday || 0,
+        extc: officeState.externalApiCalls || 0,
         wids: officeState.activeWorkerIds,
         inbox: (officeState.ceoInbox || []).map(i => ({
           id: i.id,
@@ -4179,6 +4285,8 @@ export class VirtualOfficeDeliverable {
           tk: a.tokensK,
           cs: a.costUSD,
           mc: a.msgCount,
+          dr: a.devRuns || 0,
+          lds: (a.lastDevRunStage || '').slice(0, 40),
           pos: a.deskPos,
           col: a.colorHex,
           ct: (a.currentTask || '').slice(0, 90),
@@ -4209,6 +4317,8 @@ export class VirtualOfficeDeliverable {
         if (typeof snap.bugs === 'number') officeState.openBugs = snap.bugs;
         if (typeof snap.qa === 'number') officeState.strictQAScore = snap.qa;
         if (snap.dev) officeState.devHolderName = snap.dev;
+        if (typeof snap.druns === 'number') officeState.devTestRunsToday = snap.druns;
+        if (typeof snap.extc === 'number') officeState.externalApiCalls = snap.extc;
         if (Array.isArray(snap.wids)) officeState.activeWorkerIds = snap.wids;
         if (Array.isArray(snap.inbox)) officeState.ceoInbox = snap.inbox;
 
@@ -4242,6 +4352,8 @@ export class VirtualOfficeDeliverable {
               if (typeof sa.tk === 'number') existing.tokensK = sa.tk;
               if (typeof sa.cs === 'number') existing.costUSD = sa.cs;
               if (typeof sa.mc === 'number') existing.msgCount = sa.mc;
+              if (typeof sa.dr === 'number') existing.devRuns = sa.dr;
+              if (typeof sa.lds === 'string') existing.lastDevRunStage = sa.lds;
               if (sa.ct) existing.currentTask = sa.ct;
               if (sa.sp) existing.speech = sa.sp;
             } else if (sa.id > 10) {
@@ -4261,7 +4373,9 @@ export class VirtualOfficeDeliverable {
                 grade: 'A',
                 tokensK: sa.tk || 0,
                 costUSD: sa.cs || 0,
-                msgCount: sa.mc || 5,
+                msgCount: sa.mc || 0,
+                devRuns: sa.dr || 0,
+                lastDevRunStage: sa.lds || '',
                 deskPos: sa.pos || { x: 7.8, z: -2.0 },
                 llm: 'Claude 3.5 Sonnet (Anthropic)',
                 plugins: ['ChatGPT-4o Bridge'],
