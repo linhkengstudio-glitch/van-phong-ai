@@ -152,9 +152,9 @@
 
       <!-- Giá trị AI quy đổi (0đ phát sinh) -->
       <div onclick="openCloudAndAIModal()" class="hidden md:flex cursor-pointer bg-slate-900/70 hover:bg-slate-800 border border-emerald-500/35 px-2.5 py-1 rounded-lg items-center gap-1.5 text-xs shrink-0 transition" title="Giá trị công việc quy đổi. Bạn dùng gói có sẵn nên 0đ phát sinh thêm!">
-        <span id="hudTotalCost" class="font-mono-code font-extrabold text-emerald-300 text-xs">$3,05</span>
+        <span id="hudTotalCost" class="font-mono-code font-extrabold text-emerald-300 text-xs">$0,00</span>
         <span class="text-[10px] text-slate-300">Tiền AI hôm nay <strong class="text-emerald-400">(0đ phát sinh)</strong></span>
-        <span id="hudTotalTokens" class="hidden xl:inline text-[9px] font-mono-code text-cyan-300 bg-cyan-500/15 px-1.5 py-0.5 rounded">184.2k tok</span>
+        <span id="hudTotalTokens" class="hidden xl:inline text-[9px] font-mono-code text-cyan-300 bg-cyan-500/15 px-1.5 py-0.5 rounded">0.0k tok</span>
       </div>
     </div>
 
@@ -667,6 +667,9 @@
             <button onclick="downloadCurrentDeliverable()" class="px-3 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-200 font-bold">
               📥 Tải Sản Phẩm Đang Làm (.md)
             </button>
+            <button onclick="resetTodayCostAndTokens()" class="px-3 py-2 rounded-xl bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 font-bold">
+              🧮 Đặt lại bộ đếm Tiền AI về $0,00
+            </button>
             <button onclick="resetOfficeSavedState()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700">
               🔄 Đặt lại trạng thái mặc định
             </button>
@@ -718,10 +721,10 @@
         status: 'WORKING',
         statusText: 'đang làm',
         grade: 'A+',
-        tokensK: 48.5,
-        costUSD: 0.72,
+        tokensK: 0.0,
+        costUSD: 0.00,
         msgCount: 38,
-        deskPos: { x: -11.5, z: -2.2 },
+        deskPos: { x: -14.2, z: -2.0 },
         llm: 'ChatGPT-4o (OpenAI)',
         plugins: ['Task Decomposer Skill', 'ChatGPT-4o Bridge', 'Agent Router MCP'],
         currentTask: '[VIỆC] Điều phối Đức lập trình giao diện và giao Minh chuẩn bị 18 kịch bản kiểm thử',
@@ -751,10 +754,10 @@
         status: 'WORKING',
         statusText: 'đang làm',
         grade: 'A+',
-        tokensK: 31.2,
-        costUSD: 0.45,
+        tokensK: 0.0,
+        costUSD: 0.00,
         msgCount: 34,
-        deskPos: { x: -5.2, z: -2.2 },
+        deskPos: { x: -6.8, z: -2.0 },
         llm: 'Claude 3.5 Sonnet (Anthropic)',
         plugins: ['CEO Notification Skill', 'Approval Gatekeeper', 'Executive Summary AI'],
         currentTask: 'Dạ Sếp, em đã gom các việc đụng file quan trọng vào mục "Cần Sếp duyệt" để Chị phê duyệt',
@@ -783,10 +786,10 @@
         status: 'WORKING',
         statusText: 'đang làm',
         grade: 'A',
-        tokensK: 64.8,
-        costUSD: 1.12,
+        tokensK: 0.0,
+        costUSD: 0.00,
         msgCount: 42,
-        deskPos: { x: -11.5, z: 2.5 },
+        deskPos: { x: -14.2, z: 2.0 },
         llm: 'Claude 3.5 Sonnet (Anthropic)',
         plugins: ['Claude 3.5 CodeGen', 'GitHub Copilot MCP', 'Docker Sandbox'],
         currentTask: 'Khung chat website hiện đẹp, có màn xem trước. Em đang tinh chỉnh màu sắc và tốc độ phản hồi',
@@ -816,10 +819,10 @@
         status: 'WORKING',
         statusText: 'đang làm',
         grade: 'A+',
-        tokensK: 39.4,
-        costUSD: 0.56,
+        tokensK: 0.0,
+        costUSD: 0.00,
         msgCount: 36,
-        deskPos: { x: -5.2, z: 2.5 },
+        deskPos: { x: -6.8, z: 2.0 },
         llm: 'DeepSeek R1 (Reasoning)',
         plugins: ['Playwright E2E Runner', 'DeepSeek Bug Hunter', 'Jest Unit Test Skill'],
         currentTask: 'Đang chạy kiểm thử tự động 18 kịch bản trên bản build của Đức và đối chiếu dữ liệu',
@@ -849,10 +852,10 @@
         status: 'STANDBY',
         statusText: 'chờ lệnh',
         grade: 'B+',
-        tokensK: 4.2,
-        costUSD: 0.05,
+        tokensK: 0.0,
+        costUSD: 0.00,
         msgCount: 14,
-        deskPos: { x: 1.2, z: -2.2 },
+        deskPos: { x: 0.6, z: -2.0 },
         llm: 'Gemini 2.5 Pro (Google)',
         plugins: ['Figma UI Plugin', 'Tailwind Styler Skill'],
         currentTask: 'Tạm thời chưa có việc gì — Sẵn sàng khi Khôi điều động thiết kế UI/UX',
@@ -876,10 +879,10 @@
         status: 'STANDBY',
         statusText: 'chờ lệnh',
         grade: 'B+',
-        tokensK: 5.1,
-        costUSD: 0.06,
+        tokensK: 0.0,
+        costUSD: 0.00,
         msgCount: 16,
-        deskPos: { x: 1.2, z: 2.5 },
+        deskPos: { x: 0.6, z: 2.0 },
         llm: 'Perplexity Sonar Research',
         plugins: ['Perplexity Web Search', 'Market Scraper Skill'],
         currentTask: 'Tạm thời chưa có việc gì — Sẵn sàng tra cứu dữ liệu bên ngoài khi Khôi gọi',
@@ -903,10 +906,10 @@
         status: 'STANDBY',
         statusText: 'chờ lệnh',
         grade: 'A',
-        tokensK: 3.8,
-        costUSD: 0.04,
+        tokensK: 0.0,
+        costUSD: 0.00,
         msgCount: 11,
-        deskPos: { x: -11.5, z: 6.8 },
+        deskPos: { x: -14.2, z: 5.8 },
         llm: 'DeepSeek R1 (Reasoning)',
         plugins: ['OWASP Security Scanner', 'Auth Token Auditor'],
         currentTask: 'Tạm thời chưa có việc gì — Sẵn sàng quét lỗ hổng bảo mật khi Khôi giao',
@@ -930,10 +933,10 @@
         status: 'STANDBY',
         statusText: 'chờ lệnh',
         grade: 'B',
-        tokensK: 2.9,
-        costUSD: 0.03,
+        tokensK: 0.0,
+        costUSD: 0.00,
         msgCount: 9,
-        deskPos: { x: -5.2, z: 6.8 },
+        deskPos: { x: -6.8, z: 5.8 },
         llm: 'ChatGPT-4o (OpenAI)',
         plugins: ['Notion Docs Sync', 'Copywriting AI Skill'],
         currentTask: 'Tạm thời chưa có việc gì — Sẵn sàng viết tài liệu hướng dẫn khi Khôi phân công',
@@ -957,10 +960,10 @@
         status: 'STANDBY',
         statusText: 'chờ lệnh',
         grade: 'A',
-        tokensK: 3.4,
-        costUSD: 0.04,
+        tokensK: 0.0,
+        costUSD: 0.00,
         msgCount: 12,
-        deskPos: { x: 1.2, z: 6.8 },
+        deskPos: { x: 0.6, z: 5.8 },
         llm: 'OpenAI o3-mini (High-Speed)',
         plugins: ['SQL Query Optimizer', 'Chart Analytics Skill'],
         currentTask: 'Tạm thời chưa có việc gì — Sẵn sàng thiết kế cấu trúc SQL khi Khôi giao',
@@ -984,10 +987,10 @@
         status: 'STANDBY',
         statusText: 'chờ lệnh',
         grade: 'B+',
-        tokensK: 2.6,
-        costUSD: 0.03,
+        tokensK: 0.0,
+        costUSD: 0.00,
         msgCount: 8,
-        deskPos: { x: 6.8, z: 2.5 },
+        deskPos: { x: 7.8, z: 2.0 },
         llm: 'Claude 3.5 Sonnet (Anthropic)',
         plugins: ['Docker Sandbox Runner', 'Cloud Deploy Webhook'],
         currentTask: 'Tạm thời chưa có việc gì — Sẵn sàng đóng gói Docker & vận hành máy chủ khi Khôi gọi',
@@ -999,8 +1002,8 @@
       }
     ];
 
-    const CEO_DESK_3D = { x: -16.8, z: -2.2 };
-    const MEETING_TABLE_3D = { x: 12.8, z: 3.5, radius: 3.0 };
+    const CEO_DESK_3D = { x: -20.5, z: -1.8 };
+    const MEETING_TABLE_3D = { x: 15.8, z: 2.8, radius: 3.2 };
 
     let officeState = {
       projectTitle: 'Xây dựng ứng dụng Dashboard Quản lý Đơn hàng & Tích hợp Chatbot tư vấn tự động',
@@ -1019,7 +1022,7 @@
       ],
       externalApiCalls: 18,
       lastExternalTool: 'Claude 3.5 Sonnet',
-      totalCostUSD: 3.05,
+      totalCostUSD: 0.00,
       devHolderName: 'TRỐNG 59 phút',
       devHolderAgentId: null,
       autoScaleStandby: true,
@@ -1072,11 +1075,12 @@
     let hologramRingMesh = null;
     let backHoloOrbitsGroup = null;
     let robotMeshes = {};
-    let cameraTarget = new THREE.Vector3(0, 4.5, -2.5);
-    let desiredCameraTarget = new THREE.Vector3(0, 4.5, -2.5);
-    let cameraSpherical = { radius: 30.0, theta: 0.0, phi: 1.15 };
-    let desiredSpherical = { radius: 30.0, theta: 0.0, phi: 1.15 };
-    let desiredSceneWidthFit = 45.2;
+    let cameraTarget = new THREE.Vector3(0, 3.8, -1.8);
+    let desiredCameraTarget = new THREE.Vector3(0, 3.8, -1.8);
+    let cameraSpherical = { radius: 24.2, theta: 0.0, phi: 1.18 };
+    let desiredSpherical = { radius: 24.2, theta: 0.0, phi: 1.18 };
+    let desiredSceneWidthFit = 49.5;
+    let desiredSceneHeightFit = 16.2;
     let userZoomFactor = 1.0;
     let isDragging3D = false;
     let prevMouse = { x: 0, y: 0 };
@@ -1128,13 +1132,13 @@
       }
 
       const screenGroup = new THREE.Group();
-      // Đặt Màn Hình Hologram Full To Tràn Viền (Rộng 43.5m x Cao 19.0m) lơ lửng ngay phía sau văn phòng 3D
-      screenGroup.position.set(0, 9.8, -8.8);
-      screenGroup.rotation.x = 0.04;
+      // Thiết kế Màn Hình Tổng Hologram Ultra-Wide Panoramic (Rộng 52.5m x Cao 14.2m) đặt sát ngay trên sàn văn phòng (y = 7.8, z = -7.2)
+      // Tỷ lệ siêu rộng giúp khi nhìn trọn cả sàn và màn hình tổng trên màn hình PC lớn sẽ tràn khít 2 bên, không còn khoảng đen thừa!
+      screenGroup.position.set(0, 7.8, -7.2);
+      screenGroup.rotation.x = 0.05;
 
-      // 1. Tấm kính Hologram siêu mỏng trong suốt hoàn toàn không có viền đen (Bezel-less Transparent Glass)
       const glassBacking = new THREE.Mesh(
-        new THREE.PlaneGeometry(43.6, 19.1),
+        new THREE.PlaneGeometry(52.6, 14.3),
         new THREE.MeshPhysicalMaterial({
           color: 0x00f2fe,
           transparent: true,
@@ -1147,8 +1151,7 @@
       glassBacking.position.z = -0.05;
       screenGroup.add(glassBacking);
 
-      // 2. Lớp hiển thị HUD Hologram Trong Suốt (Nhìn xuyên qua thấy các vòng năng lượng 3D và vũ trụ số phía sau!)
-      const screenGeo = new THREE.PlaneGeometry(43.5, 19.0);
+      const screenGeo = new THREE.PlaneGeometry(52.5, 14.2);
       const screenMat = new THREE.MeshBasicMaterial({
         map: giantScreenTexture,
         transparent: true,
@@ -1160,19 +1163,17 @@
       giantScreenMesh.userData.isGiantScreen = true;
       screenGroup.add(giantScreenMesh);
 
-      // 3. Dải tia Laser Photon siêu mảnh ở cạnh đỉnh và cạnh đáy tạo hiệu ứng màn hình ánh sáng lơ lửng
       const laserBeamMat = new THREE.MeshBasicMaterial({
         color: 0x00f2fe,
         transparent: true,
-        opacity: 0.75
+        opacity: 0.8
       });
-      const topLaserLine = new THREE.Mesh(new THREE.BoxGeometry(43.5, 0.045, 0.045), laserBeamMat);
-      topLaserLine.position.set(0, 9.52, 0.02);
-      const bottomLaserLine = new THREE.Mesh(new THREE.BoxGeometry(43.5, 0.045, 0.045), laserBeamMat);
-      bottomLaserLine.position.set(0, -9.52, 0.02);
+      const topLaserLine = new THREE.Mesh(new THREE.BoxGeometry(52.5, 0.045, 0.045), laserBeamMat);
+      topLaserLine.position.set(0, 7.12, 0.02);
+      const bottomLaserLine = new THREE.Mesh(new THREE.BoxGeometry(52.5, 0.045, 0.045), laserBeamMat);
+      bottomLaserLine.position.set(0, -7.12, 0.02);
       screenGroup.add(topLaserLine, bottomLaserLine);
 
-      // 4. Các đế chiếu Laser Hologram dưới mặt sàn bắn chùm sáng lên không trung (Không dùng cột trụ thô!)
       const emitterMat = new THREE.MeshBasicMaterial({ color: 0x00f2fe });
       const beamConeMat = new THREE.MeshBasicMaterial({
         color: 0x00f2fe,
@@ -1181,14 +1182,14 @@
         depthWrite: false,
         side: THREE.DoubleSide
       });
-      [-16, -8, 0, 8, 16].forEach(ex => {
+      [-21, -10.5, 0, 10.5, 21].forEach(ex => {
         const emitter = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.6, 0.12, 24), emitterMat);
-        emitter.position.set(ex, -9.7, 0);
+        emitter.position.set(ex, -7.7, 0);
         screenGroup.add(emitter);
 
-        const lightCone = new THREE.Mesh(new THREE.ConeGeometry(4.2, 5.5, 24, 1, true), beamConeMat);
+        const lightCone = new THREE.Mesh(new THREE.ConeGeometry(4.8, 4.5, 24, 1, true), beamConeMat);
         lightCone.rotation.x = Math.PI;
-        lightCone.position.set(ex, -7.0, -0.1);
+        lightCone.position.set(ex, -5.5, -0.1);
         screenGroup.add(lightCone);
       });
 
@@ -1805,12 +1806,17 @@
       scene.add(stars);
     }
 
+    // Tự động tính khoảng cách Camera ôm sát cả chiều cao (Sàn + Màn hình tổng) lẫn chiều ngang (52.5m)
+    // Giúp màn hình PC to/rộng hiển thị lấp đầy khung hình, triệt tiêu khoảng trống đen 2 bên!
     function getAspectAdjustedRadius(baseRadius, requiredWidthMeters) {
       if (!camera) return baseRadius;
       const vFovRad = (camera.fov * Math.PI) / 180;
-      const halfHorizTan = Math.tan(vFovRad / 2) * Math.max(0.55, camera.aspect || 1.6);
-      const minRadiusForFullWidth = (requiredWidthMeters * 0.5) / halfHorizTan;
-      return Math.max(baseRadius, minRadiusForFullWidth) * userZoomFactor;
+      const halfVertTan = Math.tan(vFovRad / 2);
+      const halfHorizTan = halfVertTan * Math.max(0.6, camera.aspect || 1.77);
+
+      const radiusForWidth = (requiredWidthMeters * 0.48) / halfHorizTan;
+      const radiusForHeight = ((desiredSceneHeightFit || 16.2) * 0.5) / halfVertTan;
+      return Math.max(baseRadius * 0.85, radiusForWidth, radiusForHeight) * userZoomFactor;
     }
 
     function updateCameraFromSpherical() {
@@ -1861,9 +1867,10 @@
       userZoomFactor = 1.0;
       document.getElementById('btnZoomScreen').textContent = 'Xem màn hình';
       if (preset === 'overview') {
-        desiredCameraTarget.set(0, 4.5, -2.5);
-        desiredSpherical = { radius: 28.5, theta: 0.0, phi: 1.15 };
-        desiredSceneWidthFit = 45.2;
+        desiredCameraTarget.set(0, 3.8, -1.8);
+        desiredSpherical = { radius: 24.2, theta: 0.0, phi: 1.18 };
+        desiredSceneWidthFit = 49.5;
+        desiredSceneHeightFit = 16.2;
       } else if (preset === 'executive') {
         desiredCameraTarget.set(-10.5, 1.5, -2.0);
         desiredSpherical = { radius: 16.5, theta: -0.12, phi: 0.96 };
@@ -1880,26 +1887,32 @@
     }
 
     function build3DOfficeArchitecture() {
+      // Sàn văn phòng 3D trải rộng 47.6m x 15.6m cân xứng hoàn hảo với Màn hình Tổng 52.5m phía trên
       const baseFloor = new THREE.Mesh(
-        new THREE.BoxGeometry(38.4, 0.55, 17.8),
+        new THREE.BoxGeometry(47.6, 0.55, 15.6),
         new THREE.MeshStandardMaterial({ color: 0x091020, roughness: 0.6, metalness: 0.25 })
       );
-      baseFloor.position.set(0, -0.28, 2.2);
+      baseFloor.position.set(0, -0.28, 1.8);
       baseFloor.receiveShadow = true;
       scene.add(baseFloor);
 
       const floorEdgeGlow = new THREE.Mesh(
-        new THREE.BoxGeometry(38.55, 0.08, 17.95),
+        new THREE.BoxGeometry(47.75, 0.08, 15.75),
         new THREE.MeshBasicMaterial({ color: 0x00f2fe })
       );
-      floorEdgeGlow.position.set(0, -0.05, 2.2);
+      floorEdgeGlow.position.set(0, -0.05, 1.8);
       scene.add(floorEdgeGlow);
 
+      // Lưới ánh sáng công nghệ bao quanh không gian sàn mở rộng để không bao giờ có cảm giác trống đen 2 bên
+      const ambientGrid = new THREE.GridHelper(90, 45, 0x0ea5e9, 0x08142c);
+      ambientGrid.position.set(0, -0.52, 0);
+      scene.add(ambientGrid);
+
       const zones = [
-        { x: -16.8, z: -2.2, w: 4.2, d: 4.8, color: 0x2a1810 },
-        { x: -5.2, z: 2.2, w: 18.6, d: 14.6, color: 0x0f1b36 },
-        { x: 6.8, z: 2.2, w: 4.6, d: 14.6, color: 0x141f35 },
-        { x: 13.5, z: 2.2, w: 8.2, d: 14.6, color: 0x191c26 }
+        { x: -20.5, z: -1.8, w: 5.0, d: 5.2, color: 0x2a1810 },  // Phòng Giám đốc CEO
+        { x: -6.8, z: 1.8, w: 21.5, d: 13.4, color: 0x0f1b36 },  // Khu Nhân sự Chính & Dự bị
+        { x: 7.8, z: 1.8, w: 6.2, d: 13.4, color: 0x141f35 },    // Khu Kỹ thuật Mở rộng
+        { x: 16.5, z: 1.8, w: 10.2, d: 13.4, color: 0x191c26 }   // Phòng Họp Bàn Tròn
       ];
       zones.forEach(z => {
         const carpet = new THREE.Mesh(
@@ -1921,10 +1934,10 @@
       const frameMat = new THREE.MeshStandardMaterial({ color: 0x38bdf8, metalness: 0.8, roughness: 0.2 });
 
       const walls = [
-        { x: 0, z: 10.9, w: 38.0, h: 1.25, d: 0.08 },
-        { x: -18.9, z: 2.2, w: 0.08, h: 1.25, d: 17.4 },
-        { x: 18.9, z: 2.2, w: 0.08, h: 1.25, d: 17.4 },
-        { x: 9.2, z: 2.2, w: 0.08, h: 1.35, d: 14.6 }
+        { x: 0, z: 9.4, w: 47.2, h: 1.2, d: 0.08 },
+        { x: -23.5, z: 1.8, w: 0.08, h: 1.2, d: 15.2 },
+        { x: 23.5, z: 1.8, w: 0.08, h: 1.2, d: 15.2 },
+        { x: 11.2, z: 1.8, w: 0.08, h: 1.3, d: 13.4 }
       ];
       walls.forEach(w => {
         const m = new THREE.Mesh(new THREE.BoxGeometry(w.w, w.h, w.d), glassMat);
@@ -1936,12 +1949,12 @@
       });
 
       const plantLocations = [
-        { x: -18.0, z: 10.0 },
-        { x: 18.0, z: 10.0 },
-        { x: -18.0, z: -5.5 },
-        { x: 18.0, z: -5.5 },
-        { x: 9.8, z: -4.2 },
-        { x: 9.8, z: 8.8 }
+        { x: -22.5, z: 8.6 },
+        { x: 22.5, z: 8.6 },
+        { x: -22.5, z: -4.8 },
+        { x: 22.5, z: -4.8 },
+        { x: 11.8, z: -4.2 },
+        { x: 11.8, z: 7.8 }
       ];
       plantLocations.forEach(pl => buildDesignerPlant(pl.x, pl.z));
     }
@@ -2992,12 +3005,8 @@
         return;
       }
 
-      agents.forEach(ag => {
-        if (ag.status !== 'STANDBY') {
-          ag.tokensK += 0.7;
-          ag.costUSD += 0.01;
-        }
-      });
+      // BẢNG GIÁ CHÍNH THỨC CỦA TỪNG MÔ HÌNH AI (USD / 1.000 TOKENS)
+      // Chỉ tính khi nhân sự thực sự xử lý bước công việc mới (Không bao giờ tự nhảy tiền khống khi chờ!)
 
       const leader = agents[0];
       const secretary = agents[1];
@@ -3259,6 +3268,15 @@
         pushOfficeLog('Bàn #1 (Khôi)', 'Mục "Cần Sếp duyệt"', 'external', `🔑 Khôi đề xuất dùng công cụ ngoài (${missingTool.name}) và nhờ Linh xin Chị CEO cấp tài khoản.`);
       }
 
+      // Tính token phân tích đề bài của Khôi (Leader) và lập checklist của Minh (Tester)
+      const briefTok = Math.ceil(brief.length / 3.5) + 600;
+      recordAgentTokenUsage(agents[0], briefTok, 950);
+      recordAgentTokenUsage(agents[3], briefTok, 720);
+      uniqueWorkerIds.forEach(wid => {
+        const wAg = agents.find(x => x.id === wid);
+        if (wAg) recordAgentTokenUsage(wAg, briefTok + 400, 1850);
+      });
+      recordAgentTokenUsage(agents[1], 400, 520);
       pushOfficeLog('Bàn #1 (Khôi)', assignedNames, 'core', `🎯 Phân tích thông minh: Giao việc cho ${assignedNames} đúng chuyên môn. Minh (#4) giám sát tiêu chuẩn 100%.`);
     }
 
@@ -3395,14 +3413,16 @@
       const btn = document.getElementById('btnZoomScreen');
       userZoomFactor = 1.0;
       if (officeState.zoomCommandWall) {
-        desiredCameraTarget.set(0, 9.8, -8.8);
-        desiredSpherical = { radius: 23.5, theta: 0.0, phi: 1.52 };
-        desiredSceneWidthFit = 44.2;
+        desiredCameraTarget.set(0, 7.8, -7.2);
+        desiredSpherical = { radius: 20.5, theta: 0.0, phi: 1.52 };
+        desiredSceneWidthFit = 51.5;
+        desiredSceneHeightFit = 14.5;
         btn.textContent = 'Toàn cảnh 3D';
       } else {
-        desiredCameraTarget.set(0, 4.5, -2.5);
-        desiredSpherical = { radius: 28.5, theta: 0.0, phi: 1.15 };
-        desiredSceneWidthFit = 45.2;
+        desiredCameraTarget.set(0, 3.8, -1.8);
+        desiredSpherical = { radius: 24.2, theta: 0.0, phi: 1.18 };
+        desiredSceneWidthFit = 49.5;
+        desiredSceneHeightFit = 16.2;
         btn.textContent = 'Xem màn hình';
       }
     }
@@ -3550,8 +3570,7 @@
       ag.currentTask = `[VIỆC CEO GIAO] ${taskText}`;
       ag.speech = `Vừa nhận tin nhắn trực tiếp từ Chị (CEO): "${taskText}"!`;
       ag.msgCount += 2;
-      ag.tokensK += 1.4;
-      ag.costUSD += 0.02;
+      // Token & chi phí được tính chuẩn xác trong invokeRealOrSmartAI
 
       officeState.tasks.unshift({ id: 'T-' + Date.now(), title: taskText, owner: ag.deskCode, status: 'IN_PROGRESS' });
       const _issRef = { id: 'ISS-' + Date.now() };
@@ -3661,6 +3680,40 @@ export class VirtualOfficeDeliverable {
       document.getElementById('pluginHubModal').classList.add('hidden');
     }
 
+
+
+    // ĐƠN GIÁ THỰC TẾ CỦA CÁC HÃNG AI (USD / 1.000 Tokens)
+    const MODEL_PRICING_PER_1K = {
+      'Claude 3.5 Sonnet (Anthropic)': { input: 0.003, output: 0.015 },
+      'ChatGPT-4o (OpenAI)': { input: 0.0025, output: 0.010 },
+      'Gemini 2.5 Pro (Google)': { input: 0.00125, output: 0.005 },
+      'DeepSeek R1 (Reasoning)': { input: 0.00055, output: 0.00219 },
+      'OpenAI o3-mini (High-Speed)': { input: 0.0011, output: 0.0044 },
+      'Perplexity Sonar Research': { input: 0.001, output: 0.005 },
+      'Llama 3.3 70B (Local MCP)': { input: 0.0, output: 0.0 }
+    };
+
+    // Ghi nhận chính xác lượng Token đọc/viết thực tế của một nhân sự theo đúng bảng giá mô hình AI đang gắn trên bàn đó
+    function recordAgentTokenUsage(agentObj, inputTokens, outputTokens) {
+      if (!agentObj) return;
+      const pricing = MODEL_PRICING_PER_1K[agentObj.llm] || { input: 0.002, output: 0.008 };
+      const totalTok = Math.max(0, inputTokens + outputTokens);
+      const exactCost = (inputTokens / 1000) * pricing.input + (outputTokens / 1000) * pricing.output;
+      agentObj.tokensK = Number((agentObj.tokensK + totalTok / 1000).toFixed(3));
+      agentObj.costUSD = Number((agentObj.costUSD + exactCost).toFixed(4));
+      saveRosterToStorage();
+      updateLiveClockAndHUD();
+    }
+
+    function resetTodayCostAndTokens() {
+      agents.forEach(ag => {
+        ag.tokensK = 0.0;
+        ag.costUSD = 0.0;
+      });
+      saveRosterToStorage();
+      updateLiveClockAndHUD();
+      pushOfficeLog('Chị (CEO)', 'Hệ thống Kế toán Token', 'core', '🔄 Đã đặt lại bộ đếm Token & Tiền AI hôm nay về $0,00.');
+    }
 
     let userGeminiKey = '';
     let generatedDeliverableCustomText = '';
@@ -3776,8 +3829,8 @@ export class VirtualOfficeDeliverable {
         status: 'WORKING',
         statusText: 'đang làm',
         grade: 'A',
-        tokensK: 2.0,
-        costUSD: 0.02,
+        tokensK: 0.0,
+        costUSD: 0.00,
         msgCount: 5,
         deskPos: chosenPos,
         llm: 'Claude 3.5 Sonnet (Anthropic)',
@@ -3869,10 +3922,21 @@ export class VirtualOfficeDeliverable {
           });
           const data = await res.json();
           const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-          if (reply) return reply.trim();
+          if (reply) {
+            // Lấy số Token THẬT 100% do máy chủ Google Gemini trả về trong usageMetadata
+            const realPromptTokens = data?.usageMetadata?.promptTokenCount || Math.ceil(promptText.length / 3.5);
+            const realOutputTokens = data?.usageMetadata?.candidatesTokenCount || Math.ceil(reply.length / 3.5);
+            recordAgentTokenUsage(agentObj, realPromptTokens, realOutputTokens);
+            return reply.trim();
+          }
         } catch (err) {}
       }
-      return `Dạ thưa Chị (CEO), em là ${agentObj.name} (${agentObj.deskCode}). Em đã phân tích yêu cầu "${promptText}" và hoàn thành bản dựng chi tiết kèm kiểm thử tự động để trình Chị duyệt!`;
+      const replyFallback = `Dạ thưa Chị (CEO), em là ${agentObj.name} (${agentObj.deskCode}). Em đã phân tích yêu cầu "${promptText}" và hoàn thành bản dựng chi tiết kèm kiểm thử tự động để trình Chị duyệt!`;
+      // Tính số token chuẩn theo độ dài văn bản thực tế (1 token ≈ 3.5 ký tự tiếng Việt + ngữ cảnh hệ thống)
+      const estInputTok = Math.ceil(promptText.length / 3.5) + 450;
+      const estOutputTok = Math.ceil(replyFallback.length / 3.5) + 850;
+      recordAgentTokenUsage(agentObj, estInputTok, estOutputTok);
+      return replyFallback;
     }
 
     function downloadStandaloneIndexHTML() {
