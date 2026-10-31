@@ -111,7 +111,7 @@
         </div>
         <div class="leading-tight">
           <div class="text-xs font-bold text-white tracking-wide">VĂN PHÒNG AI 3D</div>
-          <div class="text-[9px] text-cyan-400 uppercase tracking-widest">BẢN v6.0 • ĐỒNG BỘ ĐA MÀN HÌNH</div>
+          <div class="text-[9px] text-cyan-400 uppercase tracking-widest">BẢN v7.0 • ĐỒNG BỘ LAPTOP ⇄ PC</div>
         </div>
       </div>
 
@@ -1006,6 +1006,10 @@
     const MEETING_TABLE_3D = { x: 15.8, z: 2.8, radius: 3.2 };
 
     let officeState = {
+      projectId: 'PROJ-DEFAULT-01',
+      projectApproved: false,
+      resolvedKeys: [],
+      stateSeq: 1,
       projectTitle: 'Xây dựng ứng dụng Dashboard Quản lý Đơn hàng & Tích hợp Chatbot tư vấn tự động',
       projectType: 'crm',
       progress: 38,
@@ -3134,10 +3138,11 @@
         secretary.speech = 'Thưa Chị (CEO), sản phẩm đã qua kiểm duyệt! Em đang đi sang bàn Giám đốc trình Sếp duyệt ạ!';
         sendRobotToPosition(2, CEO_DESK_3D.x + 1.2, CEO_DESK_3D.z + 0.7, 140);
 
+        const alreadyApprovedFinal = officeState.projectApproved || (officeState.resolvedKeys || []).includes(officeState.projectId + ':FINAL_PRODUCT');
         const hasFinal = officeState.ceoInbox.some(i => i.type === 'FINAL_PRODUCT' && !i.resolved);
-        if (!hasFinal) {
+        if (!hasFinal && !alreadyApprovedFinal) {
           officeState.ceoInbox.unshift({
-            id: 'FINAL-' + Date.now(),
+            id: officeState.projectId + ':FINAL_PRODUCT',
             type: 'FINAL_PRODUCT',
             title: 'Cần Sếp duyệt: Chốt duyệt sản phẩm hoàn thiện cuối cùng',
             desc: `Thư ký Linh kính trình: Dự án "${officeState.projectTitle}" đã vượt qua ${officeState.codeTestLoopCount} vòng kiểm thử giữa Đức và Minh (0 bug). Mời Chị (CEO) phê duyệt!`,
@@ -3303,9 +3308,9 @@
 
       // Nếu công cụ bên ngoài cần dùng cho đề bài này chưa được cấp tài khoản riêng -> Khôi & Linh xin CEO cấp tài khoản!
       const missingTool = neededTools.find(t => t.accountRequired && !t.grantedByCEO);
-      if (missingTool) {
+      if (missingTool && !(officeState.resolvedKeys || []).includes(officeState.projectId + ':ACCOUNT_REQUEST')) {
         officeState.ceoInbox.unshift({
-          id: 'ACC-' + Date.now(),
+          id: officeState.projectId + ':ACCOUNT_REQUEST',
           type: 'ACCOUNT_REQUEST',
           toolName: missingTool.name,
           title: `Khôi xin cấp tài khoản công cụ ngoài: ${missingTool.name}`,
@@ -3344,9 +3349,14 @@
       }
       const enabledCount = EXTERNAL_PLUGINS_CATALOG.filter(p => p.enabled).length + 8;
       document.getElementById('activePluginCount').textContent = String(enabledCount);
-      pushOfficeLog('Chị (CEO)', 'Bàn #1 (Khôi) & Đội Dự Án', 'external', `🔑 CEO đã cấp tài khoản (${accVal}) cho công cụ ${item ? item.toolName : ''}! Đội bắt đầu gọi công cụ ngay.`);
+      if (item && !officeState.resolvedKeys.includes(item.id)) {
+        officeState.resolvedKeys.push(item.id);
+      }
+      officeState.stateSeq = Date.now();
+      pushOfficeLog('Chị (CEO)', 'Bàn #1 (Khôi) & Đội Dự Án', 'external', `🔑 CEO đã cấp tài khoản (${accVal}) cho công cụ ${item ? item.toolName : ''} (Đã đồng bộ Laptop ⇄ PC)!`);
       renderCEOInbox();
       renderGiantCommandWall();
+      broadcastOfficeState(true);
     }
 
     function ceoGrantNewExternalTool() {
@@ -3375,6 +3385,11 @@
       const brief = input.value.trim();
       if (!brief) return;
 
+      officeState.projectId = 'PROJ-' + Date.now();
+      officeState.projectApproved = false;
+      officeState.resolvedKeys = [];
+      officeState.ceoInbox = [];
+      officeState.stateSeq = Date.now();
       officeState.projectTitle = brief;
       saveOfficeStateToStorage();
       setTimeout(() => broadcastOfficeState(true), 50);
@@ -3423,22 +3438,35 @@
 
     function ceoResolveIssue(issueId, approved) {
       const item = officeState.ceoInbox.find(i => i.id === issueId);
-      if (item) item.resolved = true;
-      pushOfficeLog('Chị (CEO)', 'Bàn #2 (Linh)', 'core', approved ? '👍 CEO đã duyệt mục trong "Cần Sếp duyệt".' : '🔄 CEO yêu cầu chọn phương án an toàn.');
+      if (item) {
+        item.resolved = true;
+        if (!officeState.resolvedKeys.includes(item.id)) officeState.resolvedKeys.push(item.id);
+      }
+      officeState.stateSeq = Date.now();
+      pushOfficeLog('Chị (CEO)', 'Bàn #2 (Linh)', 'core', approved ? '👍 CEO đã duyệt mục trong "Cần Sếp duyệt" (Đã đồng bộ Laptop ⇄ PC).' : '🔄 CEO yêu cầu chọn phương án an toàn.');
       renderCEOInbox();
       renderGiantCommandWall();
+      broadcastOfficeState(true);
     }
 
     function ceoApproveFinalProduct() {
-      setTimeout(() => broadcastOfficeState(true), 80);
+      officeState.projectApproved = true;
       officeState.stageIndex = 5;
       officeState.progress = 100;
       officeState.openBugs = 0;
-      officeState.ceoInbox.forEach(i => { i.resolved = true; });
+      officeState.stateSeq = Date.now();
+      officeState.ceoInbox.forEach(i => {
+        i.resolved = true;
+        if (!officeState.resolvedKeys.includes(i.id)) officeState.resolvedKeys.push(i.id);
+      });
+      if (!officeState.resolvedKeys.includes(officeState.projectId + ':FINAL_PRODUCT')) {
+        officeState.resolvedKeys.push(officeState.projectId + ':FINAL_PRODUCT');
+      }
       officeState.tasks.forEach(t => { t.status = 'DONE'; });
       agents[0].speech = 'Chị (CEO) đã duyệt sản phẩm cuối cùng! Cảm ơn cả đội!';
       agents[1].speech = 'Dạ Chị (CEO) đã ký duyệt 100%! Hồ sơ đã lưu trữ xong ạ!';
       document.getElementById('finalDeliverableStatus').textContent = '✅ CEO ĐÃ CHỐT DUYỆT 100%';
+      broadcastOfficeState(true);
       closeProductPreviewModal();
       closeCEOCommandDrawer();
       renderCEOInbox();
@@ -3448,11 +3476,16 @@
     }
 
     function ceoRequestRevision() {
+      officeState.projectApproved = false;
+      officeState.resolvedKeys = officeState.resolvedKeys.filter(k => !k.endsWith(':FINAL_PRODUCT'));
+      officeState.ceoInbox.forEach(i => { if (i.type === 'FINAL_PRODUCT') i.resolved = true; });
       officeState.stageIndex = 2;
       officeState.progress = 55;
       officeState.codeTestLoopCount += 1;
+      officeState.stateSeq = Date.now();
       agents[2].status = 'BUG_FIX';
       agents[2].speech = 'Đang sửa lại sản phẩm theo đúng yêu cầu của Chị (CEO)!';
+      broadcastOfficeState(true);
       closeProductPreviewModal();
       closeCEOCommandDrawer();
       renderGiantCommandWall();
@@ -3813,11 +3846,11 @@ export class VirtualOfficeDeliverable {
 
     function loadSavedRosterFromStorage() {
       try {
-        if (localStorage.getItem('holo_office_schema_version') !== 'v6.0') {
+        if (localStorage.getItem('holo_office_schema_version') !== 'v7.0') {
           localStorage.removeItem('holo_office_roster_v1');
           localStorage.removeItem('holo_office_live_sync_snapshot');
           localStorage.removeItem('holo_office_project_title');
-          localStorage.setItem('holo_office_schema_version', 'v6.0');
+          localStorage.setItem('holo_office_schema_version', 'v7.0');
           return;
         }
         const raw = localStorage.getItem('holo_office_roster_v1');
@@ -3933,72 +3966,131 @@ export class VirtualOfficeDeliverable {
 
     let officeSyncChannel = null;
     let isApplyingRemoteSync = false;
-    let lastBroadcastHash = '';
-    const CLOUD_SYNC_TOPIC = 'holo_office_sync_v2_889922_vn';
+    let lastAppliedSeq = 0;
+    const CLOUD_SYNC_TOPIC = 'holo_office_ceo_sync_v7_vn_9988';
 
+    // Tạo gói dữ liệu đồng bộ siêu gọn (< 1.2KB) để truyền qua đám mây giữa Laptop và PC nhanh tức thì, không bao giờ bị nghẽn!
     function buildSyncSnapshot() {
       return {
-        ts: Date.now(),
-        projectTitle: officeState.projectTitle,
-        progress: officeState.progress,
-        stageIndex: officeState.stageIndex,
-        codeTestLoopCount: officeState.codeTestLoopCount,
-        openBugs: officeState.openBugs,
-        strictQAScore: officeState.strictQAScore,
-        devHolderName: officeState.devHolderName,
-        activeWorkerIds: officeState.activeWorkerIds,
-        ceoInbox: officeState.ceoInbox,
-        tasks: officeState.tasks,
-        commsLogs: officeState.commsLogs.slice(0, 15),
-        agents: agents.map(a => ({
+        seq: officeState.stateSeq || Date.now(),
+        pid: officeState.projectId,
+        app: officeState.projectApproved ? 1 : 0,
+        rkeys: officeState.resolvedKeys || [],
+        title: officeState.projectTitle,
+        prog: officeState.progress,
+        stg: officeState.stageIndex,
+        loops: officeState.codeTestLoopCount,
+        bugs: officeState.openBugs,
+        qa: officeState.strictQAScore,
+        dev: officeState.devHolderName,
+        wids: officeState.activeWorkerIds,
+        inbox: (officeState.ceoInbox || []).map(i => ({
+          id: i.id,
+          type: i.type,
+          toolName: i.toolName,
+          title: i.title,
+          desc: i.desc,
+          resolved: i.resolved,
+          timestamp: i.timestamp
+        })),
+        ag: agents.map(a => ({
           id: a.id,
-          deskCode: a.deskCode,
-          name: a.name,
-          shortName: a.shortName,
-          department: a.department,
-          role: a.role,
-          assignedSpecialty: a.assignedSpecialty,
-          status: a.status,
-          statusText: a.statusText,
-          grade: a.grade,
-          tokensK: a.tokensK,
-          costUSD: a.costUSD,
-          msgCount: a.msgCount,
-          deskPos: a.deskPos,
-          colorHex: a.colorHex,
-          currentTask: a.currentTask,
-          speech: a.speech,
-          cardType: a.cardType,
-          inbox: a.inbox
+          n: a.shortName,
+          d: a.department,
+          r: a.role,
+          st: a.status,
+          tk: a.tokensK,
+          cs: a.costUSD,
+          mc: a.msgCount,
+          pos: a.deskPos,
+          col: a.colorHex,
+          sp: (a.speech || '').slice(0, 90)
         }))
       };
     }
 
     function applySyncSnapshot(snap) {
       if (!snap || isApplyingRemoteSync) return;
+      const incomingSeq = snap.seq || 0;
+      if (incomingSeq > 0 && incomingSeq < lastAppliedSeq) return;
+      lastAppliedSeq = Math.max(lastAppliedSeq, incomingSeq);
+
       isApplyingRemoteSync = true;
       try {
-        officeState.projectTitle = snap.projectTitle ?? officeState.projectTitle;
-        officeState.progress = snap.progress ?? officeState.progress;
-        officeState.stageIndex = snap.stageIndex ?? officeState.stageIndex;
-        officeState.codeTestLoopCount = snap.codeTestLoopCount ?? officeState.codeTestLoopCount;
-        officeState.openBugs = snap.openBugs ?? officeState.openBugs;
-        officeState.strictQAScore = snap.strictQAScore ?? officeState.strictQAScore;
-        officeState.devHolderName = snap.devHolderName ?? officeState.devHolderName;
-        if (Array.isArray(snap.activeWorkerIds)) officeState.activeWorkerIds = snap.activeWorkerIds;
-        if (Array.isArray(snap.ceoInbox)) officeState.ceoInbox = snap.ceoInbox;
-        if (Array.isArray(snap.tasks)) officeState.tasks = snap.tasks;
-        if (Array.isArray(snap.commsLogs)) officeState.commsLogs = snap.commsLogs;
+        if (snap.pid) officeState.projectId = snap.pid;
+        officeState.projectApproved = Boolean(snap.app);
+        if (Array.isArray(snap.rkeys)) officeState.resolvedKeys = snap.rkeys;
+        if (snap.title) officeState.projectTitle = snap.title;
+        if (typeof snap.prog === 'number') officeState.progress = snap.prog;
+        if (typeof snap.stg === 'number') officeState.stageIndex = snap.stg;
+        if (typeof snap.loops === 'number') officeState.codeTestLoopCount = snap.loops;
+        if (typeof snap.bugs === 'number') officeState.openBugs = snap.bugs;
+        if (typeof snap.qa === 'number') officeState.strictQAScore = snap.qa;
+        if (snap.dev) officeState.devHolderName = snap.dev;
+        if (Array.isArray(snap.wids)) officeState.activeWorkerIds = snap.wids;
+        if (Array.isArray(snap.inbox)) officeState.ceoInbox = snap.inbox;
 
-        if (Array.isArray(snap.agents)) {
+        // Nếu dự án hoặc mục đã được duyệt ở Laptop (hoặc PC), khóa trạng thái đã duyệt ngay lập tức!
+        if (officeState.projectApproved) {
+          officeState.stageIndex = 5;
+          officeState.progress = 100;
+          officeState.openBugs = 0;
+          officeState.ceoInbox.forEach(i => { i.resolved = true; });
+          const stEl = document.getElementById('finalDeliverableStatus');
+          if (stEl) stEl.textContent = '✅ CEO ĐÃ CHỐT DUYỆT 100%';
+          closeCEOCommandDrawer();
+          closeProductPreviewModal();
+        } else if (Array.isArray(officeState.resolvedKeys)) {
+          officeState.ceoInbox.forEach(i => {
+            if (officeState.resolvedKeys.includes(i.id)) i.resolved = true;
+          });
+        }
+
+        if (Array.isArray(snap.ag)) {
           let addedNew = false;
-          snap.agents.forEach(sa => {
+          snap.ag.forEach(sa => {
             const existing = agents.find(x => x.id === sa.id);
             if (existing) {
-              Object.assign(existing, sa);
-            } else {
-              agents.push(sa);
-              if (scene) build3DAgentDeskAndRobot(sa);
+              existing.name = sa.n || existing.name;
+              existing.shortName = sa.n || existing.shortName;
+              existing.department = sa.d || existing.department;
+              existing.role = sa.r || existing.role;
+              existing.status = sa.st || existing.status;
+              existing.statusText = existing.status === 'STANDBY' ? 'chờ lệnh' : 'đang làm';
+              if (typeof sa.tk === 'number') existing.tokensK = sa.tk;
+              if (typeof sa.cs === 'number') existing.costUSD = sa.cs;
+              if (typeof sa.mc === 'number') existing.msgCount = sa.mc;
+              if (sa.sp) existing.speech = sa.sp;
+            } else if (sa.id > 10) {
+              const newAg = {
+                id: sa.id,
+                deskCode: 'BÀN #' + sa.id,
+                name: sa.n,
+                shortName: sa.n,
+                department: sa.d,
+                role: sa.r,
+                assignedSpecialty: sa.r,
+                isCore: false,
+                avatar: '🤖',
+                colorHex: sa.col || 0x00f2fe,
+                status: sa.st || 'WORKING',
+                statusText: 'đang làm',
+                grade: 'A',
+                tokensK: sa.tk || 0,
+                costUSD: sa.cs || 0,
+                msgCount: sa.mc || 5,
+                deskPos: sa.pos || { x: 7.8, z: -2.0 },
+                llm: 'Claude 3.5 Sonnet (Anthropic)',
+                plugins: ['ChatGPT-4o Bridge'],
+                currentTask: '[VIỆC] ' + (sa.r || ''),
+                speech: sa.sp || 'Nhân sự mới đồng bộ từ thiết bị khác!',
+                cardType: 'Nhân sự mới',
+                terminalLines: ['> Đồng bộ từ thiết bị CEO...'],
+                history: ['Đồng bộ đa thiết bị'],
+                inbox: []
+              };
+              agents.push(newAg);
+              if (scene) build3DAgentDeskAndRobot(newAg);
               addedNew = true;
             }
           });
@@ -4007,6 +4099,10 @@ export class VirtualOfficeDeliverable {
             if (overlay) overlay.innerHTML = '';
           }
         }
+
+        try {
+          localStorage.setItem('holo_office_live_sync_snapshot', JSON.stringify(snap));
+        } catch (e) {}
 
         renderGiantCommandWall();
         renderCEOInbox();
@@ -4017,10 +4113,12 @@ export class VirtualOfficeDeliverable {
 
     function broadcastOfficeState(pushToCloud = false) {
       if (isApplyingRemoteSync) return;
+      if (pushToCloud) {
+        officeState.stateSeq = Date.now();
+        lastAppliedSeq = officeState.stateSeq;
+      }
       const snap = buildSyncSnapshot();
       const raw = JSON.stringify(snap);
-      if (raw === lastBroadcastHash) return;
-      lastBroadcastHash = raw;
 
       try {
         localStorage.setItem('holo_office_live_sync_snapshot', raw);
@@ -4034,51 +4132,38 @@ export class VirtualOfficeDeliverable {
         try {
           fetch('https://ntfy.sh/' + CLOUD_SYNC_TOPIC, {
             method: 'POST',
+            headers: { 'Title': 'HoloOfficeSync', 'Cache': 'yes' },
             body: raw
           }).catch(() => {});
         } catch (e) {}
       }
     }
 
-    // Đồng bộ tiến độ tự động theo đồng hồ thời gian thực chung (Mọi màn hình mở cùng lúc đều thấy cùng % tiến độ và cùng trạng thái!)
-    function syncDeterministicClockState() {
-      if (officeState.paused || officeState.stageIndex === 5) return;
-      // Chu kỳ 28 giây cho 1 vòng tiến độ tự hành, tính từ mốc thời gian chung
-      const epochSec = Math.floor(Date.now() / 1000);
-      const cycleSec = epochSec % 32;
-      if (cycleSec < 7) {
-        officeState.stageIndex = 1;
-        officeState.progress = 22 + cycleSec * 3;
-        officeState.openBugs = 0;
-        officeState.devHolderName = 'Khôi điều phối';
-      } else if (cycleSec < 16) {
-        officeState.stageIndex = 2;
-        officeState.progress = 45 + (cycleSec - 7) * 3;
-        officeState.openBugs = 0;
-        officeState.devHolderName = 'Đức đang giữ';
-      } else if (cycleSec < 25) {
-        officeState.stageIndex = 3;
-        officeState.progress = 72 + (cycleSec - 16) * 2;
-        if (cycleSec < 21) {
-          officeState.openBugs = 1;
-          officeState.strictQAScore = 88 + (cycleSec - 16) * 2;
-          agents[3].status = 'BUG_FIX';
-          agents[2].status = 'BUG_FIX';
-        } else {
-          officeState.openBugs = 0;
-          officeState.strictQAScore = 100;
-          agents[3].status = 'WORKING';
-          agents[2].status = 'WORKING';
+    // Hàm đọc lại tin nhắn đồng bộ mới nhất trên Đám mây (Đảm bảo cả khi PC mở sau hoặc mạng trễ đều tự động nhận đúng lệnh đã duyệt từ Laptop!)
+    async function pollCloudSyncLatest() {
+      try {
+        const res = await fetch('https://ntfy.sh/' + CLOUD_SYNC_TOPIC + '/json?poll=1&since=6h');
+        if (!res.ok) return;
+        const text = await res.text();
+        const lines = text.trim().split('\n');
+        let newestSnap = null;
+        for (let i = lines.length - 1; i >= 0; i--) {
+          if (!lines[i]) continue;
+          try {
+            const msgObj = JSON.parse(lines[i]);
+            if (msgObj && msgObj.event === 'message' && msgObj.message) {
+              const candidate = JSON.parse(msgObj.message);
+              if (candidate && candidate.seq) {
+                newestSnap = candidate;
+                break;
+              }
+            }
+          } catch (e) {}
         }
-        officeState.devHolderName = 'Minh kiểm tra';
-      } else {
-        officeState.stageIndex = 4;
-        officeState.progress = 96;
-        officeState.openBugs = 0;
-        officeState.strictQAScore = 100;
-        agents[1].status = 'REPORTING';
-        officeState.devHolderName = 'TRỐNG 59 phút';
-      }
+        if (newestSnap && newestSnap.seq > lastAppliedSeq) {
+          applySyncSnapshot(newestSnap);
+        }
+      } catch (e) {}
     }
 
     function initMultiScreenSync() {
@@ -4106,6 +4191,10 @@ export class VirtualOfficeDeliverable {
         }
       } catch (e) {}
 
+      // 1. Tải ngay trạng thái mới nhất từ Đám mây khi vừa mở trang trên PC hoặc Laptop
+      pollCloudSyncLatest();
+
+      // 2. Mở luồng nhận trực tiếp (SSE)
       try {
         if (typeof EventSource !== 'undefined') {
           const es = new EventSource('https://ntfy.sh/' + CLOUD_SYNC_TOPIC + '/sse');
@@ -4120,6 +4209,9 @@ export class VirtualOfficeDeliverable {
           };
         }
       } catch (e) {}
+
+      // 3. Quét kiểm tra đồng bộ đám mây định kỳ mỗi 2.5 giây (Đảm bảo 100% không bao giờ trượt lệnh duyệt giữa Laptop và PC!)
+      setInterval(pollCloudSyncLatest, 2500);
     }
 
     function loadOfficeSavedState() {
