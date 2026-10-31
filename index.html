@@ -102,21 +102,21 @@
   <!-- =========================================================================
        THANH TOP HUD HOLOGRAM TRONG SUỐT Ở ĐỈNH MÀN HÌNH
        ========================================================================= -->
-  <header class="h-12 shrink-0 z-40 bg-[#050b1a]/80 backdrop-blur-xl border-b border-cyan-500/30 px-3 sm:px-5 flex items-center justify-between gap-2">
-    
-    <div class="flex items-center gap-2 sm:gap-3 overflow-x-auto no-scrollbar py-1">
+  <header class="h-12 shrink-0 z-40 bg-[#050b1a]/90 backdrop-blur-xl border-b border-cyan-500/30 px-3 sm:px-5 flex items-center justify-between gap-2">
+    <!-- Thanh trạng thái trên cùng: Gọn gàng, hiển thị đầy đủ 100% không bao giờ bị tràn hay che khuất -->
+    <div class="flex items-center gap-2 sm:gap-3.5 py-1">
       <div class="flex items-center gap-2 shrink-0">
         <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-slate-950 font-black text-xs shadow-lg shadow-cyan-500/30">
           V
         </div>
         <div class="leading-tight">
           <div class="text-xs font-bold text-white tracking-wide">VĂN PHÒNG AI 3D</div>
-          <div class="text-[9px] text-cyan-400 uppercase tracking-widest">CÔNG TY AI • TƯƠNG LAI</div>
+          <div class="text-[9px] text-cyan-400 uppercase tracking-widest">CÔNG TY AI • TRỰC TIẾP</div>
         </div>
       </div>
 
       <!-- Đồng hồ trực tiếp -->
-      <div class="flex items-center gap-1.5 bg-slate-900/70 border border-cyan-500/30 px-2.5 py-1 rounded-lg shrink-0">
+      <div class="flex items-center gap-1.5 bg-slate-900/80 border border-cyan-500/30 px-2.5 py-1 rounded-lg shrink-0">
         <span id="hudLiveClock" class="font-mono-code text-xs sm:text-sm font-bold text-cyan-200">19:31:00</span>
         <span class="flex items-center gap-1 text-[9px] font-bold text-emerald-400 uppercase">
           <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
@@ -124,19 +124,19 @@
         </span>
       </div>
 
-      <!-- Các chỉ số trực tiếp -->
-      <div class="hidden lg:flex items-center gap-3 bg-slate-900/60 border border-cyan-500/25 px-3 py-1 rounded-lg text-xs shrink-0">
+      <!-- Các chỉ số trực tiếp (Luôn hiện rõ) -->
+      <div class="hidden sm:flex items-center gap-3 bg-slate-900/70 border border-cyan-500/25 px-3 py-1 rounded-lg text-xs shrink-0">
         <div class="leading-none text-center">
           <div id="hudWorkingCount" class="font-extrabold text-cyan-300 text-xs">4</div>
           <div class="text-[8px] text-slate-400 uppercase">ĐANG LÀM</div>
         </div>
-        <div class="leading-none text-center">
+        <div class="leading-none text-center border-l border-slate-800 pl-2.5">
           <div id="hudIdleCount" class="font-extrabold text-slate-300 text-xs">6</div>
           <div class="text-[8px] text-slate-400 uppercase">CHỜ/NGHỈ</div>
         </div>
-        <div class="leading-none text-center border-l border-slate-800 pl-2.5 cursor-pointer" onclick="rotateDevEnvironmentHolder()" title="Bấm để chuyển quyền giữ Phòng DEV">
+        <div class="leading-none text-center border-l border-slate-800 pl-2.5 cursor-pointer" onclick="rotateDevEnvironmentHolder()" title="Bấm để chuyển quyền giữ Phòng chạy thử">
           <div id="hudDevRoomStatus" class="font-extrabold text-emerald-300 text-xs">trống 59 phút</div>
-          <div class="text-[8px] text-slate-400 uppercase">DEV</div>
+          <div class="text-[8px] text-slate-400 uppercase">CHẠY THỬ</div>
         </div>
         <div class="leading-none text-center border-l border-slate-800 pl-2.5">
           <div id="hudBlockedCount" class="font-extrabold text-white text-xs">2/9</div>
@@ -150,37 +150,17 @@
         <span>Cần Sếp duyệt (CEO)</span>
       </button>
 
-      <!-- Giá trị AI quy đổi (0đ phát sinh khi dùng gói có sẵn) -->
-      <div onclick="openCloudAndAIModal()" class="cursor-pointer bg-slate-900/70 hover:bg-slate-800 border border-emerald-500/35 px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-xs shrink-0 transition" title="Giá trị công việc quy đổi theo lượng token. Bạn dùng gói có sẵn nên 0đ phát sinh thêm!">
+      <!-- Giá trị AI quy đổi (0đ phát sinh) -->
+      <div onclick="openCloudAndAIModal()" class="hidden md:flex cursor-pointer bg-slate-900/70 hover:bg-slate-800 border border-emerald-500/35 px-2.5 py-1 rounded-lg items-center gap-1.5 text-xs shrink-0 transition" title="Giá trị công việc quy đổi. Bạn dùng gói có sẵn nên 0đ phát sinh thêm!">
         <span id="hudTotalCost" class="font-mono-code font-extrabold text-emerald-300 text-xs">$3,05</span>
         <span class="text-[10px] text-slate-300">Tiền AI hôm nay <strong class="text-emerald-400">(0đ phát sinh)</strong></span>
         <span id="hudTotalTokens" class="hidden xl:inline text-[9px] font-mono-code text-cyan-300 bg-cyan-500/15 px-1.5 py-0.5 rounded">184.2k tok</span>
       </div>
-
-      <button onclick="openCloudAndAIModal()" class="px-2.5 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/50 text-emerald-300 text-xs font-bold flex items-center gap-1 transition shrink-0">
-        <span>☁️</span> <span>Mở Mọi Nơi / Kết Nối AI</span>
-      </button>
     </div>
 
-    <!-- Cụm phải -->
-    <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
-      <button onclick="openCEOCommandDrawer()" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 transition flex items-center gap-1">
-        <span>👑</span> <span class="hidden sm:inline">Bàn CEO / Giao việc</span>
-      </button>
-
-      <button onclick="trigger3DMeetingRoom()" class="hidden md:flex px-2.5 py-1 rounded-lg text-xs font-semibold bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/40 transition items-center gap-1">
-        <span>🤝</span> Họp Bàn Tròn
-      </button>
-
-      <button onclick="openPluginHubModal()" class="hidden xl:flex px-2.5 py-1 rounded-lg text-xs font-semibold bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/30 transition items-center gap-1">
-        <span>🔌</span> Kho Plugin / Chat AI Ngoài (<span id="activePluginCount">18</span>)
-      </button>
-
-      <button id="btnToggle3D2D" onclick="toggleViewMode3D2D()" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 transition">
-        🕹️ Chế độ: 3D Thực Tế
-      </button>
-
-      <button id="btnZoomScreen" onclick="toggleZoomCommandWall()" class="px-3 py-1 rounded-lg text-xs font-extrabold bg-gradient-to-r from-cyan-300 to-sky-400 hover:from-cyan-200 hover:to-sky-300 text-slate-950 shadow-lg shadow-cyan-500/30 transition">
+    <!-- Góc phải trên cùng chỉ để nút Xem màn hình rõ ràng -->
+    <div class="flex items-center gap-2 shrink-0">
+      <button id="btnZoomScreen" onclick="toggleZoomCommandWall()" class="px-3.5 py-1.5 rounded-lg text-xs font-extrabold bg-gradient-to-r from-cyan-300 to-sky-400 hover:from-cyan-200 hover:to-sky-300 text-slate-950 shadow-lg shadow-cyan-500/30 transition">
         Xem màn hình
       </button>
     </div>
@@ -196,24 +176,60 @@
       <div id="threeLabelsOverlay" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
     </div>
 
-    <!-- Thanh điều khiển góc nhìn 3D dưới đáy -->
-    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-25 flex flex-wrap items-center justify-center gap-1.5 bg-slate-950/80 backdrop-blur-xl border border-cyan-500/35 px-3 py-1.5 rounded-2xl shadow-2xl text-[11px] max-w-[96vw]">
-      <span class="font-bold text-cyan-400 mr-1 hidden sm:inline">Chọn góc nhìn:</span>
-      <button onclick="focus3DCamera('overview')" class="px-2 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-semibold hover:bg-cyan-500/30 transition">Toàn cảnh</button>
-      <button onclick="toggleZoomCommandWall()" class="px-2 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold hover:bg-amber-500/30 transition">📺 Cận cảnh Màn hình to</button>
-      <button onclick="focus3DCamera('executive')" class="px-2 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 transition">Phòng Giám Đốc & Leader</button>
-      <button onclick="focus3DCamera('devqa')" class="px-2 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 transition">Phòng DEV & Kiểm Duyệt</button>
-      <button onclick="focus3DCamera('meeting')" class="px-2 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 transition">Phòng Họp Bàn Tròn</button>
-      <span class="text-slate-700 mx-0.5">|</span>
-      <button onclick="ceoForceBugTest()" class="px-2 py-1 rounded-lg bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 font-semibold transition">
-        🐞 Tester bắt Bug & đi sang bàn Coder
+    <!-- KHỐI CÔNG CỤ XẾP DỌC SÁT RÌA MÀN HÌNH BÊN TRÁI (Không làm che hay tràn thanh công cụ bên trên) -->
+    <div class="absolute left-2.5 top-3 z-30 flex flex-col items-start gap-1.5">
+      <button id="btnToggleLeftDock" onclick="toggleLeftVerticalDock()" class="px-2.5 py-1 rounded-xl bg-slate-950/85 hover:bg-slate-900 backdrop-blur-md border border-cyan-500/40 text-cyan-300 text-[10px] font-bold shadow-lg flex items-center gap-1 transition" title="Ẩn / Hiện thanh công cụ dọc bên trái">
+        <span id="leftDockArrow">◀</span> <span>Công cụ điều hành</span>
       </button>
-      <button onclick="triggerRobotWalkDemo()" class="px-2 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 font-semibold transition">
-        🚶 Cho Robot đi sang bàn nhắn tin
+
+      <div id="leftVerticalToolbar" class="flex flex-col gap-1.5 bg-slate-950/80 backdrop-blur-xl border border-cyan-500/30 p-2 rounded-2xl shadow-2xl w-48">
+        <button onclick="openCEOCommandDrawer()" class="w-full px-2.5 py-1.5 rounded-xl text-xs font-bold bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 transition flex items-center gap-2 text-left">
+          <span>👑</span> <span>Bàn CEO / Giao việc</span>
+        </button>
+
+        <button onclick="trigger3DMeetingRoom()" class="w-full px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/40 transition flex items-center gap-2 text-left">
+          <span>🤝</span> <span>Họp Bàn Tròn</span>
+        </button>
+
+        <button onclick="openCloudAndAIModal()" class="w-full px-2.5 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/50 text-emerald-300 text-xs font-bold flex items-center gap-2 transition text-left">
+          <span>☁️</span> <span>Mở Mọi Nơi / Kết Nối AI</span>
+        </button>
+
+        <button onclick="openPluginHubModal()" class="w-full px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/30 transition flex items-center gap-2 text-left">
+          <span>🔌</span> <span class="truncate">Kho Plugin / Chat AI Ngoài (<span id="activePluginCount">18</span>)</span>
+        </button>
+
+        <button id="btnToggle3D2D" onclick="toggleViewMode3D2D()" class="w-full px-2.5 py-1.5 rounded-xl text-xs font-semibold bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 transition flex items-center gap-2 text-left">
+          🕹️ Chế độ: 3D Thực Tế
+        </button>
+      </div>
+    </div>
+
+    <!-- KHỐI CÔNG CỤ DƯỚI ĐÁY (ẢNH 1) KÈM NÚT ẨN / HIỆN GỌN GÀNG -->
+    <div class="absolute bottom-2.5 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-1.5 max-w-[96vw]">
+      <!-- Nút Ẩn / Hiện Khối Công Cụ Dưới Đáy -->
+      <button id="btnToggleBottomBar" onclick="toggleBottomToolbar()" class="px-3 py-0.5 rounded-full bg-slate-950/90 hover:bg-slate-900 border border-cyan-500/40 text-cyan-300 text-[10px] font-bold shadow-lg flex items-center gap-1 transition">
+        <span id="bottomBarToggleIcon">🔽</span> <span id="bottomBarToggleText">Ẩn thanh góc nhìn</span>
       </button>
-      <button onclick="openProductPreviewModal()" class="px-2.5 py-1 rounded-lg font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 text-slate-950 transition">
-        🖥️ Xem Sản Phẩm & Duyệt
-      </button>
+
+      <div id="bottomViewToolbar" class="flex flex-wrap items-center justify-center gap-1.5 bg-slate-950/85 backdrop-blur-xl border border-cyan-500/35 px-3 py-1.5 rounded-2xl shadow-2xl text-[11px]">
+        <span class="font-bold text-cyan-400 mr-1 hidden sm:inline">Chọn góc nhìn:</span>
+        <button onclick="focus3DCamera('overview')" class="px-2 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-semibold hover:bg-cyan-500/30 transition">Toàn cảnh</button>
+        <button onclick="toggleZoomCommandWall()" class="px-2 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold hover:bg-amber-500/30 transition">📺 Cận cảnh Màn hình to</button>
+        <button onclick="focus3DCamera('executive')" class="px-2 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 transition">Phòng Giám Đốc & Leader</button>
+        <button onclick="focus3DCamera('devqa')" class="px-2 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 transition">Phòng DEV & Kiểm Duyệt</button>
+        <button onclick="focus3DCamera('meeting')" class="px-2 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 transition">Phòng Họp Bàn Tròn</button>
+        <span class="text-slate-700 mx-0.5">|</span>
+        <button onclick="ceoForceBugTest()" class="px-2 py-1 rounded-lg bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 font-semibold transition">
+          🐞 Tester bắt Bug & đi sang bàn Coder
+        </button>
+        <button onclick="triggerRobotWalkDemo()" class="px-2 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 font-semibold transition">
+          🚶 Cho Robot đi sang bàn nhắn tin
+        </button>
+        <button onclick="openProductPreviewModal()" class="px-2.5 py-1 rounded-lg font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 text-slate-950 transition">
+          🖥️ Xem Sản Phẩm & Duyệt
+        </button>
+      </div>
     </div>
 
   </section>
@@ -1814,50 +1830,31 @@
     }
 
 
+
+    function toggleBottomToolbar() {
+      const bar = document.getElementById('bottomViewToolbar');
+      const icon = document.getElementById('bottomBarToggleIcon');
+      const txt = document.getElementById('bottomBarToggleText');
+      if (!bar) return;
+      const isHidden = bar.classList.toggle('hidden');
+      if (icon) icon.textContent = isHidden ? '🔼' : '🔽';
+      if (txt) txt.textContent = isHidden ? 'Hiện thanh góc nhìn' : 'Ẩn thanh góc nhìn';
+    }
+
+    function toggleLeftVerticalDock() {
+      const dock = document.getElementById('leftVerticalToolbar');
+      const arrow = document.getElementById('leftDockArrow');
+      if (!dock) return;
+      const isHidden = dock.classList.toggle('hidden');
+      if (arrow) arrow.textContent = isHidden ? '▶' : '◀';
+    }
+
     function pan3DCamera(dx, dy) {
       desiredCameraTarget.x = Math.max(-18.5, Math.min(18.5, desiredCameraTarget.x + dx));
       desiredCameraTarget.y = Math.max(-1.0, Math.min(16.5, desiredCameraTarget.y + dy));
     }
 
-    function zoom3DStep(delta) {
-      userZoomFactor = Math.max(0.32, Math.min(1.45, userZoomFactor + delta));
-    }
 
-    function focusScreenSection(part) {
-      if (officeState.viewMode !== '3D') toggleViewMode3D2D();
-      officeState.zoomCommandWall = true;
-      userZoomFactor = 0.56;
-      desiredSpherical = { radius: 22.0, theta: 0.0, phi: 1.52 };
-      desiredSceneWidthFit = 38.0;
-      if (part === 'left') {
-        desiredCameraTarget.set(-11.5, 9.6, -8.8);
-      } else if (part === 'center') {
-        desiredCameraTarget.set(0.5, 9.6, -8.8);
-      } else if (part === 'right') {
-        desiredCameraTarget.set(11.8, 9.6, -8.8);
-      }
-      document.getElementById('btnZoomScreen').textContent = 'Toàn cảnh 3D';
-    }
-
-    function toggleDragModePanRotate() {
-      officeState.dragMode = officeState.dragMode === 'ROTATE' ? 'PAN' : 'ROTATE';
-      const btn = document.getElementById('btnDragModeToggle');
-      if (btn) {
-        btn.textContent = officeState.dragMode === 'ROTATE'
-          ? '🔄 Chuột: Kéo xoay 3D'
-          : '🖐️ Chuột: Kéo di chuyển';
-      }
-    }
-
-    function toggleSpeechBubblesVisibility() {
-      officeState.hideSpeechCards = !officeState.hideSpeechCards;
-      const btn = document.getElementById('btnToggleBubbles');
-      if (btn) {
-        btn.textContent = officeState.hideSpeechCards
-          ? '👁️ Hiện lại thẻ thoại'
-          : '👁️ Ẩn bớt thẻ thoại nổi';
-      }
-    }
 
     function focus3DCamera(preset) {
       officeState.zoomCommandWall = false;
