@@ -1,0 +1,3848 @@
+<!DOCTYPE html>
+<html lang="vi" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Văn Phòng AI 3D Tương Lai — 10 Nhân Sự AI & Màn Hình Hologram Tràn Viền</title>
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #030712;
+      color: #e2e8f0;
+      overflow-x: hidden;
+    }
+    .font-mono-code {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    /* Floating 3D Robot Overlay Cards - Futuristic Translucent Holo Style */
+    :root {
+      --holo-label-scale: 1;
+    }
+    .robot-label-anchor {
+      position: absolute;
+      transform: translate(-50%, -100%) scale(var(--holo-label-scale, 1));
+      transform-origin: bottom center;
+      pointer-events: auto;
+      transition: opacity 0.15s ease;
+      z-index: 15;
+    }
+    .robot-speech-card {
+      background: rgba(6, 18, 40, 0.78);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(56, 189, 248, 0.45);
+      box-shadow: 0 0 22px -4px rgba(56, 189, 248, 0.35), inset 0 0 12px rgba(56, 189, 248, 0.1);
+      animation: floatCardIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    @keyframes floatCardIn {
+      from { opacity: 0; transform: translateY(6px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .office-floor {
+      background-color: #0b1120;
+      background-image: 
+        linear-gradient(to right, rgba(56, 189, 248, 0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(56, 189, 248, 0.04) 1px, transparent 1px);
+      background-size: 28px 28px;
+    }
+    .desk-station {
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .desk-station:hover {
+      transform: translateY(-2px);
+    }
+    .desk-active-pulse {
+      animation: deskPulse 2.2s infinite ease-in-out;
+    }
+    @keyframes deskPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(56, 189, 248, 0.35); }
+      50% { box-shadow: 0 0 0 5px rgba(56, 189, 248, 0.12); }
+    }
+    .desk-bug-pulse {
+      animation: bugPulse 1.6s infinite ease-in-out;
+    }
+    @keyframes bugPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.45); }
+      50% { box-shadow: 0 0 0 6px rgba(244, 63, 94, 0.15); }
+    }
+    .desk-approval-pulse {
+      animation: approvalPulse 1.8s infinite ease-in-out;
+    }
+    @keyframes approvalPulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.5); }
+      50% { box-shadow: 0 0 0 7px rgba(245, 158, 11, 0.16); }
+    }
+    .monitor-screen {
+      background: linear-gradient(180deg, #0f172a 0%, #090d16 100%);
+      position: relative;
+      overflow: hidden;
+    }
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 5px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #090d16;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #334155;
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+<body class="h-screen w-screen overflow-hidden flex flex-col bg-[#030712] select-none">
+
+  <!-- =========================================================================
+       THANH TOP HUD HOLOGRAM TRONG SUỐT Ở ĐỈNH MÀN HÌNH
+       ========================================================================= -->
+  <header class="h-12 shrink-0 z-40 bg-[#050b1a]/80 backdrop-blur-xl border-b border-cyan-500/30 px-3 sm:px-5 flex items-center justify-between gap-2">
+    
+    <div class="flex items-center gap-2 sm:gap-3 overflow-x-auto no-scrollbar py-1">
+      <div class="flex items-center gap-2 shrink-0">
+        <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center text-slate-950 font-black text-xs shadow-lg shadow-cyan-500/30">
+          V
+        </div>
+        <div class="leading-tight">
+          <div class="text-xs font-bold text-white tracking-wide">HOLO OFFICE 3D</div>
+          <div class="text-[9px] text-cyan-400 uppercase tracking-widest">CÔNG TY AI • TƯƠNG LAI</div>
+        </div>
+      </div>
+
+      <!-- Đồng hồ trực tiếp -->
+      <div class="flex items-center gap-1.5 bg-slate-900/70 border border-cyan-500/30 px-2.5 py-1 rounded-lg shrink-0">
+        <span id="hudLiveClock" class="font-mono-code text-xs sm:text-sm font-bold text-cyan-200">19:31:00</span>
+        <span class="flex items-center gap-1 text-[9px] font-bold text-emerald-400 uppercase">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+          TRỰC TIẾP
+        </span>
+      </div>
+
+      <!-- Các chỉ số trực tiếp -->
+      <div class="hidden lg:flex items-center gap-3 bg-slate-900/60 border border-cyan-500/25 px-3 py-1 rounded-lg text-xs shrink-0">
+        <div class="leading-none text-center">
+          <div id="hudWorkingCount" class="font-extrabold text-cyan-300 text-xs">4</div>
+          <div class="text-[8px] text-slate-400 uppercase">ĐANG LÀM</div>
+        </div>
+        <div class="leading-none text-center">
+          <div id="hudIdleCount" class="font-extrabold text-slate-300 text-xs">6</div>
+          <div class="text-[8px] text-slate-400 uppercase">CHỜ/NGHỈ</div>
+        </div>
+        <div class="leading-none text-center border-l border-slate-800 pl-2.5 cursor-pointer" onclick="rotateDevEnvironmentHolder()" title="Bấm để chuyển quyền giữ Phòng DEV">
+          <div id="hudDevRoomStatus" class="font-extrabold text-emerald-300 text-xs">trống 59 phút</div>
+          <div class="text-[8px] text-slate-400 uppercase">DEV</div>
+        </div>
+        <div class="leading-none text-center border-l border-slate-800 pl-2.5">
+          <div id="hudBlockedCount" class="font-extrabold text-white text-xs">2/9</div>
+          <div class="text-[8px] text-slate-400 uppercase">9 VIỆC</div>
+        </div>
+      </div>
+
+      <!-- Nút Cần Sếp duyệt (CEO) -->
+      <button onclick="openCEOCommandDrawer()" class="px-2.5 py-1 rounded-lg bg-amber-500/15 hover:bg-amber-500/25 border border-amber-400/60 text-amber-300 text-xs font-bold flex items-center gap-1.5 transition shrink-0">
+        <span id="hudCanAnhCount" class="px-1.5 py-0.2 rounded bg-amber-400 text-slate-950 font-black text-[11px]">2</span>
+        <span>Cần Sếp duyệt (CEO)</span>
+      </button>
+
+      <!-- Giá trị AI quy đổi (0đ phát sinh khi dùng gói có sẵn) -->
+      <div onclick="openCloudAndAIModal()" class="cursor-pointer bg-slate-900/70 hover:bg-slate-800 border border-emerald-500/35 px-2.5 py-1 rounded-lg flex items-center gap-1.5 text-xs shrink-0 transition" title="Giá trị công việc quy đổi theo lượng token. Bạn dùng gói có sẵn nên 0đ phát sinh thêm!">
+        <span id="hudTotalCost" class="font-mono-code font-extrabold text-emerald-300 text-xs">$3,05</span>
+        <span class="text-[10px] text-slate-300">Tiền AI hôm nay <strong class="text-emerald-400">(0đ phát sinh)</strong></span>
+        <span id="hudTotalTokens" class="hidden xl:inline text-[9px] font-mono-code text-cyan-300 bg-cyan-500/15 px-1.5 py-0.5 rounded">184.2k tok</span>
+      </div>
+
+      <button onclick="openCloudAndAIModal()" class="px-2.5 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 border border-emerald-400/50 text-emerald-300 text-xs font-bold flex items-center gap-1 transition shrink-0">
+        <span>☁️</span> <span>Mở Mọi Nơi / Kết Nối AI</span>
+      </button>
+    </div>
+
+    <!-- Cụm phải -->
+    <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+      <button onclick="openCEOCommandDrawer()" class="px-2.5 py-1 rounded-lg text-xs font-bold bg-amber-500/15 hover:bg-amber-500/25 text-amber-300 border border-amber-500/40 transition flex items-center gap-1">
+        <span>👑</span> <span class="hidden sm:inline">Bàn CEO / Giao việc</span>
+      </button>
+
+      <button onclick="trigger3DMeetingRoom()" class="hidden md:flex px-2.5 py-1 rounded-lg text-xs font-semibold bg-cyan-500/15 hover:bg-cyan-500/25 text-cyan-300 border border-cyan-500/40 transition items-center gap-1">
+        <span>🤝</span> Họp Bàn Tròn
+      </button>
+
+      <button onclick="openPluginHubModal()" class="hidden xl:flex px-2.5 py-1 rounded-lg text-xs font-semibold bg-indigo-500/15 hover:bg-indigo-500/25 text-indigo-300 border border-indigo-500/30 transition items-center gap-1">
+        <span>🔌</span> Kho Plugin / Chat AI Ngoài (<span id="activePluginCount">18</span>)
+      </button>
+
+      <button id="btnToggle3D2D" onclick="toggleViewMode3D2D()" class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 transition">
+        🕹️ Chế độ: 3D Thực Tế
+      </button>
+
+      <button id="btnZoomScreen" onclick="toggleZoomCommandWall()" class="px-3 py-1 rounded-lg text-xs font-extrabold bg-gradient-to-r from-cyan-300 to-sky-400 hover:from-cyan-200 hover:to-sky-300 text-slate-950 shadow-lg shadow-cyan-500/30 transition">
+        Xem màn hình
+      </button>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       KHÔNG GIAN 1 (MẶC ĐỊNH): FULL-SCREEN 3D VIRTUAL OFFICE VỚI MÀN HÌNH HOLOGRAM TRONG SUỐT TRÀN VIỀN
+       ========================================================================= -->
+  <section id="office3DStageContainer" class="relative flex-1 w-full h-[calc(100vh-48px)] overflow-hidden bg-[#030712]">
+    
+    <div id="threeCanvasWrapper" class="relative w-full h-full cursor-grab active:cursor-grabbing overflow-hidden">
+      <canvas id="office3DCanvas" class="w-full h-full block"></canvas>
+      <div id="threeLabelsOverlay" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
+    </div>
+
+    <!-- Thanh điều khiển góc nhìn 3D dưới đáy -->
+    <div class="absolute bottom-3 left-1/2 -translate-x-1/2 z-25 flex flex-wrap items-center justify-center gap-1.5 bg-slate-950/80 backdrop-blur-xl border border-cyan-500/35 px-3 py-1.5 rounded-2xl shadow-2xl text-[11px] max-w-[96vw]">
+      <span class="font-bold text-cyan-400 mr-1 hidden sm:inline">Góc nhìn Holo 3D:</span>
+      <button onclick="focus3DCamera('overview')" class="px-2 py-1 rounded-lg bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 font-semibold hover:bg-cyan-500/30 transition">Toàn cảnh</button>
+      <button onclick="toggleZoomCommandWall()" class="px-2 py-1 rounded-lg bg-amber-500/20 text-amber-300 border border-amber-500/40 font-semibold hover:bg-amber-500/30 transition">📺 Cận cảnh Màn hình to</button>
+      <button onclick="focus3DCamera('executive')" class="px-2 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 transition">Phòng Giám Đốc & Leader</button>
+      <button onclick="focus3DCamera('devqa')" class="px-2 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 transition">Phòng DEV & Kiểm Duyệt</button>
+      <button onclick="focus3DCamera('meeting')" class="px-2 py-1 rounded-lg bg-slate-900/90 hover:bg-slate-800 text-slate-200 border border-slate-700 transition">Phòng Họp Bàn Tròn</button>
+      <span class="text-slate-700 mx-0.5">|</span>
+      <button onclick="ceoForceBugTest()" class="px-2 py-1 rounded-lg bg-rose-500/15 hover:bg-rose-500/25 text-rose-300 border border-rose-500/30 font-semibold transition">
+        🐞 Tester bắt Bug & đi sang bàn Coder
+      </button>
+      <button onclick="triggerRobotWalkDemo()" class="px-2 py-1 rounded-lg bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 font-semibold transition">
+        🚶 Cho Robot đi sang bàn nhắn tin
+      </button>
+      <button onclick="openProductPreviewModal()" class="px-2.5 py-1 rounded-lg font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 hover:from-emerald-300 hover:to-cyan-300 text-slate-950 transition">
+        🖥️ Xem Sản Phẩm & Duyệt
+      </button>
+    </div>
+
+  </section>
+
+  <!-- =========================================================================
+       KHÔNG GIAN 2 (CHỈ HIỆN KHI BẤM CHUYỂN SANG "CHẾ ĐỘ 2D CHO MÁY YẾU")
+       ========================================================================= -->
+  <main id="office2DFallbackWrapper" class="hidden flex-1 w-full h-[calc(100vh-48px)] overflow-y-auto px-3 sm:px-6 py-4 space-y-4 bg-[#050811]">
+    
+    <div class="max-w-[1600px] mx-auto flex flex-wrap items-center justify-between gap-2 bg-indigo-950/40 border border-indigo-500/40 rounded-xl px-4 py-2.5">
+      <div class="text-xs text-indigo-200">
+        📱 Bạn đang ở <strong>Chế độ Bảng 2D (Dành cho máy yếu / Điện thoại)</strong>. Bấm nút bên phải nếu muốn quay lại không gian <strong>Văn phòng Hologram 3D</strong>.
+      </div>
+      <button onclick="toggleViewMode3D2D()" class="px-3 py-1 rounded-lg text-xs font-bold bg-cyan-400 hover:bg-cyan-300 text-slate-950 transition">
+        🕹️ Quay lại Văn Phòng 3D
+      </button>
+    </div>
+
+    <section id="giantCommandWallSection" class="max-w-[1600px] mx-auto bg-[#0b1120] border border-cyan-500/30 rounded-2xl overflow-hidden">
+      <div class="bg-[#080d1a] px-4 py-2.5 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div class="flex flex-wrap items-center gap-3">
+          <span class="font-bold text-white">Màn hình Tổng Holo (Bản 2D)</span>
+          <span class="text-slate-400">Dự án: <strong id="wallProjectTitle" class="text-cyan-300">Hệ thống Web App Quản lý Bán hàng & AI Chatbot</strong></span>
+          <span id="wallPhaseBadge" class="px-2 py-0.5 rounded-full text-[11px] font-semibold bg-cyan-500/20 text-cyan-300 border border-cyan-500/40">Đang vận hành</span>
+        </div>
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="flex items-center bg-slate-900 border border-slate-800 rounded-lg p-0.5 text-[11px]">
+            <button id="btnSpeed1x" onclick="setSimSpeed(1)" class="px-2 py-0.5 rounded font-medium bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 transition">1x Thực tế</button>
+            <button id="btnSpeed2x" onclick="setSimSpeed(2)" class="px-2 py-0.5 rounded font-medium text-slate-400 hover:text-white transition">2x Nhanh</button>
+            <button id="btnPauseSim" onclick="togglePauseSim()" class="px-2 py-0.5 rounded font-medium text-slate-400 hover:text-white transition flex items-center gap-1">
+              <span id="pauseIcon">⏸</span> <span id="pauseLabel">Tạm dừng</span>
+            </button>
+          </div>
+          <label class="flex items-center gap-1.5 text-[11px] bg-slate-900 border border-slate-800 px-2.5 py-1 rounded-lg cursor-pointer">
+            <input id="toggleAutoScale" type="checkbox" checked onchange="toggleAutoScaleAgents(this.checked)" class="rounded bg-slate-800 border-slate-700 text-indigo-500" />
+            <span class="text-slate-300">Khôi tự huy động 6 Agent dự bị</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="p-4 space-y-3">
+        <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+          <span id="wallCurrentStepText" class="text-slate-200 font-semibold">Khôi đang phân tích yêu cầu của CEO...</span>
+          <div class="flex items-center gap-2">
+            <span id="wallProgressPercent" class="text-emerald-400 font-mono-code font-bold">38%</span>
+            <div class="w-32 h-2 bg-slate-800 rounded-full overflow-hidden">
+              <div id="wallProgressBar" class="h-full bg-emerald-400" style="width: 38%"></div>
+            </div>
+          </div>
+        </div>
+        <div id="pipelineStagesContainer" class="grid grid-cols-2 sm:grid-cols-6 gap-2"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 pt-2">
+          <div class="lg:col-span-5 bg-slate-950/70 border border-slate-800 rounded-xl p-3 space-y-2">
+            <div class="text-xs font-bold text-slate-300">BẢNG NHÂN SỰ TRỰC TIẾP</div>
+            <div id="liveStaffRosterTable" class="space-y-1.5 max-h-60 overflow-y-auto"></div>
+            <div class="grid grid-cols-4 gap-2 pt-2 text-center">
+              <div class="bg-slate-900 p-1.5 rounded"><div id="kpiActiveAgents" class="text-xs font-bold text-cyan-400">4 / 10</div><div id="kpiStandbyCount" class="text-[9px] text-slate-400">6 dự bị rảnh</div></div>
+              <div class="bg-slate-900 p-1.5 rounded"><div id="kpiCodeTestLoops" class="text-xs font-bold text-amber-400">Vòng #1</div><div id="kpiBugCount" class="text-[9px] text-emerald-400">0 bug</div></div>
+              <div class="bg-slate-900 p-1.5 rounded"><div id="kpiPendingCEO" class="text-xs font-bold text-rose-400">2</div><div id="kpiStandbyNote" class="text-[9px] text-slate-400">Cần duyệt</div></div>
+              <div class="bg-slate-900 p-1.5 rounded"><div id="kpiExternalCalls" class="text-xs font-bold text-purple-400">18</div><div id="kpiLastExternalTool" class="text-[9px] text-purple-300 truncate">Claude 3.5</div></div>
+            </div>
+          </div>
+
+          <div class="lg:col-span-4 bg-slate-950/70 border border-slate-800 rounded-xl p-3 space-y-2">
+            <div class="flex items-center justify-between">
+              <span class="text-xs font-bold text-slate-300">PHÒNG DEV</span>
+              <button onclick="rotateDevEnvironmentHolder()" class="text-[10px] px-2 py-0.5 rounded bg-cyan-500/15 text-cyan-300 border border-cyan-500/30">Chuyển quyền giữ DEV ➔</button>
+              <span id="devQueueBadge" class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Sẵn sàng</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <div id="devLockCircle" class="w-10 h-10 rounded-full border-2 border-emerald-400 flex items-center justify-center text-xs font-bold text-emerald-300">DEV</div>
+              <div>
+                <div id="devHolderTitle" class="text-sm font-bold text-white">TRỐNG 59 phút</div>
+                <div id="devHolderSub" class="text-[11px] text-slate-400">Hàng đợi: 0 người chờ</div>
+              </div>
+            </div>
+            <div class="flex justify-between text-[11px] pt-2">
+              <span class="font-bold text-amber-300">VIỆC KHÓA & KANBAN</span>
+              <span id="taskSummaryCount" class="text-slate-400">1/4 xong</span>
+            </div>
+            <div id="wallTaskList" class="space-y-1.5 max-h-36 overflow-y-auto"></div>
+          </div>
+
+          <div class="lg:col-span-3 bg-slate-950/70 border border-slate-800 rounded-xl p-3 space-y-2">
+            <div class="text-xs font-bold text-slate-300">AI NHẮN NHIỀU NHẤT HÔM NAY</div>
+            <div id="topCommunicatorsChart" class="space-y-1 text-[11px]"></div>
+            <div class="flex items-center justify-between pt-2">
+              <span class="text-[10px] font-bold text-slate-400">LUỒNG TIN</span>
+              <div class="flex gap-1">
+                <button onclick="filterLogs('all')" id="logFilterAll" class="px-1.5 py-0.5 rounded text-[10px] bg-cyan-500/20 text-cyan-300">Tất cả</button>
+                <button onclick="filterLogs('codetest')" id="logFilterCodeTest" class="px-1.5 py-0.5 rounded text-[10px] text-slate-400">Code⇄Test</button>
+                <button onclick="filterLogs('external')" id="logFilterExternal" class="px-1.5 py-0.5 rounded text-[10px] text-slate-400">Plugin/AI</button>
+              </div>
+            </div>
+            <div id="liveCommsFeed" class="space-y-1 max-h-32 overflow-y-auto font-mono-code text-[11px]"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="office2DGridSection" class="max-w-[1600px] mx-auto office-floor rounded-2xl border border-slate-800 p-4 space-y-4">
+      <div class="text-xs font-bold uppercase text-cyan-400">4 BÀN NHÂN SỰ AI NÒNG CỐT (KHÔI • LINH • ĐỨC • MINH)</div>
+      <div id="coreDesksGrid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-3.5"></div>
+      <div class="text-xs font-bold uppercase text-indigo-400 pt-2">6 BÀN NHÂN SỰ AI DỰ BỊ (VY • TÙNG • VŨ • MAI • BÁCH • ĐẠT)</div>
+      <div id="standbyDesksGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5"></div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       DRAWER / MODAL 0: BÀN CHỦ TỊCH CEO & Ô "CẦN SẾP DUYỆT"
+       ========================================================================= -->
+  <div id="ceoCommandSection" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-900 border-2 border-amber-500/50 rounded-2xl max-w-5xl w-full overflow-hidden shadow-2xl">
+      <div class="px-5 py-3.5 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="text-xl">👑</span>
+          <div>
+            <h3 class="text-base font-bold text-white">PHÒNG GIÁM ĐỐC CEO (CHỊ) & HỘP THƯ "CẦN SẾP DUYỆT" CỦA THƯ KÝ LINH</h3>
+            <p class="text-xs text-slate-400">Giao dự án mới cho Quản lý Khôi, điều động 6 nhân sự dự bị và phê duyệt các việc cần xin ý kiến CEO</p>
+          </div>
+        </div>
+        <button onclick="closeCEOCommandDrawer()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold">✕</button>
+      </div>
+
+      <div class="p-5 grid grid-cols-1 lg:grid-cols-12 gap-4 max-h-[80vh] overflow-y-auto">
+        <div class="lg:col-span-7 bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-3">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="text-xs font-bold uppercase text-amber-400">🚀 Giao Dự Án Mới Cho Quản Lý Khôi</span>
+            <div class="flex flex-wrap gap-1.5">
+              <button onclick="loadPresetBrief('crm')" class="px-2 py-1 rounded text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700">🛒 Web Bán Hàng AI</button>
+              <button onclick="loadPresetBrief('fintech')" class="px-2 py-1 rounded text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700">📊 Ví Tài Chính Cá Nhân</button>
+              <button onclick="loadPresetBrief('game')" class="px-2 py-1 rounded text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700">🎮 Mini Game Phòng Thủ</button>
+            </div>
+          </div>
+
+          <div class="flex flex-col sm:flex-row gap-2">
+            <input id="ceoTaskInput" type="text" value="Xây dựng ứng dụng Dashboard Quản lý Đơn hàng & Tích hợp Chatbot tư vấn tự động, giao diện Dark Mode hiện đại" class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white outline-none focus:border-amber-400" />
+            <button onclick="ceoAssignNewProject()" class="px-4 py-2.5 rounded-xl font-bold text-xs bg-gradient-to-r from-amber-400 to-orange-500 text-slate-950 shrink-0">
+              🚀 Giao Việc Cho Leader
+            </button>
+          </div>
+
+          <!-- TUYỂN THÊM NHÂN VIÊN AI MỚI (TỰ ĐỘNG DỰNG THÊM BÀN 3D & ROBOT MỚI) -->
+          <div class="pt-3 mt-2 border-t border-slate-800 space-y-2">
+            <div class="text-xs font-bold uppercase text-cyan-400">➕ Tuyển Thêm Nhân Viên AI Mới (Tự động kê thêm bàn & Robot 3D)</div>
+            <div class="grid grid-cols-1 sm:grid-cols-4 gap-2">
+              <input id="newAgentNameInput" type="text" placeholder="Tên (VD: Sơn, Quân, Lan...)" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-cyan-400" />
+              <input id="newAgentDeptInput" type="text" placeholder="Phòng (VD: MARKETING, KẾ TOÁN)" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-cyan-400" />
+              <input id="newAgentRoleInput" type="text" placeholder="Chức năng chuyên môn..." class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-cyan-400" />
+              <button onclick="ceoAddNewAgent3D()" class="px-3 py-2 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-extrabold text-xs transition">
+                ➕ Thêm Bàn & Robot 3D
+              </button>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap gap-2 pt-2">
+            <button onclick="ceoMobilizeAllStandby(); closeCEOCommandDrawer();" class="px-3 py-1.5 rounded-lg bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/40 text-xs font-semibold">
+              ⚡ Bảo Leader giao việc cho cả 6 Agent dự bị (#5 → #10)
+            </button>
+            <button onclick="ceoReleaseStandby(); closeCEOCommandDrawer();" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 text-xs">
+              ☕ Cho 6 Agent dự bị nghỉ chờ lệnh
+            </button>
+          </div>
+        </div>
+
+        <div id="ceoInboxPanel" class="lg:col-span-5 bg-slate-950 border border-amber-500/40 rounded-xl p-4 flex flex-col justify-between space-y-3">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="text-xs font-bold uppercase text-white">👩‍💼 MỤC "CẦN SẾP DUYỆT" (LINH GOM)</span>
+              <span id="secretaryAlertBadge" class="px-2 py-0.5 rounded-full text-[11px] font-bold bg-amber-400 text-slate-950">2 việc cần Sếp duyệt</span>
+            </div>
+            <div id="ceoApprovalContainer" class="space-y-2 max-h-52 overflow-y-auto pr-1"></div>
+          </div>
+
+          <div class="pt-2 border-t border-slate-800 flex items-center justify-between gap-2">
+            <span class="text-[11px] text-slate-400">Trạng thái: <strong id="finalDeliverableStatus" class="text-amber-300">Đang phát triển...</strong></span>
+            <button onclick="closeCEOCommandDrawer(); openProductPreviewModal();" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+              🖥️ Xem Sản Phẩm & Code Thực Tế
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 1: HÒM THƯ NHẮN THẲNG CHO TỪNG NHÂN SỰ AI & CẤU HÌNH BÀN LÀM VIỆC
+       ========================================================================= -->
+  <div id="agentDeskModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-900 border-2 border-cyan-500/40 rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl">
+      <div class="px-5 py-3.5 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div id="modalAgentAvatar" class="w-11 h-11 rounded-xl bg-slate-800 flex items-center justify-center text-2xl">🤖</div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span id="modalAgentDeskBadge" class="px-2 py-0.5 rounded text-[10px] font-bold bg-cyan-500/20 text-cyan-300">BÀN #1</span>
+              <h3 id="modalAgentName" class="text-base font-bold text-white">Khôi</h3>
+              <span id="modalAgentGradeBadge" class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Hạng A+</span>
+            </div>
+            <p id="modalAgentRole" class="text-xs text-slate-400">Nhận việc từ CEO & Điều phối toàn bộ văn phòng</p>
+          </div>
+        </div>
+        <button onclick="closeAgentDeskModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold">✕</button>
+      </div>
+
+      <div class="p-5 space-y-4 max-h-[80vh] overflow-y-auto">
+        <div class="bg-slate-950 border border-cyan-500/30 rounded-xl p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-bold uppercase tracking-wider text-cyan-400">💬 Hòm thư trao đổi & Nhắn thẳng cho nhân sự này</label>
+            <span id="modalAgentTokenStats" class="text-[11px] font-mono-code text-emerald-400">34.2k tokens • $0.48</span>
+          </div>
+          <div id="modalDirectChatFeed" class="space-y-1.5 max-h-36 overflow-y-auto pr-1 text-xs font-mono-code bg-slate-900/90 rounded-lg p-2.5 border border-slate-800"></div>
+          <div class="flex gap-2">
+            <input id="modalCustomTaskInput" type="text" placeholder="Nhắn thẳng hoặc giao việc riêng cho nhân sự AI này..." class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-cyan-400" />
+            <button onclick="assignDirectTaskToModalAgent()" class="px-3.5 py-2 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold text-xs shrink-0">Giao ngay</button>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">🖥️ Màn hình máy tính trên bàn 3D</label>
+          <div id="modalAgentTerminal" class="monitor-screen rounded-xl border border-slate-700 p-3 font-mono-code text-xs text-emerald-300 space-y-1 min-h-[72px]"></div>
+        </div>
+
+        <!-- CẬP NHẬT TÊN & CHỨC NĂNG NHÂN SỰ TRỰC TIẾP -->
+        <div class="bg-slate-950 border border-amber-500/30 rounded-xl p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <label class="text-xs font-bold uppercase tracking-wider text-amber-400">✏️ Thay đổi Tên & Chức năng Nhân sự (CEO Tùy chỉnh)</label>
+            <button onclick="saveAgentProfileChanges()" class="px-3 py-1 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-bold text-xs transition">💾 Lưu thay đổi</button>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <div>
+              <span class="text-[10px] text-slate-400 block mb-0.5">Tên nhân sự (1 từ):</span>
+              <input id="modalEditAgentName" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white outline-none focus:border-amber-400" />
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-400 block mb-0.5">Phòng ban / Chức danh:</span>
+              <input id="modalEditAgentDept" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white outline-none focus:border-amber-400" />
+            </div>
+            <div>
+              <span class="text-[10px] text-slate-400 block mb-0.5">Chức năng / Chuyên môn:</span>
+              <input id="modalEditAgentRole" type="text" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white outline-none focus:border-amber-400" />
+            </div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-1">🧠 Bộ não Chat AI bên ngoài</label>
+            <select id="modalSelectLLM" onchange="updateAgentLLM(this.value)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-cyan-400">
+              <option value="Claude 3.5 Sonnet (Anthropic)">Claude 3.5 Sonnet (Anthropic)</option>
+              <option value="ChatGPT-4o (OpenAI)">ChatGPT-4o (OpenAI)</option>
+              <option value="Gemini 2.5 Pro (Google)">Gemini 2.5 Pro (Google)</option>
+              <option value="DeepSeek R1 (Reasoning)">DeepSeek R1 (Reasoning)</option>
+              <option value="OpenAI o3-mini (High-Speed)">OpenAI o3-mini (High-Speed)</option>
+              <option value="Perplexity Sonar Research">Perplexity Sonar Research</option>
+              <option value="Llama 3.3 70B (Local MCP)">Llama 3.3 70B (Local MCP)</option>
+            </select>
+          </div>
+          <div>
+            <label class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-1">🚶 Điều khiển Robot 3D đi bộ</label>
+            <button onclick="sendModalAgentToVisitLeader()" class="w-full px-3 py-2 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/30 border border-indigo-500/40 text-indigo-200 font-semibold text-xs transition">
+              Cho Robot này đi bộ sang bàn Leader báo cáo
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold uppercase tracking-wider text-slate-300 block mb-1.5">🔌 Công cụ / Plugin / Skill bên ngoài</label>
+          <div id="modalAgentPluginsList" class="grid grid-cols-2 sm:grid-cols-3 gap-2"></div>
+        </div>
+
+        <div>
+          <label class="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-1">📜 Nhật ký hoạt động tại bàn</label>
+          <div id="modalAgentHistory" class="bg-slate-950 border border-slate-800 rounded-xl p-2.5 space-y-1 max-h-28 overflow-y-auto text-xs font-mono-code text-slate-300"></div>
+        </div>
+      </div>
+
+      <div class="px-5 py-3 bg-slate-950 border-t border-slate-800 flex items-center justify-between">
+        <button id="modalBtnToggleStandby" onclick="toggleModalAgentStandby()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700">
+          Chuyển trạng thái Bận / Nghỉ
+        </button>
+        <button onclick="closeAgentDeskModal()" class="px-4 py-1.5 rounded-lg text-xs font-bold bg-cyan-400 hover:bg-cyan-300 text-slate-950">Đóng cửa sổ</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 2: XEM SẢN PHẨM CUỐI CÙNG & CODE DO ĐỨC + MINH HOÀN THIỆN
+       ========================================================================= -->
+  <div id="productPreviewModal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-900 border-2 border-emerald-500/40 rounded-2xl max-w-4xl w-full overflow-hidden shadow-2xl">
+      <div class="px-5 py-3.5 bg-slate-950 border-b border-slate-800 flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-2.5">
+          <span class="text-xl">🚀</span>
+          <div>
+            <h3 class="text-base font-bold text-white">PHÒNG DUYỆT SẢN PHẨM & MÃ NGUỒN (CEO REVIEW ROOM)</h3>
+            <p class="text-xs text-slate-400">Sản phẩm do Bàn #3 (Đức) lập trình & Bàn #4 (Minh) kiểm thử tự động</p>
+          </div>
+        </div>
+        <button onclick="closeProductPreviewModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold">✕</button>
+      </div>
+
+      <div class="p-5 grid grid-cols-1 lg:grid-cols-2 gap-4 max-h-[78vh] overflow-y-auto">
+        <div class="space-y-3">
+          <div class="flex items-center justify-between">
+            <span class="text-xs font-bold uppercase tracking-wider text-cyan-400">💻 Code thực tế do Bàn #3 (Đức) sinh ra</span>
+            <span id="previewCodeIterationBadge" class="px-2 py-0.5 rounded text-[11px] bg-slate-800 text-slate-300 font-mono-code">v1.0</span>
+          </div>
+          <pre id="previewGeneratedCode" class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-[11px] font-mono-code text-cyan-300 overflow-x-auto max-h-64"></pre>
+
+          <div class="bg-slate-950 border border-slate-800 rounded-xl p-3.5 space-y-2">
+            <div class="text-xs font-bold uppercase tracking-wider text-emerald-400">🧪 Biên bản Test của Bàn #4 (Minh)</div>
+            <div id="previewTestChecklist" class="space-y-1.5 text-xs text-slate-300"></div>
+          </div>
+        </div>
+
+        <div class="flex flex-col justify-between bg-slate-950 border border-slate-800 rounded-xl p-4 space-y-4">
+          <div>
+            <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
+              <span class="text-xs font-bold text-white flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span> Bản chạy thử (Live Sandbox Preview)
+              </span>
+              <span id="previewDeliverableBadge" class="text-[11px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300">Sẵn sàng duyệt</span>
+            </div>
+            <div id="previewVisualMockup" class="rounded-xl bg-slate-900 border border-slate-800 p-4 space-y-3"></div>
+          </div>
+
+          <div class="pt-3 border-t border-slate-800 space-y-2">
+            <div class="text-xs text-slate-400 font-medium">Quyết định của Chị (CEO) đối với sản phẩm này:</div>
+            <div class="flex flex-wrap gap-2">
+              <button onclick="ceoApproveFinalProduct()" class="flex-1 px-4 py-2.5 rounded-xl font-bold text-xs bg-emerald-500 hover:bg-emerald-400 text-slate-950 transition shadow-lg shadow-emerald-500/20">
+                ✅ CEO DUYỆT SẢN PHẨM (APPROVE & RELEASE)
+              </button>
+              <button onclick="downloadCurrentDeliverable()" class="px-3.5 py-2.5 rounded-xl font-bold text-xs bg-cyan-500/20 hover:bg-cyan-500/30 text-cyan-300 border border-cyan-500/40 transition">
+                📥 Tải Sản Phẩm Về Máy
+              </button>
+              <button onclick="ceoRequestRevision()" class="flex-1 px-4 py-2.5 rounded-xl font-bold text-xs bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 transition">
+                🔄 YÊU CẦU LEADER & CODER SỬA LẠI
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       MODAL 3: KHO PLUGIN, SKILL & CÁC CON CHAT AI BÊN NGOÀI
+       ========================================================================= -->
+  <div id="pluginHubModal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-900 border-2 border-indigo-500/40 rounded-2xl max-w-3xl w-full overflow-hidden shadow-2xl">
+      <div class="px-5 py-4 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+        <div>
+          <h3 class="text-base font-bold text-white">🔌 TRUNG TÂM TÍCH HỢP CHAT AI NGOÀI, PLUGINS & SKILLS</h3>
+          <p class="text-xs text-slate-400">Các nhân sự AI trong văn phòng được phép gọi trực tiếp các công cụ và mô hình AI bên ngoài dưới đây</p>
+        </div>
+        <button onclick="closePluginHubModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold">✕</button>
+      </div>
+      <div class="p-5 space-y-4 max-h-[75vh] overflow-y-auto">
+        <div class="bg-slate-950 border border-amber-500/40 rounded-xl p-3.5 space-y-2">
+          <div class="text-xs font-bold uppercase text-amber-300">🔑 Cấp Tài Khoản / Thêm Công Cụ Bên Ngoài Mới Cho Khôi (Leader)</div>
+          <p class="text-[11px] text-slate-400">Khôi được phép gọi bất kỳ công cụ/AI bên ngoài nào. Nếu công cụ chưa có tài khoản, Khôi sẽ báo về mục "Cần Sếp duyệt" hoặc Chị có thể cấp sẵn tài khoản tại đây:</p>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+            <input id="customToolNameInput" type="text" placeholder="Tên công cụ (VD: Midjourney, Semrush, Stripe...)" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-amber-400" />
+            <input id="customToolAccountInput" type="text" placeholder="Tài khoản / API / Email cấp cho đội..." class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-amber-400" />
+            <button onclick="ceoGrantNewExternalTool()" class="px-3 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs transition">
+              🔑 Cấp Tài Khoản & Kích Hoạt
+            </button>
+          </div>
+        </div>
+        <div id="pluginHubGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+      </div>
+      <div class="px-5 py-3 bg-slate-950 border-t border-slate-800 flex justify-end">
+        <button onclick="closePluginHubModal()" class="px-4 py-1.5 rounded-lg text-xs font-bold bg-indigo-500 hover:bg-indigo-400 text-white">Hoàn tất</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       JAVASCRIPT ENGINE: MÀN HÌNH TỔNG HOLOGRAM 3D TRONG SUỐT TRÀN VIỀN & 10 NHÂN SỰ TÊN 1 TỪ
+       ========================================================================= -->
+  <!-- =========================================================================
+       MODAL 4: ĐỒNG BỘ VĂN PHÒNG MỌI NƠI & CƠ CHẾ KẾT NỐI AI 0Đ PHÁT SINH
+       ========================================================================= -->
+  <div id="cloudAndAIModal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-slate-900 border-2 border-cyan-500/50 rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl">
+      <div class="px-5 py-3.5 bg-slate-950 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2.5">
+          <span class="text-xl">☁️</span>
+          <div>
+            <h3 class="text-base font-bold text-white">TRUY CẬP VĂN PHÒNG MỌI NƠI & KẾT NỐI AI (0Đ PHÁT SINH)</h3>
+            <p class="text-xs text-slate-400">Dữ liệu tự động lưu trữ • Mở trên bất kỳ máy tính nào • Tận dụng gói AI sẵn có</p>
+          </div>
+        </div>
+        <button onclick="closeCloudAndAIModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold">✕</button>
+      </div>
+
+      <div class="p-5 space-y-4 max-h-[78vh] overflow-y-auto text-xs">
+        <div class="rounded-xl bg-emerald-950/40 border border-emerald-500/40 p-3.5 space-y-1.5">
+          <div class="font-bold text-emerald-300 text-sm">✅ Chế độ Chi phí hiện tại: 0đ Phát Sinh Thêm</div>
+          <p class="text-slate-300 leading-relaxed">
+            Con số <strong class="text-emerald-300">$3,05 Tiền AI hôm nay</strong> trên màn hình là <strong>thước đo giá trị khối lượng công việc</strong> mà 10 nhân sự đã xử lý quy đổi theo lượng Token, <strong>không phải</strong> hóa đơn thu thêm tiền của chị. Khi chị dùng các gói tài khoản AI đã mua sẵn hoặc khóa Gemini miễn phí từ Google, chi phí phát sinh thêm là <strong>0đ</strong>.
+          </p>
+        </div>
+
+        <div class="rounded-xl bg-slate-950 border border-cyan-500/30 p-3.5 space-y-2.5">
+          <div class="flex items-center justify-between">
+            <span class="font-bold text-cyan-300 uppercase">🧠 Kết nối Bộ não AI Thực Tế cho 10 Nhân Sự (Tùy chọn)</span>
+            <span id="liveAiConnectionBadge" class="px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold text-[10px]">Đang bật Bộ xử lý thông minh tích hợp</span>
+          </div>
+          <p class="text-slate-400 leading-relaxed">
+            Mặc định văn phòng đã có sẵn bộ xử lý tự động tạo sản phẩm theo yêu cầu của chị. Nếu chị muốn 10 nhân sự (Khôi, Linh, Đức, Minh...) gọi trực tiếp mô hình Gemini thật ngay trong giao diện 3D này, chị có thể dán mã khóa Gemini miễn phí (lấy từ tài khoản Google của chị tại <code>aistudio.google.com</code>) vào ô dưới đây:
+          </p>
+          <div class="flex gap-2">
+            <input id="geminiApiKeyInput" type="password" placeholder="Dán mã khóa Gemini (AIza...) của chị vào đây nếu muốn gọi AI trực tiếp..." class="flex-1 bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-white outline-none focus:border-cyan-400" />
+            <button onclick="saveGeminiApiKey()" class="px-3.5 py-2 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-bold shrink-0">Lưu kết nối</button>
+          </div>
+        </div>
+
+        <div class="rounded-xl bg-slate-950 border border-slate-800 p-3.5 space-y-2.5">
+          <div class="font-bold text-amber-300 uppercase">💻 Làm sao để ngồi ở bất kỳ máy tính nào cũng vào được Văn phòng?</div>
+          <div class="space-y-1.5 text-slate-300 leading-relaxed">
+            <div>• <strong>Cách 1 (Đồng bộ qua tài khoản Gemini của chị):</strong> Cuộc trò chuyện này gắn liền với tài khoản Google của chị. Dù chị ngồi ở máy tính công ty, laptop ở nhà hay đi công tác, chỉ cần đăng nhập Gemini và mở lại cuộc trò chuyện này là Văn phòng 3D hiện ra ngay lập tức!</div>
+            <div>• <strong>Cách 2 (Lưu Hồ sơ Văn phòng mang đi mọi nơi):</strong> Toàn bộ tiến độ dự án và hòm thư của 10 nhân sự được tự động lưu trên máy. Chị có thể bấm nút bên dưới để xuất hồ sơ văn phòng hoặc tải sản phẩm bất cứ lúc nào:</div>
+          </div>
+          <div class="flex flex-wrap gap-2 pt-1">
+            <button onclick="downloadStandaloneIndexHTML()" class="px-3 py-2 rounded-xl bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-extrabold shadow-md">
+              🌐 Tải File Web Độc Lập (index.html)
+            </button>
+            <button onclick="exportOfficeStateJSON()" class="px-3 py-2 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/30 border border-indigo-500/40 text-indigo-200 font-bold">
+              💾 Tải Hồ Sơ Văn Phòng (.json)
+            </button>
+            <button onclick="downloadCurrentDeliverable()" class="px-3 py-2 rounded-xl bg-emerald-500/20 hover:bg-emerald-500/30 border border-emerald-500/40 text-emerald-200 font-bold">
+              📥 Tải Sản Phẩm Đang Làm (.md)
+            </button>
+            <button onclick="resetOfficeSavedState()" class="px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700">
+              🔄 Đặt lại trạng thái mặc định
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="px-5 py-3 bg-slate-950 border-t border-slate-800 flex justify-end">
+        <button onclick="closeCloudAndAIModal()" class="px-4 py-1.5 rounded-lg text-xs font-bold bg-cyan-400 hover:bg-cyan-300 text-slate-950">Đóng cửa sổ</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const EXTERNAL_PLUGINS_CATALOG = [
+      { id: 'claude35', name: 'Claude 3.5 Sonnet API', category: 'External Chat AI', desc: 'Mô hình AI chuyên viết code sạch & kiến trúc hệ thống', enabled: true },
+      { id: 'gpt4o', name: 'ChatGPT-4o (OpenAI)', category: 'External Chat AI', desc: 'Mô hình đa phương thức lập kế hoạch, phân tích nghiệp vụ & tổng hợp báo cáo', enabled: true },
+      { id: 'deepseek', name: 'DeepSeek R1 Reasoning', category: 'External Chat AI', desc: 'Mô hình suy luận sâu kiểm tra thuật toán & bắt bug logic', enabled: true },
+      { id: 'gemini25', name: 'Gemini 2.5 Pro Context', category: 'External Chat AI', desc: 'Đọc hiểu toàn bộ tài liệu dài & đồng bộ ngữ cảnh văn phòng', enabled: true },
+      { id: 'perplexity', name: 'Perplexity Live Web Search', category: 'External Skill', desc: 'Tra cứu tài liệu kỹ thuật, xu hướng thị trường & thư viện mới nhất', enabled: true },
+      { id: 'playwright', name: 'Playwright E2E Test Runner', category: 'QA Plugin', desc: 'Tự động click, kiểm thử giao diện và chụp báo cáo lỗi cho Tester', enabled: true },
+      { id: 'github_mcp', name: 'GitHub Copilot & PR Skill', category: 'Dev Plugin', desc: 'Tạo nhánh code, review diff và kiểm tra xung đột mã nguồn', enabled: true },
+      { id: 'docker_box', name: 'Docker Sandbox Runner', category: 'DevOps Plugin', desc: 'Chạy thử code cô lập và kiểm tra hiệu năng thực tế', enabled: true },
+      { id: 'figma_ai', name: 'Figma UI/UX Generator', category: 'Design Skill', desc: 'Chuyển yêu cầu thành hệ thống màu sắc và bố cục chuẩn', enabled: true },
+      { id: 'sec_scanner', name: 'OWASP Security Scanner', category: 'Security Skill', desc: 'Quét lỗ hổng XSS, SQLi và rò rỉ API Key trước khi trình CEO', enabled: true }
+    ];
+
+    const PIPELINE_STAGES = [
+      { id: 0, code: 'CEO_BRIEF', title: '1. CEO Giao Việc', actor: 'Phòng Giám đốc' },
+      { id: 1, code: 'LEADER_PLAN', title: '2. Họp & Phân Rã', actor: 'Bàn #1 (Khôi)' },
+      { id: 2, code: 'CODING', title: '3. Code & Giữ DEV', actor: 'Bàn #3 (Đức)' },
+      { id: 3, code: 'TESTING_LOOP', title: '4. Test ⇄ Fix Bug', actor: 'Minh ⇄ Đức' },
+      { id: 4, code: 'SECRETARY_REPORT', title: '5. Thư Ký Trình Ký', actor: 'Bàn #2 (Linh)' },
+      { id: 5, code: 'CEO_APPROVED', title: '6. CEO Duyệt Xong', actor: 'CEO Chốt Duyệt' }
+    ];
+
+    // DANH SÁCH 10 NHÂN SỰ AI CHỈ DÙNG TÊN 1 TỪ (KHÔI, LINH, ĐỨC, MINH, VY, TÙNG, VŨ, MAI, BÁCH, ĐẠT)
+    const agents = [
+      {
+        id: 1,
+        deskCode: 'BÀN #1',
+        name: 'Khôi',
+        shortName: 'Khôi',
+        department: 'TRƯỞNG NHÓM (LEADER)',
+        role: 'Team Leader • Nhận việc CEO & phân công cho cả đội',
+        isCore: true,
+        avatar: '🧭',
+        colorHex: 0x00f2fe,
+        status: 'WORKING',
+        statusText: 'đang làm',
+        grade: 'A+',
+        tokensK: 48.5,
+        costUSD: 0.72,
+        msgCount: 38,
+        deskPos: { x: -11.5, z: -2.2 },
+        llm: 'ChatGPT-4o (OpenAI)',
+        plugins: ['Task Decomposer Skill', 'ChatGPT-4o Bridge', 'Agent Router MCP'],
+        currentTask: '[VIỆC] Điều phối Đức lập trình giao diện và giao Minh chuẩn bị 18 kịch bản kiểm thử',
+        speech: 'Đã nhận chỉ đạo từ Chị (CEO)! Em đang điều phối Đức giữ phòng DEV để dựng bản build đầu tiên.',
+        cardType: 'Điều phối dự án',
+        terminalLines: [
+          '> [KHÔI] Nhận yêu cầu dự án từ Chị (CEO)...',
+          '> [SKILL] Gọi ChatGPT-4o phân rã kiến trúc thành 4 hạng mục...',
+          '> [DISPATCH] Giao việc lập trình chính cho Bàn #3 (Đức)...'
+        ],
+        history: ['Khởi tạo bàn Quản lý Khôi thành công', 'Nhận dự án đầu tiên từ CEO'],
+        inbox: [
+          { from: 'Chị (CEO)', text: 'Giao dự án mới, Khôi nhớ kiểm tra kỹ trước khi trình duyệt nhé!', time: '19:25' },
+          { from: 'Khôi', text: 'Dạ rõ thưa Chị! Em đã chia việc cho Đức (Code) và Minh (Test).', time: '19:26' }
+        ]
+      },
+      {
+        id: 2,
+        deskCode: 'BÀN #2',
+        name: 'Linh',
+        shortName: 'Linh',
+        department: 'THƯ KÝ GIÁM ĐỐC',
+        role: 'Thư ký Tổng hợp • Báo cáo vấn đề & trình Sếp duyệt sản phẩm',
+        isCore: true,
+        avatar: '👩‍💼',
+        colorHex: 0xf59e0b,
+        status: 'WORKING',
+        statusText: 'đang làm',
+        grade: 'A+',
+        tokensK: 31.2,
+        costUSD: 0.45,
+        msgCount: 34,
+        deskPos: { x: -5.2, z: -2.2 },
+        llm: 'Claude 3.5 Sonnet (Anthropic)',
+        plugins: ['CEO Notification Skill', 'Approval Gatekeeper', 'Executive Summary AI'],
+        currentTask: 'Dạ Sếp, em đã gom các việc đụng file quan trọng vào mục "Cần Sếp duyệt" để Chị phê duyệt',
+        speech: 'Em đã gom 2 việc cần xin ý kiến Chị vào mục "Cần Sếp duyệt" trên Màn hình Hologram ạ!',
+        cardType: 'Báo cáo CEO',
+        terminalLines: [
+          '> [LINH] Kết nối kênh báo cáo trực tiếp tới Bàn Giám đốc CEO...',
+          '> [WATCH] Đang theo dõi kết quả làm việc giữa Đức (#3) và Minh (#4)...'
+        ],
+        history: ['Thiết lập cổng thông báo ưu tiên cho CEO'],
+        inbox: [
+          { from: 'Đức (#3)', text: 'Nhờ Linh hỏi Sếp xem có cho phép ghi đè file cấu hình cổng thanh toán không?', time: '19:27' },
+          { from: 'Linh', text: 'Ok Đức, mình đã đưa vào mục "Cần Sếp duyệt" để Chị bấm duyệt!', time: '19:27' }
+        ]
+      },
+      {
+        id: 3,
+        deskCode: 'BÀN #3',
+        name: 'Đức',
+        shortName: 'Đức',
+        department: 'KỸ SƯ LẬP TRÌNH',
+        role: 'Chuyên gia Code • Lập trình & sửa lỗi cùng Minh',
+        isCore: true,
+        avatar: '👨‍💻',
+        colorHex: 0x10b981,
+        status: 'WORKING',
+        statusText: 'đang làm',
+        grade: 'A',
+        tokensK: 64.8,
+        costUSD: 1.12,
+        msgCount: 42,
+        deskPos: { x: -11.5, z: 2.5 },
+        llm: 'Claude 3.5 Sonnet (Anthropic)',
+        plugins: ['Claude 3.5 CodeGen', 'GitHub Copilot MCP', 'Docker Sandbox'],
+        currentTask: 'Khung chat website hiện đẹp, có màn xem trước. Em đang tinh chỉnh màu sắc và tốc độ phản hồi',
+        speech: 'Khung giao diện và API đã lên hình mượt mà! Em vừa gửi bản build sang bàn Minh kiểm thử.',
+        cardType: 'Báo cáo Code',
+        terminalLines: [
+          '> [ĐỨC] Nhận đặc tả kỹ thuật từ Bàn #1 (Khôi)...',
+          '> [EXT-AI] Đang gọi Claude 3.5 Sonnet sinh code module UI & State...',
+          '> [BUILD] Đóng gói bản build gửi sang Bàn #4 (Minh)...'
+        ],
+        history: ['Nhận đặc tả kỹ thuật từ Khôi'],
+        inbox: [
+          { from: 'Khôi (#1)', text: 'Đức ưu tiên hoàn thiện giao diện và API giỏ hàng trước nhé.', time: '19:26' },
+          { from: 'Minh (#4)', text: 'Khi nào build xong nhắn mình chạy Playwright test luôn nha!', time: '19:28' }
+        ]
+      },
+      {
+        id: 4,
+        deskCode: 'BÀN #4',
+        name: 'Minh',
+        shortName: 'Minh',
+        department: 'KỸ SƯ KIỂM THỬ',
+        role: 'Chuyên gia Kiểm thử • Bắt bug & đi sang bàn Đức trao đổi',
+        isCore: true,
+        avatar: '🕵️‍♂️',
+        colorHex: 0xa855f7,
+        status: 'WORKING',
+        statusText: 'đang làm',
+        grade: 'A+',
+        tokensK: 39.4,
+        costUSD: 0.56,
+        msgCount: 36,
+        deskPos: { x: -5.2, z: 2.5 },
+        llm: 'DeepSeek R1 (Reasoning)',
+        plugins: ['Playwright E2E Runner', 'DeepSeek Bug Hunter', 'Jest Unit Test Skill'],
+        currentTask: 'Đang chạy kiểm thử tự động 18 kịch bản trên bản build của Đức và đối chiếu dữ liệu',
+        speech: 'Mình đang rà soát toàn bộ tính năng do Đức code. Hễ có lỗi là mình đi bộ sang bàn Đức báo sửa ngay!',
+        cardType: 'Báo cáo Kiểm duyệt',
+        terminalLines: [
+          '> [MINH] Khởi tạo bộ test tự động Playwright & DeepSeek R1...',
+          '> [WAIT] Đang kiểm tra gói build từ Bàn #3 (Đức)...'
+        ],
+        history: ['Chuẩn bị 18 kịch bản kiểm thử tự động'],
+        inbox: [
+          { from: 'Đức (#3)', text: 'Mình vừa đẩy bản v1.1 lên phòng DEV, Minh test giúp nhé!', time: '19:29' },
+          { from: 'Minh', text: 'Đang chạy Playwright quét toàn bộ 4 tab giao diện!', time: '19:29' }
+        ]
+      },
+      {
+        id: 5,
+        deskCode: 'BÀN #5',
+        name: 'Vy',
+        shortName: 'Vy',
+        department: 'THIẾT KẾ (DỰ BỊ)',
+        assignedSpecialty: 'Chuyên gia Thiết kế UI/UX & Hệ thống Màu sắc',
+        role: 'Tạm thời chưa có việc • Chờ Khôi giao việc sau',
+        isCore: false,
+        avatar: '🎨',
+        colorHex: 0xec4899,
+        status: 'STANDBY',
+        statusText: 'chờ lệnh',
+        grade: 'B+',
+        tokensK: 4.2,
+        costUSD: 0.05,
+        msgCount: 14,
+        deskPos: { x: 1.2, z: -2.2 },
+        llm: 'Gemini 2.5 Pro (Google)',
+        plugins: ['Figma UI Plugin', 'Tailwind Styler Skill'],
+        currentTask: 'Tạm thời chưa có việc gì — Sẵn sàng khi Khôi điều động thiết kế UI/UX',
+        speech: 'Em đang ngồi bàn #5 chờ Khôi giao việc thiết kế giao diện ạ!',
+        cardType: 'Đang chờ việc',
+        terminalLines: ['> [STANDBY] Bàn #5 (Vy) đang ở chế độ chờ lệnh...'],
+        history: ['Đang ở trạng thái dự bị chờ Khôi phân công'],
+        inbox: [{ from: 'Hệ thống', text: 'Bàn #5 (Vy) sẵn sàng nhận lệnh từ Khôi.', time: '19:20' }]
+      },
+      {
+        id: 6,
+        deskCode: 'BÀN #6',
+        name: 'Tùng',
+        shortName: 'Tùng',
+        department: 'NGHIÊN CỨU (DỰ BỊ)',
+        assignedSpecialty: 'Chuyên gia Nghiên cứu Thị trường & Tra cứu Web',
+        role: 'Tạm thời chưa có việc • Chờ Khôi giao việc sau',
+        isCore: false,
+        avatar: '🔎',
+        colorHex: 0x06b6d4,
+        status: 'STANDBY',
+        statusText: 'chờ lệnh',
+        grade: 'B+',
+        tokensK: 5.1,
+        costUSD: 0.06,
+        msgCount: 16,
+        deskPos: { x: 1.2, z: 2.5 },
+        llm: 'Perplexity Sonar Research',
+        plugins: ['Perplexity Web Search', 'Market Scraper Skill'],
+        currentTask: 'Tạm thời chưa có việc gì — Sẵn sàng tra cứu dữ liệu bên ngoài khi Khôi gọi',
+        speech: 'Chào cả phòng, em là Tùng (#6), luôn sẵn sàng tra cứu thông tin và phân tích thị trường khi cần!',
+        cardType: 'Nhân sự dự bị',
+        terminalLines: ['> [STANDBY] Bàn #6 (Tùng) đang chờ lệnh từ Bàn #1 (Khôi)...'],
+        history: ['Đang ở trạng thái dự bị chờ Khôi phân công'],
+        inbox: [{ from: 'Hệ thống', text: 'Bàn #6 (Tùng) đã kết nối Perplexity Search.', time: '19:20' }]
+      },
+      {
+        id: 7,
+        deskCode: 'BÀN #7',
+        name: 'Vũ',
+        shortName: 'Vũ',
+        department: 'BẢO MẬT (DỰ BỊ)',
+        assignedSpecialty: 'Chuyên gia Kiểm toán Bảo mật & Rà soát Lỗ hổng',
+        role: 'Tạm thời chưa có việc • Chờ Khôi giao việc sau',
+        isCore: false,
+        avatar: '🛡️',
+        colorHex: 0xf43f5e,
+        status: 'STANDBY',
+        statusText: 'chờ lệnh',
+        grade: 'A',
+        tokensK: 3.8,
+        costUSD: 0.04,
+        msgCount: 11,
+        deskPos: { x: -11.5, z: 6.8 },
+        llm: 'DeepSeek R1 (Reasoning)',
+        plugins: ['OWASP Security Scanner', 'Auth Token Auditor'],
+        currentTask: 'Tạm thời chưa có việc gì — Sẵn sàng quét lỗ hổng bảo mật khi Khôi giao',
+        speech: 'Chưa có việc gì, đang trực bảo mật chờ Khôi phân công.',
+        cardType: 'Đang chờ việc',
+        terminalLines: ['> [STANDBY] Bàn #7 (Vũ) đang ở chế độ nghỉ chờ việc...'],
+        history: ['Đang ở trạng thái dự bị chờ Khôi phân công'],
+        inbox: [{ from: 'Hệ thống', text: 'Bàn #7 (Vũ) sẵn sàng quét OWASP.', time: '19:20' }]
+      },
+      {
+        id: 8,
+        deskCode: 'BÀN #8',
+        name: 'Mai',
+        shortName: 'Mai',
+        department: 'BIÊN TẬP (DỰ BỊ)',
+        assignedSpecialty: 'Chuyên gia Tài liệu Hướng dẫn & Sáng tạo Nội dung',
+        role: 'Tạm thời chưa có việc • Chờ Khôi giao việc sau',
+        isCore: false,
+        avatar: '📝',
+        colorHex: 0x8b5cf6,
+        status: 'STANDBY',
+        statusText: 'chờ lệnh',
+        grade: 'B',
+        tokensK: 2.9,
+        costUSD: 0.03,
+        msgCount: 9,
+        deskPos: { x: -5.2, z: 6.8 },
+        llm: 'ChatGPT-4o (OpenAI)',
+        plugins: ['Notion Docs Sync', 'Copywriting AI Skill'],
+        currentTask: 'Tạm thời chưa có việc gì — Sẵn sàng viết tài liệu hướng dẫn khi Khôi phân công',
+        speech: 'Bàn #8 đang rảnh, khi nào cần soạn tài liệu hay nội dung Khôi ới em nhé!',
+        cardType: 'Đang chờ việc',
+        terminalLines: ['> [STANDBY] Bàn #8 (Mai) đang chờ lệnh từ Khôi...'],
+        history: ['Đang ở trạng thái dự bị chờ Khôi phân công'],
+        inbox: [{ from: 'Hệ thống', text: 'Bàn #8 (Mai) sẵn sàng đồng bộ tài liệu.', time: '19:20' }]
+      },
+      {
+        id: 9,
+        deskCode: 'BÀN #9',
+        name: 'Bách',
+        shortName: 'Bách',
+        department: 'DỮ LIỆU (DỰ BỊ)',
+        assignedSpecialty: 'Chuyên gia Tối ưu Cơ sở dữ liệu & Phân tích Chỉ số',
+        role: 'Tạm thời chưa có việc • Chờ Khôi giao việc sau',
+        isCore: false,
+        avatar: '📈',
+        colorHex: 0x14b8a6,
+        status: 'STANDBY',
+        statusText: 'chờ lệnh',
+        grade: 'A',
+        tokensK: 3.4,
+        costUSD: 0.04,
+        msgCount: 12,
+        deskPos: { x: 1.2, z: 6.8 },
+        llm: 'OpenAI o3-mini (High-Speed)',
+        plugins: ['SQL Query Optimizer', 'Chart Analytics Skill'],
+        currentTask: 'Tạm thời chưa có việc gì — Sẵn sàng thiết kế cấu trúc SQL khi Khôi giao',
+        speech: 'Đã sẵn sàng hỗ trợ kiểm tra cơ sở dữ liệu và ghép nền DEV khi Khôi điều động.',
+        cardType: 'Báo cáo',
+        terminalLines: ['> [STANDBY] Bàn #9 (Bách) đang rảnh...'],
+        history: ['Đang ở trạng thái dự bị chờ Khôi phân công'],
+        inbox: [{ from: 'Hệ thống', text: 'Bàn #9 (Bách) sẵn sàng kiểm tra SQL schema.', time: '19:20' }]
+      },
+      {
+        id: 10,
+        deskCode: 'BÀN #10',
+        name: 'Đạt',
+        shortName: 'Đạt',
+        department: 'HỆ THỐNG (DỰ BỊ)',
+        assignedSpecialty: 'Chuyên gia Triển khai Máy chủ Cloud & Docker CI/CD',
+        role: 'Tạm thời chưa có việc • Chờ Khôi giao việc sau',
+        isCore: false,
+        avatar: '☁️',
+        colorHex: 0x6366f1,
+        status: 'STANDBY',
+        statusText: 'chờ lệnh',
+        grade: 'B+',
+        tokensK: 2.6,
+        costUSD: 0.03,
+        msgCount: 8,
+        deskPos: { x: 6.8, z: 2.5 },
+        llm: 'Claude 3.5 Sonnet (Anthropic)',
+        plugins: ['Docker Sandbox Runner', 'Cloud Deploy Webhook'],
+        currentTask: 'Tạm thời chưa có việc gì — Sẵn sàng đóng gói Docker & vận hành máy chủ khi Khôi gọi',
+        speech: 'Bàn #10 (Đạt) đang rảnh, sẵn sàng nhận lệnh triển khai hệ thống bất cứ lúc nào!',
+        cardType: 'Đang chờ việc',
+        terminalLines: ['> [STANDBY] Bàn #10 (Đạt) đang ở chế độ chờ lệnh...'],
+        history: ['Đang ở trạng thái dự bị chờ Khôi phân công'],
+        inbox: [{ from: 'Hệ thống', text: 'Bàn #10 (Đạt) kết nối Docker Sandbox thành công.', time: '19:20' }]
+      }
+    ];
+
+    const CEO_DESK_3D = { x: -16.8, z: -2.2 };
+    const MEETING_TABLE_3D = { x: 12.8, z: 3.5, radius: 3.0 };
+
+    let officeState = {
+      projectTitle: 'Xây dựng ứng dụng Dashboard Quản lý Đơn hàng & Tích hợp Chatbot tư vấn tự động',
+      projectType: 'crm',
+      progress: 38,
+      stageIndex: 2,
+      codeTestLoopCount: 1,
+      openBugs: 0,
+      strictQAScore: 92,
+      activeWorkerIds: [3, 5, 9],
+      strictQAChecklist: [
+        { name: 'Đáp ứng 100% yêu cầu gốc của Chị (CEO)', score: 100, passed: true, worker: 'Đức (#3)' },
+        { name: 'Kiểm thử luồng nghiệp vụ & dữ liệu thực tế', score: 95, passed: false, worker: 'Bách (#9)' },
+        { name: 'Kiểm thử giao diện chuẩn xác & không lỗi vặt', score: 90, passed: false, worker: 'Vy (#5)' },
+        { name: 'Rà soát khắt khe các trường hợp ngoại lệ (Minh QA)', score: 85, passed: false, worker: 'Đức (#3)' }
+      ],
+      externalApiCalls: 18,
+      lastExternalTool: 'Claude 3.5 Sonnet',
+      totalCostUSD: 3.05,
+      devHolderName: 'TRỐNG 59 phút',
+      devHolderAgentId: null,
+      autoScaleStandby: true,
+      paused: false,
+      simSpeed: 1,
+      viewMode: '3D',
+      zoomCommandWall: false,
+      logFilter: 'all',
+      selectedDeskId: null,
+      tasks: [
+        { id: 'T1', title: 'Phân rã yêu cầu của CEO thành kiến trúc kỹ thuật', owner: 'Bàn #1 (Khôi)', status: 'DONE' },
+        { id: 'T2', title: 'Giữ môi trường DEV & lập trình giao diện Dashboard', owner: 'Bàn #3 (Đức)', status: 'IN_PROGRESS' },
+        { id: 'T3', title: 'Chạy 18 kịch bản Playwright E2E & bắt bug giao diện', owner: 'Bàn #4 (Minh)', status: 'WAITING' },
+        { id: 'T4', title: 'Gom việc "Cần Sếp duyệt" & trình CEO chốt duyệt cuối', owner: 'Bàn #2 (Linh)', status: 'WAITING' }
+      ],
+      ceoInbox: [
+        {
+          id: 'REQ-101',
+          type: 'DECISION',
+          title: 'Linh (Thư ký): Đức xin quyền cập nhật file cấu hình DB dự án',
+          desc: 'Bàn #3 (Đức) chuẩn bị chạm tới file cấu hình chính của dự án. Theo quy tắc an toàn, nhân sự hỏi ý kiến CEO trước khi chạy. Chị (CEO) duyệt cho phép nhé?',
+          resolved: false,
+          timestamp: '10 phút trước'
+        },
+        {
+          id: 'REQ-102',
+          type: 'DECISION',
+          title: 'Khôi (Leader): Xin mở luồng kiểm thử tự động 4 tab giao diện',
+          desc: 'Bàn #4 (Minh) đề xuất chạy bộ kiểm thử tự động Playwright + DeepSeek R1 (dự kiến ~$0.15 tiền AI). Chị (CEO) phê duyệt phương án này nhé?',
+          resolved: false,
+          timestamp: 'Vừa xong'
+        }
+      ],
+      commsLogs: [
+        { time: '19:30:10', from: 'Chị (CEO)', to: 'Bàn #1 (Khôi)', tag: 'core', text: 'Giao dự án: Xây dựng Dashboard Quản lý Đơn hàng & Chatbot tư vấn tự động.' },
+        { time: '19:30:18', from: 'Bàn #1 (Khôi)', to: 'Phòng Họp Bàn Tròn', tag: 'core', text: 'Triệu tập họp nhanh phân công nhiệm vụ cho Đức và Minh.' },
+        { time: '19:30:32', from: 'Bàn #3 (Đức)', to: 'Claude 3.5 API', tag: 'external', text: '[EXTERNAL AI] Gọi Claude 3.5 Sonnet sinh code giao diện và giữ môi trường DEV.' },
+        { time: '19:31:05', from: 'Bàn #2 (Linh)', to: 'Mục "Cần Sếp duyệt"', tag: 'core', text: 'Linh đã gom 2 việc đụng tới file dự án vào mục "Cần Sếp duyệt".' }
+      ]
+    };
+
+    let simTimer = null;
+
+    // =========================================================================
+    // ĐỒ HỌA 3D TƯƠNG LAI:
+    // MÀN HÌNH TỔNG HOLOGRAM 3D FULL TO TRÀN VIỀN TRONG SUỐT (BEZEL-LESS TRANSPARENT SCI-FI HUD)
+    // =========================================================================
+    let scene, camera, renderer, raycaster, mouseVec;
+    let giantScreenCanvas, giantScreenCtx, giantScreenTexture, giantScreenMesh;
+    let hologramRingMesh = null;
+    let backHoloOrbitsGroup = null;
+    let robotMeshes = {};
+    let cameraTarget = new THREE.Vector3(0, 4.5, -2.5);
+    let desiredCameraTarget = new THREE.Vector3(0, 4.5, -2.5);
+    let cameraSpherical = { radius: 30.0, theta: 0.0, phi: 1.15 };
+    let desiredSpherical = { radius: 30.0, theta: 0.0, phi: 1.15 };
+    let desiredSceneWidthFit = 45.2;
+    let userZoomFactor = 1.0;
+    let isDragging3D = false;
+    let prevMouse = { x: 0, y: 0 };
+
+    function createCodeScreenTexture(themeColorHex, isStandby) {
+      const c = document.createElement('canvas');
+      c.width = 256;
+      c.height = 140;
+      const ctx = c.getContext('2d');
+
+      ctx.fillStyle = isStandby ? '#090d16' : '#051329';
+      ctx.fillRect(0, 0, 256, 140);
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(0, 0, 42, 140);
+
+      const hexStr = '#' + themeColorHex.toString(16).padStart(6, '0');
+      const colors = isStandby
+        ? ['#334155', '#1e293b', '#334155']
+        : [hexStr, '#00f2fe', '#34d399', '#f472b6', '#facc15', '#cbd5e1'];
+
+      for (let row = 0; row < 10; row++) {
+        const y = 20 + row * 10;
+        const indent = (row % 3) * 12;
+        const w1 = 22 + ((row * 19) % 45);
+        const w2 = 30 + ((row * 29) % 65);
+        ctx.fillStyle = colors[row % colors.length];
+        ctx.fillRect(52 + indent, y, w1, 5);
+        ctx.fillStyle = colors[(row + 2) % colors.length];
+        ctx.fillRect(52 + indent + w1 + 6, y, w2, 5);
+      }
+
+      const tex = new THREE.CanvasTexture(c);
+      tex.needsUpdate = true;
+      return tex;
+    }
+
+    // DỰNG MÀN HÌNH TỔNG HOLOGRAM 3D FULL TO TRÀN VIỀN TRONG SUỐT NHƯ ĐẾN TỪ TƯƠNG LAI
+    function createGiant3DScreenMesh() {
+      giantScreenCanvas = document.createElement('canvas');
+      giantScreenCanvas.width = 2560;
+      giantScreenCanvas.height = 1120;
+      giantScreenCtx = giantScreenCanvas.getContext('2d');
+
+      giantScreenTexture = new THREE.CanvasTexture(giantScreenCanvas);
+      giantScreenTexture.minFilter = THREE.LinearFilter;
+      giantScreenTexture.magFilter = THREE.LinearFilter;
+      if (renderer) {
+        giantScreenTexture.anisotropy = renderer.capabilities.getMaxAnisotropy();
+      }
+
+      const screenGroup = new THREE.Group();
+      // Đặt Màn Hình Hologram Full To Tràn Viền (Rộng 43.5m x Cao 19.0m) lơ lửng ngay phía sau văn phòng 3D
+      screenGroup.position.set(0, 9.8, -8.8);
+      screenGroup.rotation.x = 0.04;
+
+      // 1. Tấm kính Hologram siêu mỏng trong suốt hoàn toàn không có viền đen (Bezel-less Transparent Glass)
+      const glassBacking = new THREE.Mesh(
+        new THREE.PlaneGeometry(43.6, 19.1),
+        new THREE.MeshPhysicalMaterial({
+          color: 0x00f2fe,
+          transparent: true,
+          opacity: 0.07,
+          roughness: 0.05,
+          metalness: 0.1,
+          depthWrite: false
+        })
+      );
+      glassBacking.position.z = -0.05;
+      screenGroup.add(glassBacking);
+
+      // 2. Lớp hiển thị HUD Hologram Trong Suốt (Nhìn xuyên qua thấy các vòng năng lượng 3D và vũ trụ số phía sau!)
+      const screenGeo = new THREE.PlaneGeometry(43.5, 19.0);
+      const screenMat = new THREE.MeshBasicMaterial({
+        map: giantScreenTexture,
+        transparent: true,
+        opacity: 0.96,
+        depthWrite: false,
+        side: THREE.DoubleSide
+      });
+      giantScreenMesh = new THREE.Mesh(screenGeo, screenMat);
+      giantScreenMesh.userData.isGiantScreen = true;
+      screenGroup.add(giantScreenMesh);
+
+      // 3. Dải tia Laser Photon siêu mảnh ở cạnh đỉnh và cạnh đáy tạo hiệu ứng màn hình ánh sáng lơ lửng
+      const laserBeamMat = new THREE.MeshBasicMaterial({
+        color: 0x00f2fe,
+        transparent: true,
+        opacity: 0.75
+      });
+      const topLaserLine = new THREE.Mesh(new THREE.BoxGeometry(43.5, 0.045, 0.045), laserBeamMat);
+      topLaserLine.position.set(0, 9.52, 0.02);
+      const bottomLaserLine = new THREE.Mesh(new THREE.BoxGeometry(43.5, 0.045, 0.045), laserBeamMat);
+      bottomLaserLine.position.set(0, -9.52, 0.02);
+      screenGroup.add(topLaserLine, bottomLaserLine);
+
+      // 4. Các đế chiếu Laser Hologram dưới mặt sàn bắn chùm sáng lên không trung (Không dùng cột trụ thô!)
+      const emitterMat = new THREE.MeshBasicMaterial({ color: 0x00f2fe });
+      const beamConeMat = new THREE.MeshBasicMaterial({
+        color: 0x00f2fe,
+        transparent: true,
+        opacity: 0.055,
+        depthWrite: false,
+        side: THREE.DoubleSide
+      });
+      [-16, -8, 0, 8, 16].forEach(ex => {
+        const emitter = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.6, 0.12, 24), emitterMat);
+        emitter.position.set(ex, -9.7, 0);
+        screenGroup.add(emitter);
+
+        const lightCone = new THREE.Mesh(new THREE.ConeGeometry(4.2, 5.5, 24, 1, true), beamConeMat);
+        lightCone.rotation.x = Math.PI;
+        lightCone.position.set(ex, -7.0, -0.1);
+        screenGroup.add(lightCone);
+      });
+
+      // 5. Các vòng Quỹ đạo Lượng tử 3D (Quantum Holo Orbits) quay lơ lửng PHÍA SAU màn hình trong suốt để thấy rõ độ trong suốt 3D!
+      backHoloOrbitsGroup = new THREE.Group();
+      backHoloOrbitsGroup.position.set(0, 0, -3.5);
+      const orbitRing1 = new THREE.Mesh(
+        new THREE.TorusGeometry(8.5, 0.04, 16, 100),
+        new THREE.MeshBasicMaterial({ color: 0x00f2fe, transparent: true, opacity: 0.28 })
+      );
+      const orbitRing2 = new THREE.Mesh(
+        new THREE.TorusGeometry(12.2, 0.03, 16, 100),
+        new THREE.MeshBasicMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.18 })
+      );
+      const holoSphereGrid = new THREE.Mesh(
+        new THREE.IcosahedronGeometry(5.2, 2),
+        new THREE.MeshBasicMaterial({ color: 0x0ea5e9, wireframe: true, transparent: true, opacity: 0.14 })
+      );
+      backHoloOrbitsGroup.add(orbitRing1, orbitRing2, holoSphereGrid);
+      screenGroup.add(backHoloOrbitsGroup);
+
+      scene.add(screenGroup);
+      drawGiant3DScreenCanvas();
+    }
+
+    // Vẽ khung vát góc Sci-Fi trong suốt (Futuristic Chamfered Glass Panel)
+    function drawHoloPanel(ctx, x, y, w, h, cut, fillRgba, borderHex, lineWidth = 2) {
+      ctx.save();
+      ctx.beginPath();
+      ctx.moveTo(x + cut, y);
+      ctx.lineTo(x + w - cut, y);
+      ctx.lineTo(x + w, y + cut);
+      ctx.lineTo(x + w, y + h - cut);
+      ctx.lineTo(x + w - cut, y + h);
+      ctx.lineTo(x + cut, y + h);
+      ctx.lineTo(x, y + h - cut);
+      ctx.lineTo(x, y + cut);
+      ctx.closePath();
+
+      if (fillRgba) {
+        ctx.fillStyle = fillRgba;
+        ctx.fill();
+      }
+      if (borderHex) {
+        ctx.strokeStyle = borderHex;
+        ctx.lineWidth = lineWidth;
+        ctx.shadowColor = borderHex;
+        ctx.shadowBlur = 10;
+        ctx.stroke();
+      }
+
+      // 4 Góc nhấn Neon sáng rực kiểu HUD Tương Lai
+      if (borderHex) {
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = lineWidth + 1.5;
+        const cl = Math.min(24, cut * 1.8);
+        // Top-left
+        ctx.beginPath();
+        ctx.moveTo(x, y + cut + cl);
+        ctx.lineTo(x, y + cut);
+        ctx.lineTo(x + cut, y);
+        ctx.lineTo(x + cut + cl, y);
+        ctx.stroke();
+        // Bottom-right
+        ctx.beginPath();
+        ctx.moveTo(x + w, y + h - cut - cl);
+        ctx.lineTo(x + w, y + h - cut);
+        ctx.lineTo(x + w - cut, y + h);
+        ctx.lineTo(x + w - cut - cl, y + h);
+        ctx.stroke();
+      }
+      ctx.restore();
+    }
+
+    // VẼ GIAO DIỆN HOLOGRAM TƯƠNG LAI TRONG SUỐT TRÀN VIỀN LÊN MÀN HÌNH 3D KHỔNG LỒ
+    function drawGiant3DScreenCanvas() {
+      if (!giantScreenCtx) return;
+      const ctx = giantScreenCtx;
+      const W = 2560;
+      const H = 1120;
+
+      // 1. XÓA NỀN TRONG SUỐT HOÀN TOÀN ĐỂ NHÌN XUYÊN THẤU KHÔNG GIAN 3D PHÍA SAU!
+      ctx.clearRect(0, 0, W, H);
+
+      // Phủ lớp sương ánh sáng Hologram cực mỏng (0.22 alpha) + lưới vi mạch mảnh
+      const bgGrad = ctx.createLinearGradient(0, 0, 0, H);
+      bgGrad.addColorStop(0, 'rgba(0, 242, 254, 0.14)');
+      bgGrad.addColorStop(0.5, 'rgba(4, 15, 35, 0.28)');
+      bgGrad.addColorStop(1, 'rgba(0, 242, 254, 0.12)');
+      ctx.fillStyle = bgGrad;
+      ctx.fillRect(0, 0, W, H);
+
+      // Lưới Hologram mảnh trong suốt
+      ctx.strokeStyle = 'rgba(0, 242, 254, 0.06)';
+      ctx.lineWidth = 1;
+      for (let gx = 0; gx < W; gx += 64) {
+        ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke();
+      }
+      for (let gy = 0; gy < H; gy += 64) {
+        ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke();
+      }
+
+      // 2. THANH TOP HUD HOLOGRAM TRÀN VIỀN
+      drawHoloPanel(ctx, 18, 12, W - 36, 78, 16, 'rgba(5, 18, 42, 0.55)', '#00f2fe', 2.5);
+
+      ctx.fillStyle = '#00f2fe';
+      ctx.font = '900 26px Inter, sans-serif';
+      ctx.fillText('◈ HOLO COMMAND WALL 360°', 48, 46);
+      ctx.fillStyle = '#7dd3fc';
+      ctx.font = '600 14px "JetBrains Mono", monospace';
+      ctx.fillText('QUANTUM TRANSPARENT DISPLAY  •  10 AI AGENTS  •  CEO CONTROL', 48, 70);
+
+      const nowStr = new Date().toTimeString().split(' ')[0];
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '800 34px "JetBrains Mono", monospace';
+      ctx.fillText(nowStr, 540, 56);
+      ctx.fillStyle = '#34d399';
+      ctx.font = '700 15px Inter, sans-serif';
+      ctx.fillText('● LIVE STREAM', 715, 52);
+
+      const workingCount = agents.filter(a => a.status !== 'STANDBY').length;
+      const idleCount = 10 - workingCount;
+      const pendingCEO = officeState.ceoInbox.filter(i => !i.resolved).length;
+      const totalTokensK = agents.reduce((acc, a) => acc + a.tokensK, 0);
+      const totalUSD = agents.reduce((acc, a) => acc + a.costUSD, 0);
+
+      const headerMetrics = [
+        { x: 880, label: 'ĐANG LÀM', val: String(workingCount), color: '#00f2fe' },
+        { x: 1040, label: 'CHỜ LỆNH', val: String(idleCount), color: '#94a3b8' },
+        { x: 1200, label: 'BỊ CHẶN', val: String(officeState.openBugs), color: officeState.openBugs > 0 ? '#f43f5e' : '#7dd3fc' },
+        { x: 1360, label: 'CẦN DUYỆT', val: String(pendingCEO), color: '#fbbf24' },
+        { x: 1530, label: 'PHÒNG DEV', val: officeState.devHolderName, color: '#34d399' },
+        { x: 1850, label: 'VIỆC KHÓA', val: `${pendingCEO + officeState.openBugs} / 9`, color: '#38bdf8' },
+        { x: 2040, label: 'TIỀN AI HÔM NAY', val: `$${totalUSD.toFixed(2)}`, color: '#34d399' },
+        { x: 2310, label: 'TỔNG TOKEN', val: `${totalTokensK.toFixed(1)}k`, color: '#ffffff' }
+      ];
+      headerMetrics.forEach(m => {
+        ctx.fillStyle = '#7dd3fc';
+        ctx.font = '700 13px Inter, sans-serif';
+        ctx.fillText(m.label, m.x, 36);
+        ctx.fillStyle = m.color;
+        ctx.font = '800 24px "JetBrains Mono", monospace';
+        ctx.fillText(m.val, m.x, 66);
+      });
+
+      // 3. DẢI STREAMING DATA & HÀNG "CẦN SẾP DUYỆT" TRONG SUỐT
+      drawHoloPanel(ctx, 18, 102, W - 36, 118, 16, 'rgba(6, 22, 50, 0.44)', '#38bdf8', 2);
+
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = '900 32px "JetBrains Mono", monospace';
+      ctx.fillText(`0${pendingCEO}`, 56, 158);
+      ctx.fillStyle = '#fde68a';
+      ctx.font = '800 14px Inter, sans-serif';
+      ctx.fillText('CẦN SẾP DUYỆT', 38, 186);
+
+      const canAnhCards = [
+        {
+          title: '◈ 10 PHÚT • LINH (THƯ KÝ) — TRÌNH CHỊ (CEO)',
+          line1: 'Đức (#3) xin phép cập nhật file cấu hình DB & API đơn hàng.',
+          line2: 'Đụng tới file dự án nên hỏi ý kiến Chị (CEO) trước khi chạy.'
+        },
+        {
+          title: '◈ VỪA XONG • KHÔI (LEADER) — ĐIỀU PHỐI',
+          line1: `Tiến độ tổng đạt ${officeState.progress}% (Vòng lặp Code⇄Test #${officeState.codeTestLoopCount}).`,
+          line2: 'Bấm "👑 Bàn CEO" trên thanh công cụ để duyệt hoặc giao việc mới.'
+        },
+        {
+          title: '◈ TRỰC TIẾP • MINH (TESTER) — KIỂM DUYỆT',
+          line1: officeState.openBugs > 0 ? `Đang bắt ${officeState.openBugs} bug và đi bộ sang bàn Đức yêu cầu sửa!` : '18/18 kịch bản Playwright E2E đạt chuẩn Xanh (Pass 100%).',
+          line2: 'Sẵn sàng trình Chị (CEO) chốt duyệt sản phẩm cuối cùng.'
+        }
+      ];
+
+      canAnhCards.forEach((c, idx) => {
+        const cx = 195 + idx * 775;
+        drawHoloPanel(ctx, cx, 114, 755, 94, 12, 'rgba(4, 14, 34, 0.52)', idx === 0 && pendingCEO > 0 ? '#fbbf24' : '#0284c7', 1.8);
+        ctx.fillStyle = idx === 0 ? '#fbbf24' : '#00f2fe';
+        ctx.font = '800 15px "JetBrains Mono", monospace';
+        ctx.fillText(c.title, cx + 18, 142);
+        ctx.fillStyle = '#f8fafc';
+        ctx.font = '600 15px Inter, sans-serif';
+        ctx.fillText(c.line1.slice(0, 72), cx + 18, 168);
+        ctx.fillStyle = '#93c5fd';
+        ctx.font = '500 14px Inter, sans-serif';
+        ctx.fillText(c.line2.slice(0, 76), cx + 18, 192);
+      });
+
+      // 4. BA MODULE HOLOGRAM CHÍNH PHÍA DƯỚI (TRONG SUỐT XUYÊN THẤU + VIỀN NEON SCI-FI)
+      const colTop = 234;
+      const colH = 868;
+
+      // --- MODULE TRÁI (X: 18, W: 1020): BẢNG NHÂN SỰ 10 AI TÊN 1 TỪ ---
+      drawHoloPanel(ctx, 18, colTop, 1020, colH, 20, 'rgba(5, 18, 42, 0.45)', '#00f2fe', 2.2);
+
+      ctx.fillStyle = '#00f2fe';
+      ctx.font = '800 18px "JetBrains Mono", monospace';
+      ctx.fillText('◈ BẢNG NHÂN SỰ TRỰC TIẾP (10 AI + CHỊ CEO)', 44, colTop + 36);
+      ctx.fillStyle = '#7dd3fc';
+      ctx.font = '700 13px "JetBrains Mono", monospace';
+      ctx.fillText('TRẠNG THÁI       TÊN        VAI TRÒ                  NHIỆM VỤ ĐANG THỰC THI                              TOKEN / HẠNG', 44, colTop + 64);
+
+      const allRows = [
+        { status: 'WORKING', shortName: 'Chị (CEO)', dept: 'GIÁM ĐỐC', currentTask: 'Ra yêu cầu ban đầu, duyệt mục "Cần Sếp duyệt" & chốt sản phẩm cuối', tokensK: 0.0, grade: 'CEO' },
+        ...agents
+      ];
+
+      allRows.forEach((r, idx) => {
+        const ry = colTop + 78 + idx * 70;
+        drawHoloPanel(ctx, 36, ry, 984, 60, 10, idx % 2 === 0 ? 'rgba(8, 28, 60, 0.48)' : 'rgba(4, 15, 35, 0.42)', 'rgba(56, 189, 248, 0.28)', 1.2);
+
+        let pillBg = 'rgba(6, 78, 59, 0.75)';
+        let pillFg = '#34d399';
+        let pillTxt = '● đang làm';
+        if (r.status === 'STANDBY') {
+          pillBg = 'rgba(30, 41, 59, 0.65)';
+          pillFg = '#94a3b8';
+          pillTxt = '● chờ lệnh';
+        } else if (r.status === 'BUG_FIX') {
+          pillBg = 'rgba(136, 19, 55, 0.8)';
+          pillFg = '#fda4af';
+          pillTxt = '● sửa bug';
+        } else if (r.status === 'REPORTING') {
+          pillBg = 'rgba(120, 53, 15, 0.8)';
+          pillFg = '#fcd34d';
+          pillTxt = '● báo CEO';
+        }
+
+        ctx.fillStyle = pillBg;
+        roundRect2D(ctx, 48, ry + 15, 104, 30, 15, true, false);
+        ctx.fillStyle = pillFg;
+        ctx.font = '700 13px Inter, sans-serif';
+        ctx.fillText(pillTxt, 58, ry + 35);
+
+        // Tên 1 từ nổi bật
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '800 18px Inter, sans-serif';
+        ctx.fillText(r.shortName, 168, ry + 36);
+
+        // Vai trò
+        ctx.fillStyle = '#00f2fe';
+        ctx.font = '700 12px "JetBrains Mono", monospace';
+        ctx.fillText((r.department || r.dept).slice(0, 18), 275, ry + 35);
+
+        // Nhiệm vụ
+        ctx.fillStyle = '#e2e8f0';
+        ctx.font = '500 14px Inter, sans-serif';
+        ctx.fillText((r.currentTask || '').slice(0, 45), 445, ry + 35);
+
+        // Sóng năng lượng Token + Hạng
+        const barsX = 855;
+        for (let b = 0; b < 7; b++) {
+          const activeBar = r.status !== 'STANDBY' && b < 5;
+          ctx.fillStyle = activeBar ? '#00f2fe' : 'rgba(51, 65, 85, 0.5)';
+          ctx.fillRect(barsX + b * 7, ry + 19, 4, 22);
+        }
+
+        ctx.fillStyle = '#34d399';
+        ctx.font = '800 17px "JetBrains Mono", monospace';
+        ctx.fillText(r.grade, 916, ry + 36);
+        ctx.fillStyle = '#7dd3fc';
+        ctx.font = '600 13px "JetBrains Mono", monospace';
+        ctx.fillText(`${r.tokensK.toFixed(0)}k`, 968, ry + 36);
+      });
+
+      // --- MODULE GIỮA (X: 1054, W: 750): LÕI HOLOGRAM PHÒNG DEV & XẾP HÀNG ---
+      drawHoloPanel(ctx, 1054, colTop, 750, colH, 20, 'rgba(5, 18, 42, 0.45)', '#00f2fe', 2.2);
+
+      ctx.fillStyle = '#00f2fe';
+      ctx.font = '800 18px "JetBrains Mono", monospace';
+      ctx.fillText('◈ LÕI MÔI TRƯỜNG DEV (SANDBOX CORE)', 1082, colTop + 36);
+
+      // Vòng năng lượng kép Arc-Reactor cho Phòng DEV
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(1140, colTop + 114, 42, 0, Math.PI * 2);
+      ctx.strokeStyle = '#00f2fe';
+      ctx.lineWidth = 6;
+      ctx.shadowColor = '#00f2fe';
+      ctx.shadowBlur = 16;
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(1140, colTop + 114, 30, 0, Math.PI * 1.5);
+      ctx.strokeStyle = '#34d399';
+      ctx.lineWidth = 3;
+      ctx.stroke();
+      ctx.restore();
+
+      ctx.fillStyle = '#34d399';
+      ctx.font = '800 16px "JetBrains Mono", monospace';
+      ctx.fillText('0/9', 1124, colTop + 120);
+
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '900 32px "JetBrains Mono", monospace';
+      ctx.fillText(officeState.devHolderName.toUpperCase(), 1205, colTop + 108);
+      ctx.fillStyle = '#7dd3fc';
+      ctx.font = '600 15px Inter, sans-serif';
+      ctx.fillText('Hàng đợi DEV: 0 người chờ  •  Lịch sử cấp phát: 6 phiên', 1205, colTop + 138);
+
+      const devSteps = [
+        { name: '✓ backend', sub: 'Đức (#3)', ok: true },
+        { name: '✓ pr-handoff', sub: 'Khôi (#1)', ok: true },
+        { name: '✓ rag-search', sub: 'Tùng (#6)', ok: true },
+        { name: '● qa-playwright', sub: 'Minh (#4)', ok: true },
+        { name: '○ sec-owasp', sub: 'Vũ (#7)', ok: false },
+        { name: '○ ceo-release', sub: 'Linh (#2)', ok: false }
+      ];
+      devSteps.forEach((st, i) => {
+        const sx = 1082 + (i % 3) * 236;
+        const sy = colTop + 178 + Math.floor(i / 3) * 76;
+        drawHoloPanel(ctx, sx, sy, 220, 62, 10, 'rgba(6, 24, 52, 0.55)', st.ok ? '#34d399' : '#1e293b', 1.6);
+
+        ctx.fillStyle = st.ok ? '#34d399' : '#94a3b8';
+        ctx.font = '700 16px "JetBrains Mono", monospace';
+        ctx.fillText(st.name, sx + 16, sy + 28);
+        ctx.fillStyle = '#7dd3fc';
+        ctx.font = '600 13px Inter, sans-serif';
+        ctx.fillText(st.sub, sx + 16, sy + 48);
+      });
+
+      ctx.fillStyle = '#00f2fe';
+      ctx.font = '800 16px "JetBrains Mono", monospace';
+      ctx.fillText('◈ LỊCH SỬ XẾP HÀNG GIỮ PHÒNG DEV', 1082, colTop + 372);
+
+      const timelineRows = ['Đức (#3)', 'Minh (#4)', 'Bách (#9)', 'Tùng (#6)', 'Vy (#5)', 'Đạt (#10)'];
+      timelineRows.forEach((name, rIdx) => {
+        const ty = colTop + 402 + rIdx * 68;
+        ctx.fillStyle = '#e2e8f0';
+        ctx.font = '700 15px Inter, sans-serif';
+        ctx.fillText(name, 1082, ty + 26);
+
+        drawHoloPanel(ctx, 1210, ty + 4, 565, 36, 8, 'rgba(4, 14, 34, 0.5)', 'rgba(56, 189, 248, 0.25)', 1);
+
+        const blockX = 1230 + ((rIdx * 82) % 360);
+        const blockW = 65 + ((rIdx * 40) % 110);
+        ctx.fillStyle = rIdx === 0 ? '#00f2fe' : '#38bdf8';
+        roundRect2D(ctx, blockX, ty + 10, blockW, 24, 6, true, false);
+      });
+
+      // --- MODULE PHẢI (X: 1820, W: 722): VIỆC KHÓA & BIỂU ĐỒ TƯƠNG TÁC ---
+      drawHoloPanel(ctx, 1820, colTop, 722, colH, 20, 'rgba(5, 18, 42, 0.45)', '#00f2fe', 2.2);
+
+      ctx.fillStyle = '#00f2fe';
+      ctx.font = '800 18px "JetBrains Mono", monospace';
+      ctx.fillText('◈ CHỈ SỐ ĐỒNG BỘ & ĐỘ PHỦ KIỂM DUYỆT', 1848, colTop + 36);
+
+      const lockMetrics = [
+        { label: '01  Phân rã kiến trúc & điều phối (Khôi)', pct: 100, color: '#34d399', right: 'Hoạt động 4/4' },
+        { label: '02  Đồng bộ 0% lỗi đỏ (Đức ⇄ Minh)', pct: officeState.openBugs > 0 ? 65 : 100, color: officeState.openBugs > 0 ? '#f43f5e' : '#00f2fe', right: officeState.openBugs > 0 ? 'Đang vá Bug' : 'Pass 18/18' },
+        { label: '03  Tiến độ tổng thể dự án hiện tại', pct: officeState.progress, color: '#fbbf24', right: `${officeState.progress}% hoàn tất` }
+      ];
+      lockMetrics.forEach((lm, idx) => {
+        const ly = colTop + 70 + idx * 86;
+        ctx.fillStyle = '#f8fafc';
+        ctx.font = '700 15px Inter, sans-serif';
+        ctx.fillText(lm.label, 1848, ly + 20);
+        ctx.fillStyle = lm.color;
+        ctx.font = '800 14px "JetBrains Mono", monospace';
+        ctx.fillText(lm.right, 2395, ly + 20);
+
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.65)';
+        roundRect2D(ctx, 1848, ly + 34, 666, 16, 8, true, false);
+        ctx.fillStyle = lm.color;
+        roundRect2D(ctx, 1848, ly + 34, Math.max(28, (666 * lm.pct) / 100), 16, 8, true, false);
+      });
+
+      ctx.fillStyle = '#00f2fe';
+      ctx.font = '800 16px "JetBrains Mono", monospace';
+      ctx.fillText('◈ LUỒNG TIN GIỮA CÁC PHÒNG — TƯƠNG TÁC HÔM NAY', 1848, colTop + 365);
+
+      const topAgents = [...agents].sort((a, b) => b.msgCount - a.msgCount).slice(0, 8);
+      const maxM = Math.max(1, topAgents[0].msgCount);
+      const barPalette = ['#00f2fe', '#38bdf8', '#34d399', '#fbbf24', '#a855f7', '#f472b6', '#60a5fa', '#94a3b8'];
+
+      topAgents.forEach((ag, idx) => {
+        const by = colTop + 400 + idx * 54;
+        ctx.fillStyle = '#ffffff';
+        ctx.font = '700 15px Inter, sans-serif';
+        ctx.fillText(`${ag.shortName} (${ag.deskCode})`, 1848, by + 22);
+
+        const barMaxW = 440;
+        const bw = Math.max(32, Math.round((ag.msgCount / maxM) * barMaxW));
+        ctx.fillStyle = 'rgba(15, 23, 42, 0.6)';
+        roundRect2D(ctx, 2010, by + 6, barMaxW, 20, 10, true, false);
+        ctx.fillStyle = barPalette[idx % barPalette.length];
+        roundRect2D(ctx, 2010, by + 6, bw, 20, 10, true, false);
+
+        ctx.fillStyle = '#00f2fe';
+        ctx.font = '800 15px "JetBrains Mono", monospace';
+        ctx.fillText(String(ag.msgCount), 2468, by + 22);
+      });
+
+      if (giantScreenTexture) {
+        giantScreenTexture.needsUpdate = true;
+      }
+    }
+
+    function roundRect2D(ctx, x, y, w, h, r, fill, stroke) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+      if (fill) ctx.fill();
+      if (stroke) ctx.stroke();
+    }
+
+    // =========================================================================
+    // KHỞI TẠO KHÔNG GIAN 3D VỚI BẦU TRỜI LƯỢNG TỬ PHÍA SAU MÀN HÌNH HOLOGRAM TRONG SUỐT
+    // =========================================================================
+    function initThreeJSOffice() {
+      const canvas = document.getElementById('office3DCanvas');
+      const wrapper = document.getElementById('threeCanvasWrapper');
+      if (!canvas || !wrapper || typeof THREE === 'undefined') return;
+
+      scene = new THREE.Scene();
+      scene.background = new THREE.Color(0x030712);
+
+      const w = wrapper.clientWidth || window.innerWidth;
+      const h = wrapper.clientHeight || (window.innerHeight - 48);
+      camera = new THREE.PerspectiveCamera(40, w / h, 0.1, 260);
+      updateCameraFromSpherical();
+
+      renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+      renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+      renderer.shadowMap.enabled = true;
+      renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+
+      raycaster = new THREE.Raycaster();
+      mouseVec = new THREE.Vector2();
+
+      const hemiLight = new THREE.HemisphereLight(0xe0f2fe, 0x050811, 0.9);
+      scene.add(hemiLight);
+
+      const mainDirLight = new THREE.DirectionalLight(0xffffff, 0.95);
+      mainDirLight.position.set(16, 30, 24);
+      mainDirLight.castShadow = true;
+      scene.add(mainDirLight);
+
+      const holoCyanLight = new THREE.PointLight(0x00f2fe, 1.1, 45);
+      holoCyanLight.position.set(0, 11, -6);
+      scene.add(holoCyanLight);
+
+      const meetingGlow = new THREE.PointLight(0x38bdf8, 0.9, 18);
+      meetingGlow.position.set(MEETING_TABLE_3D.x, 4.5, MEETING_TABLE_3D.z);
+      scene.add(meetingGlow);
+
+      const ceoWarmLight = new THREE.PointLight(0xf59e0b, 0.85, 16);
+      ceoWarmLight.position.set(CEO_DESK_3D.x, 5.0, CEO_DESK_3D.z);
+      scene.add(ceoWarmLight);
+
+      // Tạo trường hạt ánh sáng Lượng tử 3D phía sau màn hình để nổi bật hiệu ứng kính trong suốt!
+      buildFuturisticStarfieldAndGrid();
+
+      // Dựng Màn hình Tổng Hologram 3D Full To Tràn Viền Trong Suốt
+      createGiant3DScreenMesh();
+
+      // Dựng kiến trúc sàn văn phòng, bàn CEO, bàn họp tròn & 10 bàn Robot
+      build3DOfficeArchitecture();
+      build3DCEODesk();
+      build3DMeetingRoom();
+      agents.forEach(ag => build3DAgentDeskAndRobot(ag));
+
+      wrapper.addEventListener('mousedown', e => {
+        isDragging3D = true;
+        prevMouse = { x: e.clientX, y: e.clientY };
+      });
+      window.addEventListener('mousemove', e => {
+        if (!isDragging3D) return;
+        const dx = e.clientX - prevMouse.x;
+        const dy = e.clientY - prevMouse.y;
+        prevMouse = { x: e.clientX, y: e.clientY };
+        desiredSpherical.theta = Math.max(-0.58, Math.min(0.58, desiredSpherical.theta - dx * 0.004));
+        desiredSpherical.phi = Math.max(0.52, Math.min(1.48, desiredSpherical.phi - dy * 0.004));
+      });
+      window.addEventListener('mouseup', () => {
+        isDragging3D = false;
+      });
+
+      // Hỗ trợ Lăn chuột PC & Trackpad 2 ngón trên Laptop để Phóng to / Thu nhỏ mượt mà
+      wrapper.addEventListener('wheel', e => {
+        e.preventDefault();
+        const delta = e.deltaY > 0 ? 0.06 : -0.06;
+        userZoomFactor = Math.max(0.55, Math.min(1.45, userZoomFactor + delta));
+      }, { passive: false });
+
+      // Hỗ trợ Cảm ứng chạm xoay góc nhìn trên Laptop cảm ứng / Tablet / Điện thoại
+      wrapper.addEventListener('touchstart', e => {
+        if (e.touches.length === 1) {
+          isDragging3D = true;
+          prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        }
+      }, { passive: true });
+      wrapper.addEventListener('touchmove', e => {
+        if (!isDragging3D || e.touches.length !== 1) return;
+        const dx = e.touches[0].clientX - prevMouse.x;
+        const dy = e.touches[0].clientY - prevMouse.y;
+        prevMouse = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+        desiredSpherical.theta = Math.max(-0.58, Math.min(0.58, desiredSpherical.theta - dx * 0.004));
+        desiredSpherical.phi = Math.max(0.52, Math.min(1.48, desiredSpherical.phi - dy * 0.004));
+      }, { passive: true });
+      wrapper.addEventListener('touchend', () => {
+        isDragging3D = false;
+      });
+
+      // Tự động theo dõi kích thước khung nhìn (kể cả khi kéo chia đôi màn hình Laptop/PC)
+      if (typeof ResizeObserver !== 'undefined') {
+        const ro = new ResizeObserver(() => onResize3DOffice());
+        ro.observe(wrapper);
+      }
+
+      wrapper.addEventListener('click', e => {
+        const rect = canvas.getBoundingClientRect();
+        mouseVec.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+        mouseVec.y = -((e.clientY - rect.top) / rect.height) * 2 + 1;
+        raycaster.setFromCamera(mouseVec, camera);
+
+        const pickables = [];
+        if (giantScreenMesh) pickables.push(giantScreenMesh);
+        Object.values(robotMeshes).forEach(rm => {
+          rm.group.traverse(child => {
+            if (child.isMesh) {
+              child.userData.agentId = rm.agentId;
+              pickables.push(child);
+            }
+          });
+        });
+
+        const hits = raycaster.intersectObjects(pickables, false);
+        if (hits.length > 0) {
+          const hitObj = hits[0].object;
+          if (hitObj.userData.agentId) {
+            openAgentDeskModal(hitObj.userData.agentId);
+          } else if (hitObj.userData.isGiantScreen) {
+            toggleZoomCommandWall();
+          }
+        }
+      });
+
+      window.addEventListener('resize', onResize3DOffice);
+      onResize3DOffice();
+      requestAnimationFrame(animate3DOffice);
+    }
+
+    function buildFuturisticStarfieldAndGrid() {
+      const particleCount = 320;
+      const positions = new Float32Array(particleCount * 3);
+      for (let i = 0; i < particleCount; i++) {
+        positions[i * 3] = (Math.random() - 0.5) * 85;
+        positions[i * 3 + 1] = Math.random() * 28 - 2;
+        positions[i * 3 + 2] = -11 - Math.random() * 25;
+      }
+      const pGeo = new THREE.BufferGeometry();
+      pGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      const pMat = new THREE.PointsMaterial({
+        color: 0x00f2fe,
+        size: 0.22,
+        transparent: true,
+        opacity: 0.65
+      });
+      const stars = new THREE.Points(pGeo, pMat);
+      scene.add(stars);
+    }
+
+    function getAspectAdjustedRadius(baseRadius, requiredWidthMeters) {
+      if (!camera) return baseRadius;
+      const vFovRad = (camera.fov * Math.PI) / 180;
+      const halfHorizTan = Math.tan(vFovRad / 2) * Math.max(0.55, camera.aspect || 1.6);
+      const minRadiusForFullWidth = (requiredWidthMeters * 0.5) / halfHorizTan;
+      return Math.max(baseRadius, minRadiusForFullWidth) * userZoomFactor;
+    }
+
+    function updateCameraFromSpherical() {
+      if (!camera) return;
+      const targetResponsiveRadius = getAspectAdjustedRadius(desiredSpherical.radius, desiredSceneWidthFit);
+      cameraTarget.lerp(desiredCameraTarget, 0.12);
+      cameraSpherical.radius += (targetResponsiveRadius - cameraSpherical.radius) * 0.12;
+      cameraSpherical.theta += (desiredSpherical.theta - cameraSpherical.theta) * 0.12;
+      cameraSpherical.phi += (desiredSpherical.phi - cameraSpherical.phi) * 0.12;
+
+      const r = cameraSpherical.radius;
+      const sinPhi = Math.sin(cameraSpherical.phi);
+      camera.position.x = cameraTarget.x + r * sinPhi * Math.sin(cameraSpherical.theta);
+      camera.position.y = cameraTarget.y + r * Math.cos(cameraSpherical.phi);
+      camera.position.z = cameraTarget.z + r * sinPhi * Math.cos(cameraSpherical.theta);
+      camera.lookAt(cameraTarget);
+    }
+
+    function focus3DCamera(preset) {
+      officeState.zoomCommandWall = false;
+      userZoomFactor = 1.0;
+      document.getElementById('btnZoomScreen').textContent = 'Xem màn hình';
+      if (preset === 'overview') {
+        desiredCameraTarget.set(0, 4.5, -2.5);
+        desiredSpherical = { radius: 28.5, theta: 0.0, phi: 1.15 };
+        desiredSceneWidthFit = 45.2;
+      } else if (preset === 'executive') {
+        desiredCameraTarget.set(-10.5, 1.5, -2.0);
+        desiredSpherical = { radius: 16.5, theta: -0.12, phi: 0.96 };
+        desiredSceneWidthFit = 20.0;
+      } else if (preset === 'devqa') {
+        desiredCameraTarget.set(-6.0, 1.4, 2.2);
+        desiredSpherical = { radius: 16.5, theta: 0.08, phi: 0.94 };
+        desiredSceneWidthFit = 20.0;
+      } else if (preset === 'meeting') {
+        desiredCameraTarget.set(MEETING_TABLE_3D.x, 1.4, MEETING_TABLE_3D.z);
+        desiredSpherical = { radius: 15.5, theta: 0.22, phi: 0.94 };
+        desiredSceneWidthFit = 16.0;
+      }
+    }
+
+    function build3DOfficeArchitecture() {
+      const baseFloor = new THREE.Mesh(
+        new THREE.BoxGeometry(38.4, 0.55, 17.8),
+        new THREE.MeshStandardMaterial({ color: 0x091020, roughness: 0.6, metalness: 0.25 })
+      );
+      baseFloor.position.set(0, -0.28, 2.2);
+      baseFloor.receiveShadow = true;
+      scene.add(baseFloor);
+
+      const floorEdgeGlow = new THREE.Mesh(
+        new THREE.BoxGeometry(38.55, 0.08, 17.95),
+        new THREE.MeshBasicMaterial({ color: 0x00f2fe })
+      );
+      floorEdgeGlow.position.set(0, -0.05, 2.2);
+      scene.add(floorEdgeGlow);
+
+      const zones = [
+        { x: -16.8, z: -2.2, w: 4.2, d: 4.8, color: 0x2a1810 },
+        { x: -5.2, z: 2.2, w: 18.6, d: 14.6, color: 0x0f1b36 },
+        { x: 6.8, z: 2.2, w: 4.6, d: 14.6, color: 0x141f35 },
+        { x: 13.5, z: 2.2, w: 8.2, d: 14.6, color: 0x191c26 }
+      ];
+      zones.forEach(z => {
+        const carpet = new THREE.Mesh(
+          new THREE.BoxGeometry(z.w, 0.05, z.d),
+          new THREE.MeshStandardMaterial({ color: z.color, roughness: 0.85 })
+        );
+        carpet.position.set(z.x, 0.03, z.z);
+        carpet.receiveShadow = true;
+        scene.add(carpet);
+      });
+
+      const glassMat = new THREE.MeshPhysicalMaterial({
+        color: 0x00f2fe,
+        transparent: true,
+        opacity: 0.14,
+        roughness: 0.08,
+        metalness: 0.1
+      });
+      const frameMat = new THREE.MeshStandardMaterial({ color: 0x38bdf8, metalness: 0.8, roughness: 0.2 });
+
+      const walls = [
+        { x: 0, z: 10.9, w: 38.0, h: 1.25, d: 0.08 },
+        { x: -18.9, z: 2.2, w: 0.08, h: 1.25, d: 17.4 },
+        { x: 18.9, z: 2.2, w: 0.08, h: 1.25, d: 17.4 },
+        { x: 9.2, z: 2.2, w: 0.08, h: 1.35, d: 14.6 }
+      ];
+      walls.forEach(w => {
+        const m = new THREE.Mesh(new THREE.BoxGeometry(w.w, w.h, w.d), glassMat);
+        m.position.set(w.x, w.h / 2, w.z);
+        scene.add(m);
+        const rail = new THREE.Mesh(new THREE.BoxGeometry(w.w + 0.04, 0.05, w.d + 0.04), frameMat);
+        rail.position.set(w.x, w.h, w.z);
+        scene.add(rail);
+      });
+
+      const plantLocations = [
+        { x: -18.0, z: 10.0 },
+        { x: 18.0, z: 10.0 },
+        { x: -18.0, z: -5.5 },
+        { x: 18.0, z: -5.5 },
+        { x: 9.8, z: -4.2 },
+        { x: 9.8, z: 8.8 }
+      ];
+      plantLocations.forEach(pl => buildDesignerPlant(pl.x, pl.z));
+    }
+
+    function buildDesignerPlant(x, z) {
+      const pg = new THREE.Group();
+      pg.position.set(x, 0, z);
+
+      const pot = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.42, 0.3, 0.68, 20),
+        new THREE.MeshStandardMaterial({ color: 0xf1f5f9, roughness: 0.3 })
+      );
+      pot.position.y = 0.34;
+      pg.add(pot);
+
+      const stem = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.06, 0.09, 0.7, 10),
+        new THREE.MeshStandardMaterial({ color: 0x78350f })
+      );
+      stem.position.y = 0.95;
+      pg.add(stem);
+
+      const leafColors = [0x10b981, 0x059669, 0x34d399, 0x047857];
+      const leafOffsets = [
+        { dx: 0, dy: 1.38, dz: 0, r: 0.48 },
+        { dx: -0.26, dy: 1.18, dz: 0.18, r: 0.36 },
+        { dx: 0.28, dy: 1.22, dz: -0.15, r: 0.38 },
+        { dx: 0.12, dy: 1.56, dz: 0.14, r: 0.32 }
+      ];
+      leafOffsets.forEach((lf, i) => {
+        const crown = new THREE.Mesh(
+          new THREE.DodecahedronGeometry(lf.r, 1),
+          new THREE.MeshStandardMaterial({ color: leafColors[i % leafColors.length], roughness: 0.55 })
+        );
+        crown.position.set(lf.dx, lf.dy, lf.dz);
+        crown.scale.set(1.1, 0.82, 1.1);
+        pg.add(crown);
+      });
+
+      scene.add(pg);
+    }
+
+    function build3DCEODesk() {
+      const g = new THREE.Group();
+      g.position.set(CEO_DESK_3D.x, 0, CEO_DESK_3D.z);
+
+      const deskMain = new THREE.Mesh(
+        new THREE.BoxGeometry(2.7, 0.1, 1.35),
+        new THREE.MeshStandardMaterial({ color: 0x451a03, roughness: 0.35, metalness: 0.15 })
+      );
+      deskMain.position.y = 0.92;
+      g.add(deskMain);
+
+      const goldRim = new THREE.Mesh(
+        new THREE.BoxGeometry(2.74, 0.04, 1.39),
+        new THREE.MeshStandardMaterial({ color: 0xfbbf24, metalness: 0.85, roughness: 0.2 })
+      );
+      goldRim.position.y = 0.89;
+      g.add(goldRim);
+
+      [-1.1, 1.1].forEach(lx => {
+        const panelLeg = new THREE.Mesh(
+          new THREE.BoxGeometry(0.14, 0.88, 1.15),
+          new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.6 })
+        );
+        panelLeg.position.set(lx, 0.44, 0);
+        g.add(panelLeg);
+      });
+
+      const ceoTex = createCodeScreenTexture(0xf59e0b, false);
+      const monFrame = new THREE.Mesh(
+        new THREE.BoxGeometry(1.42, 0.64, 0.05),
+        new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.7 })
+      );
+      monFrame.position.set(0, 1.36, -0.32);
+      g.add(monFrame);
+
+      const monScreen = new THREE.Mesh(
+        new THREE.PlaneGeometry(1.36, 0.58),
+        new THREE.MeshBasicMaterial({ map: ceoTex })
+      );
+      monScreen.position.set(0, 1.36, -0.29);
+      g.add(monScreen);
+
+      buildErgonomicChair(g, 0, 0.82, 0xfef3c7, 0xd97706);
+
+      const ceoAvatar = buildSleekRobotMesh(0xf59e0b, false, true);
+      ceoAvatar.group.position.set(0, 0, 0.82);
+      g.add(ceoAvatar.group);
+
+      scene.add(g);
+    }
+
+    function build3DMeetingRoom() {
+      const tableGroup = new THREE.Group();
+      tableGroup.position.set(MEETING_TABLE_3D.x, 0, MEETING_TABLE_3D.z);
+
+      const woodSubTop = new THREE.Mesh(
+        new THREE.CylinderGeometry(2.35, 2.25, 0.1, 36),
+        new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.4, metalness: 0.4 })
+      );
+      woodSubTop.position.y = 0.88;
+      tableGroup.add(woodSubTop);
+
+      const glassTop = new THREE.Mesh(
+        new THREE.CylinderGeometry(2.45, 2.45, 0.04, 36),
+        new THREE.MeshPhysicalMaterial({ color: 0x00f2fe, transparent: true, opacity: 0.3, roughness: 0.1 })
+      );
+      glassTop.position.y = 0.95;
+      tableGroup.add(glassTop);
+
+      const holoProjector = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.45, 0.55, 0.06, 24),
+        new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.8 })
+      );
+      holoProjector.position.y = 0.99;
+      tableGroup.add(holoProjector);
+
+      hologramRingMesh = new THREE.Mesh(
+        new THREE.OctahedronGeometry(0.34, 1),
+        new THREE.MeshBasicMaterial({ color: 0x00f2fe, wireframe: true })
+      );
+      hologramRingMesh.position.y = 1.44;
+      tableGroup.add(hologramRingMesh);
+
+      const ped = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.48, 0.85, 0.88, 24),
+        new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.6 })
+      );
+      ped.position.y = 0.44;
+      tableGroup.add(ped);
+
+      for (let i = 0; i < 8; i++) {
+        const angle = (i / 8) * Math.PI * 2;
+        const chairHolder = new THREE.Group();
+        chairHolder.position.set(Math.cos(angle) * 3.1, 0, Math.sin(angle) * 3.1);
+        chairHolder.lookAt(0, 0, 0);
+        chairHolder.rotation.y += Math.PI;
+        buildErgonomicChair(chairHolder, 0, 0, 0x1e293b, 0x00f2fe);
+        tableGroup.add(chairHolder);
+      }
+
+      scene.add(tableGroup);
+    }
+
+    function buildErgonomicChair(parentGroup, x, z, seatColorHex, accentHex) {
+      const cg = new THREE.Group();
+      cg.position.set(x, 0, z);
+
+      const metalMat = new THREE.MeshStandardMaterial({ color: 0x334155, metalness: 0.75, roughness: 0.25 });
+      const cushionMat = new THREE.MeshStandardMaterial({ color: seatColorHex, roughness: 0.55 });
+      const accentMat = new THREE.MeshStandardMaterial({ color: accentHex, roughness: 0.4 });
+
+      const cylinder = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 0.46, 12), metalMat);
+      cylinder.position.y = 0.25;
+      cg.add(cylinder);
+
+      for (let i = 0; i < 5; i++) {
+        const ang = (i / 5) * Math.PI * 2;
+        const spoke = new THREE.Mesh(new THREE.BoxGeometry(0.05, 0.04, 0.36), metalMat);
+        spoke.position.set(Math.sin(ang) * 0.16, 0.06, Math.cos(ang) * 0.16);
+        spoke.rotation.y = ang;
+        cg.add(spoke);
+      }
+
+      const seat = new THREE.Mesh(new THREE.CylinderGeometry(0.36, 0.34, 0.09, 20), cushionMat);
+      seat.scale.set(1.08, 1, 1.0);
+      seat.position.y = 0.5;
+      cg.add(seat);
+
+      const backrest = new THREE.Mesh(new THREE.BoxGeometry(0.56, 0.66, 0.08), cushionMat);
+      backrest.position.set(0, 0.88, 0.28);
+      backrest.rotation.x = -0.08;
+      cg.add(backrest);
+
+      const backTrim = new THREE.Mesh(new THREE.BoxGeometry(0.6, 0.06, 0.09), accentMat);
+      backTrim.position.set(0, 1.22, 0.3);
+      cg.add(backTrim);
+
+      const headrest = new THREE.Mesh(new THREE.BoxGeometry(0.34, 0.16, 0.08), cushionMat);
+      headrest.position.set(0, 1.33, 0.31);
+      cg.add(headrest);
+
+      [-0.34, 0.34].forEach(ax => {
+        const armPost = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.24, 0.04), metalMat);
+        armPost.position.set(ax, 0.62, 0.06);
+        cg.add(armPost);
+        const armPad = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.04, 0.32), accentMat);
+        armPad.position.set(ax, 0.74, 0.06);
+        cg.add(armPad);
+      });
+
+      parentGroup.add(cg);
+    }
+
+    function buildSleekRobotMesh(accentColorHex, isStandby, isCEO = false) {
+      const robotGroup = new THREE.Group();
+
+      const pearlWhiteMat = new THREE.MeshStandardMaterial({
+        color: isCEO ? 0xfef3c7 : 0xf8fafc,
+        roughness: 0.18,
+        metalness: 0.22
+      });
+      const darkJointMat = new THREE.MeshStandardMaterial({
+        color: 0x1e293b,
+        roughness: 0.4,
+        metalness: 0.65
+      });
+      const accentMat = new THREE.MeshStandardMaterial({
+        color: accentColorHex,
+        roughness: 0.25,
+        metalness: 0.4
+      });
+      const glowMat = new THREE.MeshBasicMaterial({
+        color: isStandby ? 0x475569 : accentColorHex
+      });
+
+      const hoverRing = new THREE.Mesh(
+        new THREE.TorusGeometry(0.32, 0.03, 12, 24),
+        glowMat
+      );
+      hoverRing.rotation.x = Math.PI / 2;
+      hoverRing.position.y = 0.06;
+      robotGroup.add(hoverRing);
+
+      [-0.14, 0.14].forEach(lx => {
+        const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.08, 0.07, 0.34, 14), darkJointMat);
+        leg.position.set(lx, 0.32, 0);
+        robotGroup.add(leg);
+
+        const foot = new THREE.Mesh(new THREE.SphereGeometry(0.1, 14, 12), pearlWhiteMat);
+        foot.scale.set(1.0, 0.6, 1.35);
+        foot.position.set(lx, 0.14, -0.04);
+        robotGroup.add(foot);
+      });
+
+      const torsoLower = new THREE.Mesh(new THREE.SphereGeometry(0.31, 20, 16), pearlWhiteMat);
+      torsoLower.scale.set(1.05, 0.85, 0.88);
+      torsoLower.position.y = 0.66;
+      robotGroup.add(torsoLower);
+
+      const torsoUpper = new THREE.Mesh(new THREE.CylinderGeometry(0.34, 0.28, 0.48, 22), pearlWhiteMat);
+      torsoUpper.scale.set(1.08, 1.0, 0.88);
+      torsoUpper.position.y = 0.88;
+      robotGroup.add(torsoUpper);
+
+      const collar = new THREE.Mesh(
+        new THREE.TorusGeometry(0.28, 0.055, 12, 24),
+        accentMat
+      );
+      collar.rotation.x = Math.PI / 2;
+      collar.scale.set(1.12, 0.88, 1.0);
+      collar.position.y = 1.12;
+      robotGroup.add(collar);
+
+      const chestCore = new THREE.Mesh(new THREE.CircleGeometry(0.09, 20), glowMat);
+      chestCore.position.set(0, 0.9, -0.32);
+      chestCore.rotation.y = Math.PI;
+      robotGroup.add(chestCore);
+
+      const headGroup = new THREE.Group();
+      headGroup.position.set(0, 1.48, 0);
+
+      const helmet = new THREE.Mesh(new THREE.SphereGeometry(0.36, 24, 20), pearlWhiteMat);
+      helmet.scale.set(1.22, 0.95, 1.02);
+      headGroup.add(helmet);
+
+      const visorGlass = new THREE.Mesh(
+        new THREE.SphereGeometry(0.33, 22, 18),
+        new THREE.MeshStandardMaterial({ color: 0x050811, roughness: 0.08, metalness: 0.8 })
+      );
+      visorGlass.scale.set(1.14, 0.76, 0.65);
+      visorGlass.position.set(0, 0.01, -0.16);
+      headGroup.add(visorGlass);
+
+      const eyeMat = new THREE.MeshBasicMaterial({
+        color: isStandby ? 0x64748b : (isCEO ? 0xfbbf24 : 0x00f2fe)
+      });
+      const leftEye = new THREE.Mesh(new THREE.SphereGeometry(0.058, 12, 12), eyeMat);
+      leftEye.scale.set(1.1, 1.35, 0.5);
+      leftEye.position.set(-0.13, 0.03, -0.36);
+      const rightEye = new THREE.Mesh(new THREE.SphereGeometry(0.058, 12, 12), eyeMat);
+      rightEye.scale.set(1.1, 1.35, 0.5);
+      rightEye.position.set(0.13, 0.03, -0.36);
+      headGroup.add(leftEye, rightEye);
+
+      [-0.43, 0.43].forEach(ex => {
+        const earPod = new THREE.Mesh(new THREE.CylinderGeometry(0.11, 0.11, 0.08, 16), accentMat);
+        earPod.rotation.z = Math.PI / 2;
+        earPod.position.set(ex, 0.02, 0);
+        headGroup.add(earPod);
+
+        const earRing = new THREE.Mesh(new THREE.CylinderGeometry(0.07, 0.07, 0.09, 16), glowMat);
+        earRing.rotation.z = Math.PI / 2;
+        earRing.position.set(ex, 0.02, 0);
+        headGroup.add(earRing);
+      });
+
+      if (isCEO) {
+        const crown = new THREE.Mesh(
+          new THREE.TorusGeometry(0.18, 0.035, 12, 24),
+          new THREE.MeshBasicMaterial({ color: 0xfbbf24 })
+        );
+        crown.rotation.x = Math.PI / 2;
+        crown.position.set(0, 0.42, 0);
+        headGroup.add(crown);
+      } else {
+        const antennaStem = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.03, 0.18, 10), darkJointMat);
+        antennaStem.position.set(0, 0.38, 0);
+        headGroup.add(antennaStem);
+        const antennaBulb = new THREE.Mesh(new THREE.SphereGeometry(0.055, 12, 12), glowMat);
+        antennaBulb.position.set(0, 0.49, 0);
+        headGroup.add(antennaBulb);
+      }
+
+      robotGroup.add(headGroup);
+
+      function createArm(side) {
+        const armPivot = new THREE.Group();
+        armPivot.position.set(side * 0.42, 1.04, -0.06);
+
+        const shoulderBall = new THREE.Mesh(new THREE.SphereGeometry(0.1, 14, 14), accentMat);
+        armPivot.add(shoulderBall);
+
+        const forearm = new THREE.Mesh(new THREE.CylinderGeometry(0.075, 0.065, 0.34, 14), pearlWhiteMat);
+        forearm.position.set(0, -0.14, -0.14);
+        forearm.rotation.x = Math.PI / 3.2;
+        armPivot.add(forearm);
+
+        const handBall = new THREE.Mesh(new THREE.SphereGeometry(0.08, 14, 14), glowMat);
+        handBall.position.set(0, -0.24, -0.28);
+        armPivot.add(handBall);
+
+        return armPivot;
+      }
+
+      const leftArm = createArm(-1);
+      const rightArm = createArm(1);
+      robotGroup.add(leftArm, rightArm);
+
+      return {
+        group: robotGroup,
+        head: headGroup,
+        leftArm,
+        rightArm,
+        eyeMat,
+        glowMat,
+        leftEye,
+        rightEye
+      };
+    }
+
+    function build3DAgentDeskAndRobot(ag) {
+      const deskGroup = new THREE.Group();
+      deskGroup.position.set(ag.deskPos.x, 0, ag.deskPos.z);
+
+      const deskTopWood = new THREE.Mesh(
+        new THREE.BoxGeometry(2.55, 0.09, 1.32),
+        new THREE.MeshStandardMaterial({ color: 0x3e2723, roughness: 0.45, metalness: 0.1 })
+      );
+      deskTopWood.position.y = 0.88;
+      deskTopWood.castShadow = true;
+      deskTopWood.receiveShadow = true;
+      deskGroup.add(deskTopWood);
+
+      const deskMatPad = new THREE.Mesh(
+        new THREE.BoxGeometry(1.55, 0.015, 0.72),
+        new THREE.MeshStandardMaterial({ color: 0x0f172a, roughness: 0.8 })
+      );
+      deskMatPad.position.set(-0.1, 0.93, 0.12);
+      deskGroup.add(deskMatPad);
+
+      const deskLedStrip = new THREE.Mesh(
+        new THREE.BoxGeometry(2.56, 0.028, 0.03),
+        new THREE.MeshBasicMaterial({ color: ag.status === 'STANDBY' ? 0x334155 : ag.colorHex })
+      );
+      deskLedStrip.position.set(0, 0.88, -0.66);
+      deskGroup.add(deskLedStrip);
+
+      const legMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, metalness: 0.7, roughness: 0.3 });
+      [
+        { x: -1.16, z: -0.54 },
+        { x: 1.16, z: -0.54 },
+        { x: -1.16, z: 0.54 },
+        { x: 1.16, z: 0.54 }
+      ].forEach(lp => {
+        const leg = new THREE.Mesh(new THREE.CylinderGeometry(0.045, 0.03, 0.88, 12), legMat);
+        leg.position.set(lp.x, 0.44, lp.z);
+        deskGroup.add(leg);
+      });
+
+      const armStand = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.06, 0.42, 12), legMat);
+      armStand.position.set(-0.15, 1.12, -0.38);
+      deskGroup.add(armStand);
+
+      const codeTex = createCodeScreenTexture(ag.colorHex, ag.status === 'STANDBY');
+      const monitorMat = new THREE.MeshBasicMaterial({ map: codeTex });
+
+      const mainFrame = new THREE.Mesh(
+        new THREE.BoxGeometry(1.18, 0.62, 0.045),
+        new THREE.MeshStandardMaterial({ color: 0x090d16, roughness: 0.3, metalness: 0.6 })
+      );
+      mainFrame.position.set(-0.15, 1.34, -0.32);
+      deskGroup.add(mainFrame);
+
+      const mainScreen = new THREE.Mesh(new THREE.PlaneGeometry(1.12, 0.56), monitorMat);
+      mainScreen.position.set(-0.15, 1.34, -0.295);
+      deskGroup.add(mainScreen);
+
+      const sideMonitorGroup = new THREE.Group();
+      sideMonitorGroup.position.set(-0.92, 1.32, -0.18);
+      sideMonitorGroup.rotation.y = 0.38;
+
+      const sideFrame = new THREE.Mesh(
+        new THREE.BoxGeometry(0.42, 0.68, 0.04),
+        new THREE.MeshStandardMaterial({ color: 0x090d16 })
+      );
+      sideMonitorGroup.add(sideFrame);
+
+      const sideScreen = new THREE.Mesh(new THREE.PlaneGeometry(0.37, 0.62), monitorMat);
+      sideScreen.position.z = 0.022;
+      sideMonitorGroup.add(sideScreen);
+      deskGroup.add(sideMonitorGroup);
+
+      const kbBase = new THREE.Mesh(
+        new THREE.BoxGeometry(0.58, 0.03, 0.22),
+        new THREE.MeshStandardMaterial({ color: 0x1e293b })
+      );
+      kbBase.position.set(-0.15, 0.95, 0.14);
+      deskGroup.add(kbBase);
+
+      const kbGlow = new THREE.Mesh(
+        new THREE.BoxGeometry(0.54, 0.036, 0.18),
+        new THREE.MeshBasicMaterial({ color: ag.status === 'STANDBY' ? 0x475569 : 0x00f2fe })
+      );
+      kbGlow.position.set(-0.15, 0.952, 0.14);
+      deskGroup.add(kbGlow);
+
+      const mouseMesh = new THREE.Mesh(
+        new THREE.SphereGeometry(0.06, 12, 10),
+        new THREE.MeshStandardMaterial({ color: 0xe2e8f0, roughness: 0.2 })
+      );
+      mouseMesh.scale.set(0.85, 0.5, 1.35);
+      mouseMesh.position.set(0.28, 0.95, 0.14);
+      deskGroup.add(mouseMesh);
+
+      const pcCase = new THREE.Mesh(
+        new THREE.BoxGeometry(0.32, 0.52, 0.56),
+        new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.6, roughness: 0.3 })
+      );
+      pcCase.position.set(0.95, 1.18, -0.18);
+      deskGroup.add(pcCase);
+
+      const pcRgbBar = new THREE.Mesh(
+        new THREE.BoxGeometry(0.02, 0.42, 0.44),
+        new THREE.MeshBasicMaterial({ color: ag.colorHex })
+      );
+      pcRgbBar.position.set(0.785, 1.18, -0.18);
+      deskGroup.add(pcRgbBar);
+
+      const mug = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.065, 0.055, 0.14, 14),
+        new THREE.MeshStandardMaterial({ color: 0xf8fafc })
+      );
+      mug.position.set(0.54, 0.99, 0.24);
+      deskGroup.add(mug);
+
+      const miniPot = new THREE.Mesh(
+        new THREE.CylinderGeometry(0.075, 0.055, 0.12, 12),
+        new THREE.MeshStandardMaterial({ color: 0xfde68a })
+      );
+      miniPot.position.set(-1.05, 0.98, 0.28);
+      deskGroup.add(miniPot);
+
+      const succulent = new THREE.Mesh(
+        new THREE.DodecahedronGeometry(0.09, 0),
+        new THREE.MeshStandardMaterial({ color: 0x10b981 })
+      );
+      succulent.position.set(-1.05, 1.08, 0.28);
+      deskGroup.add(succulent);
+
+      buildErgonomicChair(deskGroup, -0.1, 0.82, 0x0f172a, ag.colorHex);
+
+      scene.add(deskGroup);
+
+      const builtRobot = buildSleekRobotMesh(ag.colorHex, ag.status === 'STANDBY', false);
+      const homePos = new THREE.Vector3(ag.deskPos.x - 0.1, 0, ag.deskPos.z + 0.78);
+      builtRobot.group.position.copy(homePos);
+      scene.add(builtRobot.group);
+
+      robotMeshes[ag.id] = {
+        agentId: ag.id,
+        group: builtRobot.group,
+        head: builtRobot.head,
+        leftArm: builtRobot.leftArm,
+        rightArm: builtRobot.rightArm,
+        eyeMat: builtRobot.eyeMat,
+        glowMat: builtRobot.glowMat,
+        leftEye: builtRobot.leftEye,
+        rightEye: builtRobot.rightEye,
+        deskLedStrip,
+        kbGlow,
+        homePos,
+        targetPos: homePos.clone(),
+        motionState: 'AT_DESK',
+        dwellTimer: 0
+      };
+    }
+
+    function sendRobotToPosition(agentId, destX, destZ, dwellFrames = 140) {
+      const rm = robotMeshes[agentId];
+      if (!rm) return;
+      rm.targetPos.set(destX, 0, destZ);
+      rm.motionState = 'WALKING_TO_TARGET';
+      rm.dwellTimer = dwellFrames;
+    }
+
+    function trigger3DMeetingRoom() {
+      const meetingIds = [1, 2, 3, 4, 6, 9];
+      meetingIds.forEach((id, idx) => {
+        const angle = (idx / meetingIds.length) * Math.PI * 2;
+        const tx = MEETING_TABLE_3D.x + Math.cos(angle) * 2.75;
+        const tz = MEETING_TABLE_3D.z + Math.sin(angle) * 2.75;
+        sendRobotToPosition(id, tx, tz, 220);
+        const ag = agents.find(a => a.id === id);
+        if (ag) {
+          ag.cardType = 'Họp bàn tròn';
+          ag.speech = idx === 0
+            ? 'Chủ trì: Khôi • Phân công việc cho Đức (Code) & Minh (Test)!'
+            : 'Đã ra bàn họp tròn nhận nhiệm vụ từ Khôi!';
+        }
+      });
+      pushOfficeLog('Bàn #1 (Khôi)', 'Phòng Họp Bàn Tròn', 'core', '🤝 Khôi triệu tập họp giao việc tại Bàn tròn Phòng Họp!');
+      drawGiant3DScreenCanvas();
+    }
+
+    function triggerRobotWalkDemo() {
+      const coderDesk = agents[2].deskPos;
+      sendRobotToPosition(4, coderDesk.x + 1.0, coderDesk.z + 0.8, 160);
+      sendRobotToPosition(2, CEO_DESK_3D.x + 1.2, CEO_DESK_3D.z + 0.7, 160);
+      agents[3].speech = 'Đi bộ sang bàn Đức để trao đổi trực tiếp về gói kiểm thử!';
+      agents[1].speech = 'Em đi sang bàn Giám đốc (Chị CEO) báo cáo các việc trong mục "Cần Sếp duyệt" ạ!';
+      pushOfficeLog('Bàn #4 (Minh)', 'Bàn #3 (Đức)', 'codetest', '🚶 Minh đi bộ sang bàn Đức trao đổi trực tiếp.');
+      drawGiant3DScreenCanvas();
+    }
+
+    function animate3DOffice(timestamp) {
+      requestAnimationFrame(animate3DOffice);
+      if (officeState.viewMode !== '3D' || !renderer || !scene || !camera) return;
+
+      updateCameraFromSpherical();
+      const t = (timestamp || 0) * 0.006;
+
+      if (hologramRingMesh) {
+        hologramRingMesh.rotation.y = t * 0.45;
+        hologramRingMesh.rotation.x = Math.sin(t * 0.3) * 0.25;
+      }
+
+      // Xoay nhẹ các vòng quỹ đạo năng lượng 3D phía sau màn hình Hologram trong suốt
+      if (backHoloOrbitsGroup) {
+        backHoloOrbitsGroup.rotation.z = t * 0.08;
+        backHoloOrbitsGroup.rotation.y = Math.sin(t * 0.15) * 0.22;
+      }
+
+      agents.forEach(ag => {
+        const rm = robotMeshes[ag.id];
+        if (!rm) return;
+
+        if (ag.status === 'BUG_FIX') {
+          rm.eyeMat.color.setHex(0xf43f5e);
+          rm.glowMat.color.setHex(0xf43f5e);
+          rm.deskLedStrip.material.color.setHex(0xf43f5e);
+        } else if (ag.status === 'WORKING') {
+          rm.eyeMat.color.setHex(0x00f2fe);
+          rm.glowMat.color.setHex(ag.colorHex);
+          rm.deskLedStrip.material.color.setHex(ag.colorHex);
+        } else if (ag.status === 'REPORTING') {
+          rm.eyeMat.color.setHex(0xfbbf24);
+          rm.glowMat.color.setHex(0xf59e0b);
+          rm.deskLedStrip.material.color.setHex(0xf59e0b);
+        } else {
+          rm.eyeMat.color.setHex(0x64748b);
+          rm.glowMat.color.setHex(0x334155);
+          rm.deskLedStrip.material.color.setHex(0x1e293b);
+        }
+
+        const blinkCycle = Math.sin(t * 0.7 + ag.id * 1.7);
+        const eyeScaleY = blinkCycle > 0.96 ? 0.15 : 1.35;
+        rm.leftEye.scale.y = eyeScaleY;
+        rm.rightEye.scale.y = eyeScaleY;
+
+        if (rm.motionState === 'WALKING_TO_TARGET') {
+          const dir = new THREE.Vector3().subVectors(rm.targetPos, rm.group.position);
+          if (dir.length() > 0.16) {
+            dir.normalize();
+            rm.group.position.addScaledVector(dir, 0.13);
+            const angle = Math.atan2(dir.x, dir.z) + Math.PI;
+            rm.group.rotation.y = angle;
+            rm.group.position.y = Math.abs(Math.sin(t * 2.4)) * 0.14;
+            rm.leftArm.rotation.x = Math.sin(t * 2.4) * 0.35;
+            rm.rightArm.rotation.x = -Math.sin(t * 2.4) * 0.35;
+          } else {
+            rm.group.position.y = 0;
+            rm.leftArm.rotation.x = 0;
+            rm.rightArm.rotation.x = 0;
+            rm.motionState = 'AT_TARGET';
+          }
+        } else if (rm.motionState === 'AT_TARGET') {
+          rm.dwellTimer -= 1;
+          rm.head.rotation.y = Math.sin(t * 0.9) * 0.28;
+          if (rm.dwellTimer <= 0) rm.motionState = 'WALKING_HOME';
+        } else if (rm.motionState === 'WALKING_HOME') {
+          const dir = new THREE.Vector3().subVectors(rm.homePos, rm.group.position);
+          if (dir.length() > 0.16) {
+            dir.normalize();
+            rm.group.position.addScaledVector(dir, 0.13);
+            const angle = Math.atan2(dir.x, dir.z) + Math.PI;
+            rm.group.rotation.y = angle;
+            rm.group.position.y = Math.abs(Math.sin(t * 2.4)) * 0.14;
+          } else {
+            rm.group.position.copy(rm.homePos);
+            rm.group.rotation.set(0, 0, 0);
+            rm.motionState = 'AT_DESK';
+          }
+        } else {
+          if (ag.status !== 'STANDBY') {
+            rm.leftArm.rotation.x = Math.sin(t * 3.6 + ag.id) * 0.18;
+            rm.rightArm.rotation.x = Math.cos(t * 3.6 + ag.id) * 0.18;
+            rm.head.rotation.y = Math.sin(t * 0.45 + ag.id) * 0.16;
+            rm.head.position.y = 1.48 + Math.sin(t * 1.5 + ag.id) * 0.015;
+          } else {
+            rm.leftArm.rotation.x = 0;
+            rm.rightArm.rotation.x = 0;
+            rm.head.rotation.y = Math.sin(t * 0.2 + ag.id) * 0.05;
+          }
+        }
+      });
+
+      renderer.render(scene, camera);
+      update3DFloatingLabels();
+    }
+
+    function onResize3DOffice() {
+      const wrapper = document.getElementById('threeCanvasWrapper');
+      if (!wrapper || !renderer || !camera) return;
+      const w = Math.max(320, wrapper.clientWidth || window.innerWidth);
+      const h = Math.max(240, wrapper.clientHeight || (window.innerHeight - 48));
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+      const labelScale = Math.max(0.62, Math.min(1.05, w / 1360));
+      document.documentElement.style.setProperty('--holo-label-scale', labelScale.toFixed(3));
+    }
+
+    function update3DFloatingLabels() {
+      const overlay = document.getElementById('threeLabelsOverlay');
+      const wrapper = document.getElementById('threeCanvasWrapper');
+      if (!overlay || !wrapper || !camera) return;
+
+      if (officeState.zoomCommandWall) {
+        overlay.style.opacity = '0';
+        return;
+      }
+      overlay.style.opacity = '1';
+
+      const width = wrapper.clientWidth;
+      const height = wrapper.clientHeight;
+
+      if (overlay.children.length === 0) {
+        let html = `
+          <div id="label3d-ceo" onclick="openCEOCommandDrawer()" class="robot-label-anchor cursor-pointer">
+            <div class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold bg-gradient-to-r from-amber-400 to-orange-400 text-slate-950 shadow-lg whitespace-nowrap">
+              👑 Chị (CEO)
+            </div>
+          </div>
+          <div id="label3d-meeting" onclick="trigger3DMeetingRoom()" class="robot-label-anchor cursor-pointer">
+            <div class="robot-speech-card rounded-xl p-2 mb-1 w-52 text-left">
+              <div class="text-[9px] font-bold text-cyan-300">● Họp bàn tròn</div>
+              <div class="text-[10px] text-slate-200 leading-snug">Chủ trì: Khôi • Bấm để triệu tập đội nhân sự ra bàn họp</div>
+            </div>
+          </div>
+        `;
+        agents.forEach(ag => {
+          html += `
+            <div id="label3d-agent-${ag.id}" onclick="openAgentDeskModal(${ag.id})" class="robot-label-anchor cursor-pointer group">
+              <div id="card3d-agent-${ag.id}" class="robot-speech-card rounded-xl p-2 mb-1 w-56 text-left transition group-hover:border-cyan-300">
+                <div class="flex items-center justify-between text-[9px] font-bold text-cyan-300 mb-0.5">
+                  <span id="card3d-type-${ag.id}">● ${ag.cardType || 'Báo cáo'}</span>
+                  <span class="text-slate-400">${ag.deskCode}</span>
+                </div>
+                <div id="card3d-text-${ag.id}" class="text-[10px] text-slate-100 line-clamp-2 leading-snug">${ag.speech}</div>
+              </div>
+              <div class="flex flex-col items-center">
+                <div id="pill3d-agent-${ag.id}" class="px-2 py-0.5 rounded-full text-[10px] font-bold border shadow-md whitespace-nowrap flex items-center gap-1 bg-slate-950/95 text-emerald-300 border-emerald-500/50">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+                  <span>đang làm</span>
+                </div>
+                <div class="text-[11px] font-extrabold text-white drop-shadow mt-0.5">${ag.shortName}</div>
+              </div>
+            </div>
+          `;
+        });
+        overlay.innerHTML = html;
+      }
+
+      projectToOverlay('label3d-ceo', new THREE.Vector3(CEO_DESK_3D.x, 2.15, CEO_DESK_3D.z + 0.8), width, height);
+      projectToOverlay('label3d-meeting', new THREE.Vector3(MEETING_TABLE_3D.x, 2.0, MEETING_TABLE_3D.z - 0.4), width, height);
+
+      const visibleCardIds = new Set([1, 3, 4, 9]);
+
+      agents.forEach(ag => {
+        const rm = robotMeshes[ag.id];
+        if (!rm) return;
+        const worldPos = rm.group.position.clone();
+        worldPos.y += 2.05;
+        projectToOverlay(`label3d-agent-${ag.id}`, worldPos, width, height);
+
+        const cardEl = document.getElementById(`card3d-agent-${ag.id}`);
+        const typeEl = document.getElementById(`card3d-type-${ag.id}`);
+        const textEl = document.getElementById(`card3d-text-${ag.id}`);
+        const pillEl = document.getElementById(`pill3d-agent-${ag.id}`);
+
+        if (cardEl && textEl && typeEl) {
+          const shouldShowCard = visibleCardIds.has(ag.id) || rm.motionState !== 'AT_DESK' || ag.status === 'BUG_FIX';
+          cardEl.style.display = shouldShowCard ? 'block' : 'none';
+          typeEl.textContent = `● ${ag.cardType || 'Báo cáo'}`;
+          textEl.textContent = ag.speech;
+        }
+
+        if (pillEl) {
+          let pillColor = 'bg-slate-950/90 text-slate-300 border-slate-700';
+          let dotColor = 'bg-slate-400';
+          let statusLabel = 'chờ lệnh';
+          if (ag.status === 'WORKING') {
+            pillColor = 'bg-emerald-950/90 text-emerald-300 border-emerald-500/60';
+            dotColor = 'bg-emerald-400';
+            statusLabel = 'đang làm';
+          } else if (ag.status === 'BUG_FIX') {
+            pillColor = 'bg-rose-950/90 text-rose-300 border-rose-500/70';
+            dotColor = 'bg-rose-400 animate-ping';
+            statusLabel = 'sửa bug';
+          } else if (ag.status === 'REPORTING') {
+            pillColor = 'bg-amber-950/90 text-amber-300 border-amber-500/70';
+            dotColor = 'bg-amber-400 animate-ping';
+            statusLabel = 'báo CEO';
+          }
+          pillEl.className = `px-2 py-0.5 rounded-full text-[9px] font-bold border shadow-md whitespace-nowrap flex items-center gap-1 ${pillColor}`;
+          pillEl.innerHTML = `<span class="w-1.5 h-1.5 rounded-full ${dotColor}"></span><span>${statusLabel}</span>`;
+        }
+      });
+    }
+
+    function projectToOverlay(domId, vec3, width, height) {
+      const el = document.getElementById(domId);
+      if (!el) return;
+      const v = vec3.clone().project(camera);
+      if (v.z > 1) {
+        el.style.opacity = '0';
+        return;
+      }
+      const x = (v.x * 0.5 + 0.5) * width;
+      const y = (-(v.y * 0.5) + 0.5) * height;
+      el.style.opacity = '1';
+      el.style.left = `${x}px`;
+      el.style.top = `${y}px`;
+    }
+
+    function updateLiveClockAndHUD() {
+      const d = new Date();
+      const clockEl = document.getElementById('hudLiveClock');
+      if (clockEl) clockEl.textContent = d.toTimeString().split(' ')[0];
+
+      const workingCount = agents.filter(a => a.status !== 'STANDBY').length;
+      const idleCount = 10 - workingCount;
+      const pendingCEO = officeState.ceoInbox.filter(i => !i.resolved).length;
+
+      document.getElementById('hudWorkingCount').textContent = String(workingCount);
+      document.getElementById('hudIdleCount').textContent = String(idleCount);
+      document.getElementById('hudCanAnhCount').textContent = String(pendingCEO);
+      document.getElementById('hudBlockedCount').textContent = `${officeState.openBugs + pendingCEO}/9`;
+      document.getElementById('hudDevRoomStatus').textContent = officeState.devHolderName.toLowerCase();
+
+      const totalTokensK = agents.reduce((acc, a) => acc + a.tokensK, 0);
+      const totalUSD = agents.reduce((acc, a) => acc + a.costUSD, 0);
+      document.getElementById('hudTotalCost').textContent = `$${totalUSD.toFixed(2).replace('.', ',')}`;
+      document.getElementById('hudTotalTokens').textContent = `${totalTokensK.toFixed(1)}k tok`;
+
+      drawGiant3DScreenCanvas();
+    }
+
+    function renderGiantCommandWall() {
+      updateLiveClockAndHUD();
+
+      document.getElementById('wallProjectTitle').textContent = officeState.projectTitle;
+      document.getElementById('wallProgressPercent').textContent = `${officeState.progress}%`;
+      document.getElementById('wallProgressBar').style.width = `${officeState.progress}%`;
+
+      const stageDescriptions = [
+        'Chị (CEO) vừa ban hành yêu cầu dự án mới xuống cho Khôi...',
+        'Bàn #1 (Khôi) đang họp phân rã công việc & điều phối cho Đức, Minh...',
+        'Bàn #3 (Đức) đang giữ Phòng DEV & viết code với Claude 3.5 Sonnet...',
+        'Bàn #4 (Minh) đang kiểm thử & đi bộ sang bàn Đức trao đổi sửa bug...',
+        'Bàn #2 (Linh) đã gom hồ sơ vào mục "Cần Sếp duyệt" chờ Chị phê duyệt!',
+        'Chị (CEO) đã phê duyệt hoàn tất! Sản phẩm đạt 100%.'
+      ];
+      document.getElementById('wallCurrentStepText').textContent = stageDescriptions[officeState.stageIndex] || stageDescriptions[1];
+
+      const pipeEl = document.getElementById('pipelineStagesContainer');
+      if (pipeEl) {
+        pipeEl.innerHTML = PIPELINE_STAGES.map((st, idx) => {
+          const isDone = idx < officeState.stageIndex || officeState.stageIndex === 5;
+          const isCurrent = idx === officeState.stageIndex && officeState.stageIndex !== 5;
+          let boxClass = 'bg-slate-950/70 border-slate-800 text-slate-500';
+          if (isDone) boxClass = 'bg-emerald-950/40 border-emerald-500/40 text-emerald-300';
+          if (isCurrent) boxClass = 'bg-cyan-950/80 border-cyan-400 text-white';
+          return `
+            <div class="rounded-lg border px-2.5 py-1.5 transition ${boxClass}">
+              <div class="flex items-center justify-between text-[10px] font-bold">
+                <span>${st.title}</span>
+                <span>${isDone ? '✔' : (isCurrent ? '●' : '')}</span>
+              </div>
+              <div class="text-[9px] opacity-80 truncate">${st.actor}</div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      const rosterEl = document.getElementById('liveStaffRosterTable');
+      if (rosterEl) {
+        rosterEl.innerHTML = agents.map(ag => `
+          <div onclick="openAgentDeskModal(${ag.id})" class="cursor-pointer rounded-lg bg-slate-950 hover:bg-slate-900 border border-slate-800 px-2.5 py-1.5 flex items-center justify-between text-[11px]">
+            <span class="font-bold text-white">${ag.shortName} (${ag.deskCode})</span>
+            <span class="text-slate-400 truncate max-w-[200px]">${ag.currentTask}</span>
+            <span class="font-mono-code text-emerald-400">${ag.grade} • $${ag.costUSD.toFixed(2)}</span>
+          </div>
+        `).join('');
+      }
+
+      const activeCount = agents.filter(a => a.status !== 'STANDBY').length;
+      document.getElementById('kpiActiveAgents').textContent = `${activeCount} / 10`;
+      document.getElementById('kpiStandbyCount').textContent = `${10 - activeCount} dự bị rảnh`;
+      document.getElementById('kpiCodeTestLoops').textContent = `Vòng #${officeState.codeTestLoopCount}`;
+      document.getElementById('kpiBugCount').textContent = officeState.openBugs > 0 ? `${officeState.openBugs} bug` : '0 bug';
+      document.getElementById('kpiPendingCEO').textContent = String(officeState.ceoInbox.filter(i => !i.resolved).length);
+      document.getElementById('kpiExternalCalls').textContent = String(officeState.externalApiCalls);
+      document.getElementById('kpiLastExternalTool').textContent = officeState.lastExternalTool;
+
+      const doneTasks = officeState.tasks.filter(t => t.status === 'DONE').length;
+      document.getElementById('taskSummaryCount').textContent = `${doneTasks}/${officeState.tasks.length} xong`;
+      const taskContainer = document.getElementById('wallTaskList');
+      if (taskContainer) {
+        taskContainer.innerHTML = officeState.tasks.map(t => `
+          <div class="flex items-center justify-between gap-2 bg-slate-900 border border-slate-800 rounded px-2 py-1 text-[11px]">
+            <span class="truncate text-slate-200">${t.title}</span>
+            <span class="text-[10px] text-cyan-400 shrink-0">${t.status}</span>
+          </div>
+        `).join('');
+      }
+
+      const topChart = document.getElementById('topCommunicatorsChart');
+      if (topChart) {
+        const sortedByMsg = [...agents].sort((a, b) => b.msgCount - a.msgCount).slice(0, 5);
+        topChart.innerHTML = sortedByMsg.map(ag => `
+          <div class="flex justify-between text-[10px]">
+            <span class="text-slate-300">${ag.shortName}</span>
+            <span class="font-mono-code text-amber-400">${ag.msgCount} tin</span>
+          </div>
+        `).join('');
+      }
+    }
+
+    function rotateDevEnvironmentHolder() {
+      const holders = [
+        { id: 3, title: 'Đức giữ 42p', sub: 'Đang chạy: backend-build & hot-reload' },
+        { id: 4, title: 'Minh giữ 25p', sub: 'Đang chạy: Playwright E2E 18 kịch bản' },
+        { id: null, title: 'TRỐNG 59 phút', sub: 'Hàng đợi: 0 người chờ' }
+      ];
+      const nextIdx = ((officeState._devIdx || 0) + 1) % holders.length;
+      officeState._devIdx = nextIdx;
+      const h = holders[nextIdx];
+      officeState.devHolderName = h.title;
+      officeState.devHolderAgentId = h.id;
+      document.getElementById('devHolderTitle').textContent = h.title;
+      document.getElementById('devHolderSub').textContent = h.sub;
+      updateLiveClockAndHUD();
+    }
+
+    function pushOfficeLog(from, to, tag, text) {
+      const d = new Date();
+      officeState.commsLogs.unshift({
+        time: d.toTimeString().split(' ')[0],
+        from,
+        to,
+        tag,
+        text
+      });
+      if (officeState.commsLogs.length > 60) officeState.commsLogs.pop();
+      renderLiveCommsFeed();
+      drawGiant3DScreenCanvas();
+    }
+
+    function renderLiveCommsFeed() {
+      const container = document.getElementById('liveCommsFeed');
+      if (!container) return;
+      const filtered = officeState.commsLogs.filter(item => {
+        if (officeState.logFilter === 'all') return true;
+        return item.tag === officeState.logFilter;
+      });
+      container.innerHTML = filtered.map(item => `
+        <div class="p-1.5 rounded bg-slate-900 border border-slate-800">
+          <div class="text-[9px] text-cyan-400 font-bold">${item.from} ➔ ${item.to} (${item.time})</div>
+          <div class="text-slate-200">${item.text}</div>
+        </div>
+      `).join('');
+    }
+
+    function filterLogs(mode) {
+      officeState.logFilter = mode;
+      renderLiveCommsFeed();
+    }
+
+    function openCEOCommandDrawer() {
+      renderCEOInbox();
+      document.getElementById('ceoCommandSection').classList.remove('hidden');
+    }
+
+    function closeCEOCommandDrawer() {
+      document.getElementById('ceoCommandSection').classList.add('hidden');
+    }
+
+    function scrollToCEOInbox() {
+      openCEOCommandDrawer();
+    }
+
+    function renderCEOInbox() {
+      const container = document.getElementById('ceoApprovalContainer');
+      const badge = document.getElementById('secretaryAlertBadge');
+      const pendingItems = officeState.ceoInbox.filter(i => !i.resolved);
+
+      if (badge) {
+        badge.textContent = pendingItems.length > 0 ? `${pendingItems.length} việc cần Sếp duyệt!` : '0 việc tồn đọng';
+      }
+
+      if (!container) return;
+      if (pendingItems.length === 0) {
+        container.innerHTML = `
+          <div class="rounded-xl bg-slate-900 border border-slate-800 p-3 text-xs text-slate-400">
+            ✨ Thư ký Linh: "Mọi việc trong mục 'Cần Sếp duyệt' đã được Chị (CEO) phê duyệt xong!"
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = pendingItems.map(item => {
+        if (item.type === 'ACCOUNT_REQUEST') {
+          return `
+            <div class="rounded-xl bg-indigo-950/60 border border-cyan-400/50 p-3 space-y-2">
+              <div class="text-xs font-extrabold text-cyan-300">🔑 KHÔI & LINH XIN CẤP TÀI KHOẢN CÔNG CỤ NGOÀI: ${item.toolName || 'Công cụ chuyên dụng'}</div>
+              <p class="text-xs text-slate-200">${item.desc}</p>
+              <div class="flex flex-col sm:flex-row gap-2 pt-1">
+                <input id="grantAccInput_${item.id}" type="text" placeholder="Nhập tài khoản / mã truy cập hoặc để trống dùng gói mặc định..." class="flex-1 bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-1 text-xs text-white outline-none focus:border-cyan-400" />
+                <button onclick="ceoGrantAccountRequest('${item.id}')" class="px-3 py-1.5 rounded-lg bg-cyan-400 hover:bg-cyan-300 text-slate-950 font-extrabold text-xs shrink-0">
+                  🔑 Cấp Tài Khoản & Cho Phép Dùng
+                </button>
+              </div>
+            </div>
+          `;
+        }
+        if (item.type === 'FINAL_PRODUCT') {
+          return `
+            <div class="rounded-xl bg-amber-500/10 border border-amber-500/40 p-3 space-y-2">
+              <div class="text-xs font-extrabold text-amber-300">🏆 TRÌNH SẾP DUYỆT SẢN PHẨM CUỐI CÙNG</div>
+              <p class="text-xs text-slate-200">${item.desc}</p>
+              <div class="flex flex-wrap gap-2 pt-1">
+                <button onclick="ceoApproveFinalProduct()" class="px-3 py-1.5 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs">
+                  ✅ CEO Phê Duyệt Sản Phẩm
+                </button>
+                <button onclick="closeCEOCommandDrawer(); openProductPreviewModal();" class="px-3 py-1.5 rounded-lg bg-slate-800 text-cyan-300 border border-slate-700 font-semibold text-xs">
+                  🔍 Xem Code & Chạy Thử
+                </button>
+                <button onclick="ceoRequestRevision()" class="px-3 py-1.5 rounded-lg bg-rose-500/20 text-rose-300 border border-rose-500/30 font-semibold text-xs">
+                  🔄 Yêu Cầu Sửa Lại
+                </button>
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+          <div class="rounded-xl bg-slate-900 border border-amber-500/40 p-3 space-y-2">
+            <div class="text-xs font-bold text-amber-300">🔔 ${item.title}</div>
+            <p class="text-xs text-slate-300">${item.desc}</p>
+            <div class="flex gap-2 pt-1">
+              <button onclick="ceoResolveIssue('${item.id}', true)" class="px-3 py-1 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs">
+                👍 CEO Đồng Ý Duyệt
+              </button>
+              <button onclick="ceoResolveIssue('${item.id}', false)" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 font-semibold text-xs">
+                Đổi phương án an toàn
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderAllDesks() {
+      const coreContainer = document.getElementById('coreDesksGrid');
+      const standbyContainer = document.getElementById('standbyDesksGrid');
+      if (!coreContainer || !standbyContainer) return;
+
+      coreContainer.innerHTML = agents.filter(a => a.isCore).map(a => buildDeskCardHTML(a)).join('');
+      standbyContainer.innerHTML = agents.filter(a => !a.isCore).map(a => buildDeskCardHTML(a)).join('');
+    }
+
+    function buildDeskCardHTML(agent) {
+      return `
+        <div onclick="openAgentDeskModal(${agent.id})" class="desk-station cursor-pointer rounded-2xl border border-slate-800 bg-slate-900/90 p-3.5 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-2">
+              <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-slate-950 text-white border border-slate-700">${agent.deskCode}</span>
+              <span class="text-[10px] font-mono-code text-emerald-400">Hạng ${agent.grade} • $${agent.costUSD.toFixed(2)}</span>
+            </div>
+            <div class="text-xs font-bold text-white">${agent.name} — ${agent.department}</div>
+            <p class="text-[11px] text-slate-400 mt-1 line-clamp-2">"${agent.speech}"</p>
+          </div>
+          <div class="pt-2 mt-2 border-t border-slate-800 flex justify-between text-[10px] text-cyan-400">
+            <span>${agent.tokensK.toFixed(1)}k tok</span>
+            <span>Nhắn thẳng ➔</span>
+          </div>
+        </div>
+      `;
+    }
+
+    function startSimulationLoop() {
+      if (simTimer) clearInterval(simTimer);
+      const intervalMs = officeState.simSpeed === 2 ? 2200 : 4200;
+      simTimer = setInterval(() => {
+        if (officeState.paused) return;
+        stepOfficeSimulation();
+      }, intervalMs);
+    }
+
+    function stepOfficeSimulation() {
+      if (officeState.stageIndex === 5) {
+        drawGiant3DScreenCanvas();
+        return;
+      }
+
+      agents.forEach(ag => {
+        if (ag.status !== 'STANDBY') {
+          ag.tokensK += 0.7;
+          ag.costUSD += 0.01;
+        }
+      });
+
+      const leader = agents[0];
+      const secretary = agents[1];
+      const coder = agents[2];
+      const tester = agents[3];
+
+      // CƠ CHẾ KIỂM THỬ KHẮT KHE TUYỆT ĐỐI 100% CỦA MINH (#4):
+      // Nếu có bất kỳ lỗi hoặc điểm chất lượng < 100%, Minh bắt nhân sự phụ trách làm lại bằng được mới thôi!
+      if (officeState.openBugs > 0) {
+        officeState.stageIndex = 3;
+        const targetWorkerId = (officeState.activeWorkerIds && officeState.activeWorkerIds[0]) || 3;
+        const targetWorker = agents.find(a => a.id === targetWorkerId) || coder;
+
+        targetWorker.status = 'BUG_FIX';
+        targetWorker.cardType = 'Đang làm lại theo lệnh QA';
+        targetWorker.speech = `Minh khó tính quá, mới đạt ${officeState.strictQAScore}% đã bắt làm lại! Mình đang sửa triệt để lên 100% vòng #${officeState.codeTestLoopCount}...`;
+        targetWorker.msgCount += 2;
+
+        // Nâng điểm dần qua mỗi vòng sửa; chỉ khi đạt tuyệt đối 100% mới hết bug!
+        officeState.strictQAScore = Math.min(100, officeState.strictQAScore + 8);
+        if (officeState.strictQAScore < 100) {
+          officeState.codeTestLoopCount += 1;
+          tester.status = 'BUG_FIX';
+          tester.cardType = 'QA Từ chối (<100%)';
+          tester.speech = `Mới đạt ${officeState.strictQAScore}% yêu cầu của Chị CEO (chưa đủ 100%)! ${targetWorker.shortName} phải làm lại tiếp vòng #${officeState.codeTestLoopCount}!`;
+          sendRobotToPosition(4, targetWorker.deskPos.x + 1.0, targetWorker.deskPos.z + 0.7, 120);
+          pushOfficeLog('Bàn #4 (Minh QA)', `${targetWorker.deskCode} (${targetWorker.shortName})`, 'codetest', `⛔ Minh từ chối nghiệm thu (Mới đạt ${officeState.strictQAScore}% < 100%). Bắt ${targetWorker.shortName} làm lại vòng #${officeState.codeTestLoopCount}!`);
+        } else {
+          officeState.openBugs = 0;
+          officeState.strictQAChecklist.forEach(c => { c.score = 100; c.passed = true; });
+          targetWorker.status = 'WORKING';
+          targetWorker.speech = 'Đã sửa hoàn hảo đạt tuyệt đối 100/100 mọi tiêu chí của Minh QA!';
+          tester.status = 'WORKING';
+          tester.cardType = 'Đạt chuẩn 100%';
+          tester.speech = 'Đã kiểm tra lại: Đạt tuyệt đối 100% tất cả yêu cầu ban đầu của Chị CEO! Duyệt chuyển sang Linh!';
+          tester.msgCount += 2;
+          officeState.progress = 94;
+          sendRobotToPosition(4, secretary.deskPos.x + 1.0, secretary.deskPos.z + 0.7, 110);
+          pushOfficeLog('Bàn #4 (Minh QA)', 'Bàn #2 (Linh)', 'codetest', `✅ Sau ${officeState.codeTestLoopCount} vòng bắt làm lại gắt gao, sản phẩm đã đạt tuyệt đối 100% yêu cầu của CEO!`);
+        }
+        renderGiantCommandWall();
+        renderAllDesks();
+        return;
+      }
+
+      if (officeState.progress < 45) {
+        officeState.stageIndex = 1;
+        officeState.progress += 10;
+        leader.msgCount += 2;
+        const firstWorker = agents.find(a => a.id === ((officeState.activeWorkerIds && officeState.activeWorkerIds[0]) || 3)) || coder;
+        sendRobotToPosition(1, firstWorker.deskPos.x + 1.0, firstWorker.deskPos.z + 0.7, 100);
+      } else if (officeState.progress < 72) {
+        officeState.stageIndex = 2;
+        officeState.progress += 14;
+        const primaryWorker = agents.find(a => a.id === ((officeState.activeWorkerIds && officeState.activeWorkerIds[0]) || 3)) || coder;
+        officeState.devHolderName = `${primaryWorker.shortName} giữ 42p`;
+        primaryWorker.msgCount += 3;
+        sendRobotToPosition(primaryWorker.id, tester.deskPos.x - 1.0, tester.deskPos.z + 0.7, 100);
+      } else if (officeState.progress < 92) {
+        officeState.stageIndex = 3;
+        if (officeState.strictQAScore < 100) {
+          officeState.openBugs = 1;
+          officeState.codeTestLoopCount += 1;
+          const workerToFix = agents.find(a => a.id === ((officeState.activeWorkerIds && officeState.activeWorkerIds[officeState.codeTestLoopCount % officeState.activeWorkerIds.length]) || 3)) || coder;
+          tester.status = 'BUG_FIX';
+          tester.cardType = 'QA Khó tính trả bài';
+          tester.speech = `Chưa đạt 100% yêu cầu ban đầu của Chị CEO (mới ${officeState.strictQAScore}%)! Mình đi sang bàn ${workerToFix.shortName} bắt làm lại ngay!`;
+          workerToFix.status = 'BUG_FIX';
+          sendRobotToPosition(4, workerToFix.deskPos.x + 1.0, workerToFix.deskPos.z + 0.7, 130);
+          pushOfficeLog('Bàn #4 (Minh QA)', `${workerToFix.deskCode} (${workerToFix.shortName})`, 'codetest', `⚠️ Minh chấm ${officeState.strictQAScore}% (<100%): Đi sang bàn ${workerToFix.shortName} bắt làm lại đến khi đạt 100%!`);
+        } else {
+          officeState.progress = 95;
+          officeState.devHolderName = 'TRỐNG 59 phút';
+          sendRobotToPosition(4, secretary.deskPos.x + 1.0, secretary.deskPos.z + 0.7, 110);
+        }
+      } else {
+        officeState.stageIndex = 4;
+        officeState.progress = 96;
+        secretary.status = 'REPORTING';
+        secretary.speech = 'Thưa Chị (CEO), sản phẩm đã qua kiểm duyệt! Em đang đi sang bàn Giám đốc trình Sếp duyệt ạ!';
+        sendRobotToPosition(2, CEO_DESK_3D.x + 1.2, CEO_DESK_3D.z + 0.7, 140);
+
+        const hasFinal = officeState.ceoInbox.some(i => i.type === 'FINAL_PRODUCT' && !i.resolved);
+        if (!hasFinal) {
+          officeState.ceoInbox.unshift({
+            id: 'FINAL-' + Date.now(),
+            type: 'FINAL_PRODUCT',
+            title: 'Cần Sếp duyệt: Chốt duyệt sản phẩm hoàn thiện cuối cùng',
+            desc: `Thư ký Linh kính trình: Dự án "${officeState.projectTitle}" đã vượt qua ${officeState.codeTestLoopCount} vòng kiểm thử giữa Đức và Minh (0 bug). Mời Chị (CEO) phê duyệt!`,
+            resolved: false,
+            timestamp: 'Vừa xong'
+          });
+          document.getElementById('finalDeliverableStatus').textContent = 'Chờ CEO nhấn Phê duyệt!';
+          renderCEOInbox();
+        }
+      }
+
+      renderGiantCommandWall();
+      renderAllDesks();
+    }
+
+    function mobilizeStandbySubset(countToMobilize) {
+      let mobilized = 0;
+      for (let i = 4; i < agents.length; i++) {
+        if (agents[i].status === 'STANDBY' && mobilized < countToMobilize) {
+          const ag = agents[i];
+          ag.status = 'WORKING';
+          ag.role = ag.assignedSpecialty;
+          ag.statusText = 'đang làm';
+          ag.cardType = 'Nhận nhiệm vụ';
+          ag.currentTask = `[VIỆC] ${ag.assignedSpecialty} do Khôi giao`;
+          ag.speech = `Chào cả phòng, em là ${ag.shortName}, vừa được Khôi giao việc ${ag.assignedSpecialty}!`;
+          mobilized++;
+        }
+      }
+    }
+
+    function ceoMobilizeAllStandby() {
+      for (let i = 4; i < agents.length; i++) {
+        const ag = agents[i];
+        ag.status = 'WORKING';
+        ag.role = ag.assignedSpecialty;
+        ag.statusText = 'đang làm';
+        ag.cardType = 'Nhận nhiệm vụ';
+        ag.currentTask = `[VIỆC] Thực thi ${ag.assignedSpecialty} theo lệnh Khôi`;
+        ag.speech = `Đã nhận lệnh từ Khôi! Bàn #${ag.id} (${ag.shortName}) đang chạy hết công suất!`;
+        ag.msgCount += 3;
+      }
+      trigger3DMeetingRoom();
+      renderGiantCommandWall();
+      renderAllDesks();
+    }
+
+    function ceoReleaseStandby() {
+      for (let i = 4; i < agents.length; i++) {
+        const ag = agents[i];
+        ag.status = 'STANDBY';
+        ag.statusText = 'chờ lệnh';
+        ag.currentTask = 'Tạm thời chưa có việc gì — Sẵn sàng khi Khôi điều động';
+        ag.speech = 'Đang ngồi bàn chờ Khôi gọi tiếp!';
+      }
+      renderGiantCommandWall();
+      renderAllDesks();
+    }
+
+    function loadPresetBrief(type) {
+      const input = document.getElementById('ceoTaskInput');
+      officeState.projectType = type;
+      if (type === 'crm') {
+        input.value = 'Xây dựng ứng dụng Dashboard Quản lý Đơn hàng & Tích hợp Chatbot tư vấn tự động, giao diện Dark Mode hiện đại';
+      } else if (type === 'fintech') {
+        input.value = 'Xây dựng nền tảng Ví Tài Chính Cá Nhân thông minh, tự động phân loại chi tiêu bằng AI và cảnh báo vượt ngân sách';
+      } else if (type === 'game') {
+        input.value = 'Lập trình Mini Game Chiến thuật Phòng thủ Tháp AI (Tower Defense) chạy mượt trên trình duyệt kèm bảng xếp hạng';
+      }
+      ceoAssignNewProject();
+    }
+
+    // TRÍ TUỆ ĐIỀU PHỐI CỦA KHÔI (LEADER #1):
+    // Phân tích đề bài của CEO -> Chọn đúng nhân sự chuyên môn -> Kiểm tra công cụ bên ngoài (nếu thiếu tài khoản thì xin CEO cấp) -> Lập tiêu chí 100% cho Minh QA
+    function smartLeaderAnalyzeAndDispatch(brief) {
+      const lower = brief.toLowerCase();
+      const matchedIds = [];
+      const neededTools = [];
+
+      // Phân tích từ khóa thông minh để giao đúng người
+      if (lower.includes('web') || lower.includes('app') || lower.includes('code') || lower.includes('game') || lower.includes('hệ thống') || lower.includes('dashboard') || lower.includes('tool')) {
+        matchedIds.push(3); // Đức (Coder)
+        neededTools.push({ name: 'Claude 3.5 Sonnet & GitHub Copilot', accountRequired: false });
+      }
+      if (lower.includes('giao diện') || lower.includes('thiết kế') || lower.includes('màu') || lower.includes('đẹp') || lower.includes('ui') || lower.includes('banner') || lower.includes('ảnh') || lower.includes('dark mode')) {
+        matchedIds.push(5); // Vy (Thiết kế)
+        neededTools.push({ name: 'Figma Pro & Midjourney Design API', accountRequired: true, reason: 'Vy (#5) cần tài khoản Figma Pro / Midjourney để xuất thiết kế chuẩn 100% theo yêu cầu của Chị.' });
+      }
+      if (lower.includes('nghiên cứu') || lower.includes('thị trường') || lower.includes('đối thủ') || lower.includes('tìm') || lower.includes('xu hướng') || lower.includes('giá') || lower.includes('khảo sát')) {
+        matchedIds.push(6); // Tùng (Nghiên cứu)
+        neededTools.push({ name: 'Perplexity Pro & Semrush Market Data', accountRequired: true, reason: 'Tùng (#6) cần tài khoản Perplexity Pro / Semrush để quét dữ liệu thị trường sâu theo lệnh của Khôi.' });
+      }
+      if (lower.includes('bảo mật') || lower.includes('tài chính') || lower.includes('ví') || lower.includes('thanh toán') || lower.includes('ngân sách') || lower.includes('an toàn') || lower.includes('đăng nhập')) {
+        matchedIds.push(7); // Vũ (Bảo mật)
+        neededTools.push({ name: 'OWASP Enterprise & Stripe Sandbox', accountRequired: true, reason: 'Vũ (#7) cần quyền truy cập cổng Sandbox bảo mật/thanh toán để kiểm tra an toàn tuyệt đối.' });
+      }
+      if (lower.includes('bài viết') || lower.includes('nội dung') || lower.includes('tài liệu') || lower.includes('kịch bản') || lower.includes('quảng cáo') || lower.includes('tư vấn') || lower.includes('chatbot') || lower.includes('hướng dẫn')) {
+        matchedIds.push(8); // Mai (Biên tập)
+      }
+      if (lower.includes('dữ liệu') || lower.includes('đơn hàng') || lower.includes('thống kê') || lower.includes('chi tiêu') || lower.includes('bảng') || lower.includes('kho') || lower.includes('xếp hạng') || lower.includes('sql')) {
+        matchedIds.push(9); // Bách (Dữ liệu)
+      }
+      if (lower.includes('triển khai') || lower.includes('server') || lower.includes('mượt') || lower.includes('cloud') || lower.includes('tự động')) {
+        matchedIds.push(10); // Đạt (Hệ thống)
+      }
+
+      // Kiểm tra cả các nhân sự mới do CEO tự tuyển thêm (#11+)
+      agents.forEach(ag => {
+        if (ag.id > 10) {
+          const deptLow = (ag.department || '').toLowerCase();
+          const roleLow = (ag.role || '').toLowerCase();
+          if ((deptLow && lower.includes(deptLow)) || (roleLow && lower.split(' ').some(w => w.length > 3 && roleLow.includes(w)))) {
+            matchedIds.push(ag.id);
+          }
+        }
+      });
+
+      if (matchedIds.length === 0) {
+        matchedIds.push(3, 6, 8); // Mặc định phối hợp Đức, Tùng, Mai nếu đề bài tổng hợp
+      }
+
+      const uniqueWorkerIds = [...new Set(matchedIds)];
+      officeState.activeWorkerIds = uniqueWorkerIds;
+
+      // Đặt trạng thái cho từng nhân sự: Ai được Khôi chọn thì bật WORKING, các bàn dự bị không liên quan thì chờ lệnh
+      agents.forEach(ag => {
+        if (ag.id <= 4) {
+          ag.status = 'WORKING';
+          ag.statusText = 'đang làm';
+        } else if (uniqueWorkerIds.includes(ag.id)) {
+          ag.status = 'WORKING';
+          ag.statusText = 'đang làm';
+          ag.role = ag.assignedSpecialty || ag.role;
+          ag.cardType = 'Khôi phân việc';
+          ag.currentTask = `[KHÔI GIAO] Phụ trách mảng ${ag.department} cho dự án: "${brief.slice(0, 36)}..."`;
+          ag.speech = `Em (${ag.shortName}) vừa được Khôi chọn phụ trách mảng ${ag.department} vì đúng chuyên môn!`;
+          ag.msgCount += 2;
+        } else {
+          ag.status = 'STANDBY';
+          ag.statusText = 'chờ lệnh';
+        }
+      });
+
+      const assignedNames = uniqueWorkerIds.map(id => {
+        const a = agents.find(x => x.id === id);
+        return a ? `${a.shortName} (#${a.id})` : `#${id}`;
+      }).join(', ');
+
+      agents[0].speech = `Đã phân tích đề bài của Chị CEO! Em giao việc cho: ${assignedNames} và yêu cầu Minh (#4) kiểm duyệt khắt khe đủ 100% mới được duyệt!`;
+      agents[3].speech = `Mình đã lập bảng 4 tiêu chí bắt buộc 100% từ yêu cầu của Chị CEO. Ai làm thiếu dù chỉ 1% mình sẽ bắt làm lại ngay!`;
+
+      // Thiết lập Bảng Tiêu Chí Khắt Khe 100% của Minh (#4)
+      officeState.strictQAScore = 84;
+      officeState.strictQAChecklist = [
+        { name: `Đáp ứng 100% yêu cầu gốc: "${brief.slice(0, 48)}..."`, score: 90, passed: false, worker: assignedNames },
+        { name: 'Độ chính xác chuyên môn & logic nghiệp vụ (Không sai sót)', score: 85, passed: false, worker: assignedNames },
+        { name: 'Trải nghiệm thực tế, giao diện & hiệu năng vận hành', score: 80, passed: false, worker: assignedNames },
+        { name: 'Kiểm thử các tình huống khó (Edge Cases) - Chuẩn 100% của Minh QA', score: 82, passed: false, worker: 'Minh (#4) giám sát' }
+      ];
+
+      // Nếu công cụ bên ngoài cần dùng cho đề bài này chưa được cấp tài khoản riêng -> Khôi & Linh xin CEO cấp tài khoản!
+      const missingTool = neededTools.find(t => t.accountRequired && !t.grantedByCEO);
+      if (missingTool) {
+        officeState.ceoInbox.unshift({
+          id: 'ACC-' + Date.now(),
+          type: 'ACCOUNT_REQUEST',
+          toolName: missingTool.name,
+          title: `Khôi xin cấp tài khoản công cụ ngoài: ${missingTool.name}`,
+          desc: `${missingTool.reason} Chị (CEO) có thể nhập tài khoản/API hoặc bấm cấp quyền dùng tài khoản có sẵn của Chị nhé!`,
+          resolved: false,
+          timestamp: 'Vừa xong'
+        });
+        pushOfficeLog('Bàn #1 (Khôi)', 'Mục "Cần Sếp duyệt"', 'external', `🔑 Khôi đề xuất dùng công cụ ngoài (${missingTool.name}) và nhờ Linh xin Chị CEO cấp tài khoản.`);
+      }
+
+      pushOfficeLog('Bàn #1 (Khôi)', assignedNames, 'core', `🎯 Phân tích thông minh: Giao việc cho ${assignedNames} đúng chuyên môn. Minh (#4) giám sát tiêu chuẩn 100%.`);
+    }
+
+    function ceoGrantAccountRequest(reqId) {
+      const item = officeState.ceoInbox.find(i => i.id === reqId);
+      const inputEl = document.getElementById('grantAccInput_' + reqId);
+      const accVal = (inputEl?.value || '').trim() || 'Tài khoản gói sẵn có của Chị CEO';
+      if (item) {
+        item.resolved = true;
+        EXTERNAL_PLUGINS_CATALOG.unshift({
+          id: 'ext_' + Date.now(),
+          name: item.toolName || 'Công cụ ngoài',
+          category: 'Tài khoản CEO cấp (' + accVal.slice(0, 18) + ')',
+          desc: 'Đã được Chị (CEO) phê duyệt và cấp quyền truy cập trực tiếp cho các nhân sự.',
+          enabled: true
+        });
+      }
+      const enabledCount = EXTERNAL_PLUGINS_CATALOG.filter(p => p.enabled).length + 8;
+      document.getElementById('activePluginCount').textContent = String(enabledCount);
+      pushOfficeLog('Chị (CEO)', 'Bàn #1 (Khôi) & Đội Dự Án', 'external', `🔑 CEO đã cấp tài khoản (${accVal}) cho công cụ ${item ? item.toolName : ''}! Đội bắt đầu gọi công cụ ngay.`);
+      renderCEOInbox();
+      renderGiantCommandWall();
+    }
+
+    function ceoGrantNewExternalTool() {
+      const nameVal = (document.getElementById('customToolNameInput')?.value || '').trim();
+      const accVal = (document.getElementById('customToolAccountInput')?.value || '').trim() || 'Đã cấp tài khoản CEO';
+      if (!nameVal) return;
+      EXTERNAL_PLUGINS_CATALOG.unshift({
+        id: 'custom_' + Date.now(),
+        name: nameVal,
+        category: 'Tài khoản CEO cấp (' + accVal + ')',
+        desc: 'Công cụ bên ngoài do Chị (CEO) cấp tài khoản trực tiếp cho Khôi và cả đội sử dụng.',
+        enabled: true
+      });
+      agents[0].plugins.unshift(nameVal);
+      document.getElementById('customToolNameInput').value = '';
+      document.getElementById('customToolAccountInput').value = '';
+      const enabledCount = EXTERNAL_PLUGINS_CATALOG.filter(p => p.enabled).length + 8;
+      document.getElementById('activePluginCount').textContent = String(enabledCount);
+      pushOfficeLog('Chị (CEO)', 'Kho Công Cụ Ngoài', 'external', `🔑 Đã cấp tài khoản công cụ mới "${nameVal}" (${accVal}) cho Khôi tùy ý điều phối!`);
+      openPluginHubModal();
+      renderGiantCommandWall();
+    }
+
+    function ceoAssignNewProject() {
+      const input = document.getElementById('ceoTaskInput');
+      const brief = input.value.trim();
+      if (!brief) return;
+
+      officeState.projectTitle = brief;
+      saveOfficeStateToStorage();
+      smartLeaderAnalyzeAndDispatch(brief);
+      invokeRealOrSmartAI(brief, agents[2]).then(txt => { generatedDeliverableCustomText = txt; });
+      officeState.progress = 20;
+      officeState.stageIndex = 1;
+      officeState.codeTestLoopCount = 1;
+      officeState.openBugs = 0;
+
+      closeCEOCommandDrawer();
+      trigger3DMeetingRoom();
+      renderGiantCommandWall();
+      renderCEOInbox();
+      renderAllDesks();
+    }
+
+    function ceoForceBugTest() {
+      officeState.stageIndex = 3;
+      officeState.openBugs += 1;
+      officeState.codeTestLoopCount += 1;
+      officeState.strictQAScore = 86;
+      officeState.strictQAChecklist.forEach((c, idx) => {
+        if (idx > 0) { c.score = 86; c.passed = false; }
+      });
+
+      const targetId = (officeState.activeWorkerIds && officeState.activeWorkerIds[0]) || 3;
+      const worker = agents.find(a => a.id === targetId) || agents[2];
+      const tester = agents[3];
+
+      tester.status = 'BUG_FIX';
+      tester.cardType = 'QA Khó tính (<100%)';
+      tester.speech = `${worker.shortName} ơi! Sản phẩm mới đạt 86% yêu cầu ban đầu của Chị CEO (chưa tuyệt đối 100%). Mình sang tận bàn bắt làm lại vòng #${officeState.codeTestLoopCount} đây!`;
+
+      worker.status = 'BUG_FIX';
+      worker.cardType = 'Bị QA bắt làm lại';
+      worker.speech = `Rõ rồi Minh! Mình đang làm lại triệt để từng chi tiết cho đến khi đạt chuẩn 100% tuyệt đối của cậu!`;
+
+      sendRobotToPosition(4, worker.deskPos.x + 1.0, worker.deskPos.z + 0.7, 170);
+      pushOfficeLog('Bàn #4 (Minh QA)', `${worker.deskCode} (${worker.shortName})`, 'codetest', `⛔ Minh QA chấm 86% (< 100%): Không duyệt! Đi sang bàn ${worker.shortName} bắt làm lại vòng #${officeState.codeTestLoopCount} đến khi đạt 100% mới thôi.`);
+      renderGiantCommandWall();
+      renderAllDesks();
+    }
+
+    function ceoResolveIssue(issueId, approved) {
+      const item = officeState.ceoInbox.find(i => i.id === issueId);
+      if (item) item.resolved = true;
+      pushOfficeLog('Chị (CEO)', 'Bàn #2 (Linh)', 'core', approved ? '👍 CEO đã duyệt mục trong "Cần Sếp duyệt".' : '🔄 CEO yêu cầu chọn phương án an toàn.');
+      renderCEOInbox();
+      renderGiantCommandWall();
+    }
+
+    function ceoApproveFinalProduct() {
+      officeState.stageIndex = 5;
+      officeState.progress = 100;
+      officeState.openBugs = 0;
+      officeState.ceoInbox.forEach(i => { i.resolved = true; });
+      officeState.tasks.forEach(t => { t.status = 'DONE'; });
+      agents[0].speech = 'Chị (CEO) đã duyệt sản phẩm cuối cùng! Cảm ơn cả đội!';
+      agents[1].speech = 'Dạ Chị (CEO) đã ký duyệt 100%! Hồ sơ đã lưu trữ xong ạ!';
+      document.getElementById('finalDeliverableStatus').textContent = '✅ CEO ĐÃ CHỐT DUYỆT 100%';
+      closeProductPreviewModal();
+      closeCEOCommandDrawer();
+      renderCEOInbox();
+      renderGiantCommandWall();
+      renderAllDesks();
+    }
+
+    function ceoRequestRevision() {
+      officeState.stageIndex = 2;
+      officeState.progress = 55;
+      officeState.codeTestLoopCount += 1;
+      agents[2].status = 'BUG_FIX';
+      agents[2].speech = 'Đang sửa lại sản phẩm theo đúng yêu cầu của Chị (CEO)!';
+      closeProductPreviewModal();
+      closeCEOCommandDrawer();
+      renderGiantCommandWall();
+    }
+
+    function toggleZoomCommandWall() {
+      if (officeState.viewMode !== '3D') {
+        toggleViewMode3D2D();
+      }
+      officeState.zoomCommandWall = !officeState.zoomCommandWall;
+      const btn = document.getElementById('btnZoomScreen');
+      userZoomFactor = 1.0;
+      if (officeState.zoomCommandWall) {
+        desiredCameraTarget.set(0, 9.8, -8.8);
+        desiredSpherical = { radius: 23.5, theta: 0.0, phi: 1.52 };
+        desiredSceneWidthFit = 44.2;
+        btn.textContent = 'Toàn cảnh 3D';
+      } else {
+        desiredCameraTarget.set(0, 4.5, -2.5);
+        desiredSpherical = { radius: 28.5, theta: 0.0, phi: 1.15 };
+        desiredSceneWidthFit = 45.2;
+        btn.textContent = 'Xem màn hình';
+      }
+    }
+
+    function toggleViewMode3D2D() {
+      officeState.viewMode = officeState.viewMode === '3D' ? '2D' : '3D';
+      const stage3D = document.getElementById('office3DStageContainer');
+      const fallback2D = document.getElementById('office2DFallbackWrapper');
+      const btn = document.getElementById('btnToggle3D2D');
+
+      if (officeState.viewMode === '2D') {
+        stage3D.classList.add('hidden');
+        fallback2D.classList.remove('hidden');
+        btn.textContent = '🕹️ Chế độ: 2D (Máy yếu)';
+      } else {
+        fallback2D.classList.add('hidden');
+        stage3D.classList.remove('hidden');
+        btn.textContent = '🕹️ Chế độ: 3D Thực Tế';
+        onResize3DOffice();
+      }
+    }
+
+    function setSimSpeed(speed) {
+      officeState.simSpeed = speed;
+      startSimulationLoop();
+    }
+
+    function togglePauseSim() {
+      officeState.paused = !officeState.paused;
+      document.getElementById('pauseIcon').textContent = officeState.paused ? '▶' : '⏸';
+      document.getElementById('pauseLabel').textContent = officeState.paused ? 'Tiếp tục' : 'Tạm dừng';
+    }
+
+    function toggleAutoScaleAgents(checked) {
+      officeState.autoScaleStandby = checked;
+      if (checked) mobilizeStandbySubset(2);
+      renderGiantCommandWall();
+      renderAllDesks();
+    }
+
+    function openAgentDeskModal(agentId) {
+      const ag = agents.find(a => a.id === agentId);
+      if (!ag) return;
+      officeState.selectedDeskId = agentId;
+
+      document.getElementById('modalAgentAvatar').textContent = ag.avatar;
+      document.getElementById('modalAgentDeskBadge').textContent = ag.deskCode;
+      document.getElementById('modalAgentName').textContent = ag.name;
+      document.getElementById('modalAgentGradeBadge').textContent = `Hạng ${ag.grade}`;
+      document.getElementById('modalAgentRole').textContent = `${ag.department} • ${ag.role}`;
+      document.getElementById('modalAgentTokenStats').textContent = `${ag.tokensK.toFixed(1)}k tokens • $${ag.costUSD.toFixed(2)}`;
+      document.getElementById('modalSelectLLM').value = ag.llm;
+      const eName = document.getElementById('modalEditAgentName');
+      const eDept = document.getElementById('modalEditAgentDept');
+      const eRole = document.getElementById('modalEditAgentRole');
+      if (eName) eName.value = ag.name;
+      if (eDept) eDept.value = ag.department;
+      if (eRole) eRole.value = ag.assignedSpecialty || ag.role;
+      document.getElementById('modalCustomTaskInput').value = '';
+
+      const chatFeed = document.getElementById('modalDirectChatFeed');
+      chatFeed.innerHTML = ag.inbox.map(m => `
+        <div class="p-2 rounded bg-slate-950 border border-slate-800">
+          <span class="text-cyan-400 font-bold">${m.from}</span> <span class="text-[10px] text-slate-500">(${m.time})</span>:
+          <span class="text-slate-200 block mt-0.5">${m.text}</span>
+        </div>
+      `).join('');
+
+      document.getElementById('modalAgentTerminal').innerHTML = ag.terminalLines.map(l => `<div>${l}</div>`).join('');
+
+      const allSkills = ['Claude 3.5 CodeGen', 'ChatGPT-4o Bridge', 'Playwright E2E Runner', 'Perplexity Web Search', 'Docker Sandbox', 'Figma UI Plugin', 'OWASP Security Scanner', 'GitHub Copilot MCP'];
+      document.getElementById('modalAgentPluginsList').innerHTML = allSkills.map(skill => {
+        const active = ag.plugins.includes(skill);
+        return `
+          <button onclick="toggleSkillForModalAgent('${skill}')" class="px-2.5 py-2 rounded-xl border text-left text-xs transition flex items-center justify-between ${active ? 'bg-indigo-500/20 border-indigo-500/50 text-indigo-200 font-semibold' : 'bg-slate-950 border-slate-800 text-slate-400 hover:border-slate-700'}">
+            <span class="truncate">🔌 ${skill}</span>
+            <span>${active ? '✓ Bật' : '+ Gắn'}</span>
+          </button>
+        `;
+      }).join('');
+
+      document.getElementById('modalAgentHistory').innerHTML = ag.history.map(h => `<div>• ${h}</div>`).join('');
+      document.getElementById('agentDeskModal').classList.remove('hidden');
+    }
+
+    function closeAgentDeskModal() {
+      document.getElementById('agentDeskModal').classList.add('hidden');
+      officeState.selectedDeskId = null;
+    }
+
+    function sendModalAgentToVisitLeader() {
+      const ag = agents.find(a => a.id === officeState.selectedDeskId);
+      if (!ag) return;
+      const leaderDesk = agents[0].deskPos;
+      sendRobotToPosition(ag.id, leaderDesk.x + 1.1, leaderDesk.z + 0.8, 150);
+      ag.speech = 'Đang đi bộ sang bàn Khôi để báo cáo trực tiếp!';
+      closeAgentDeskModal();
+    }
+
+    function updateAgentLLM(newLLM) {
+      const ag = agents.find(a => a.id === officeState.selectedDeskId);
+      if (!ag) return;
+      ag.llm = newLLM;
+      ag.terminalLines.push(`> [CONFIG] Đã chuyển bộ não AI sang: ${newLLM}`);
+      ag.history.unshift(`Đổi mô hình Chat AI sang ${newLLM}`);
+      officeState.lastExternalTool = newLLM.split(' ')[0];
+      openAgentDeskModal(ag.id);
+      renderGiantCommandWall();
+      renderAllDesks();
+    }
+
+    function toggleSkillForModalAgent(skillName) {
+      const ag = agents.find(a => a.id === officeState.selectedDeskId);
+      if (!ag) return;
+      if (ag.plugins.includes(skillName)) {
+        if (ag.plugins.length > 1) ag.plugins = ag.plugins.filter(s => s !== skillName);
+      } else {
+        ag.plugins.push(skillName);
+      }
+      openAgentDeskModal(ag.id);
+      renderAllDesks();
+    }
+
+    function assignDirectTaskToModalAgent() {
+      const ag = agents.find(a => a.id === officeState.selectedDeskId);
+      if (!ag) return;
+      const taskText = document.getElementById('modalCustomTaskInput').value.trim();
+      if (!taskText) return;
+
+      const now = new Date().toTimeString().slice(0, 5);
+      ag.inbox.push({ from: 'Chị (CEO nhắn thẳng)', text: taskText, time: now });
+      ag.inbox.push({ from: ag.shortName, text: `Dạ em nhận lệnh trực tiếp từ Chị (CEO): "${taskText}". Em đang xử lý ngay ạ!`, time: now });
+      invokeRealOrSmartAI(taskText, ag).then(aiReply => {
+        ag.speech = aiReply.slice(0, 140);
+        ag.inbox.push({ from: ag.shortName + ' (Kết quả)', text: aiReply, time: new Date().toTimeString().slice(0, 5) });
+        generatedDeliverableCustomText = aiReply;
+        if (officeState.selectedDeskId === ag.id) openAgentDeskModal(ag.id);
+        drawGiant3DScreenCanvas();
+      });
+
+      ag.status = 'WORKING';
+      if (!ag.isCore) ag.role = ag.assignedSpecialty;
+      ag.statusText = 'đang làm';
+      ag.cardType = 'Nhận lệnh CEO';
+      ag.currentTask = `[VIỆC CEO GIAO] ${taskText}`;
+      ag.speech = `Vừa nhận tin nhắn trực tiếp từ Chị (CEO): "${taskText}"!`;
+      ag.msgCount += 2;
+      ag.tokensK += 1.4;
+      ag.costUSD += 0.02;
+
+      officeState.tasks.unshift({ id: 'T-' + Date.now(), title: taskText, owner: ag.deskCode, status: 'IN_PROGRESS' });
+      const _issRef = { id: 'ISS-' + Date.now() };
+      pushOfficeLog('Chị (CEO)', `${ag.deskCode} (${ag.shortName})`, 'core', `💬 "${taskText}"`);
+      openAgentDeskModal(ag.id);
+      renderGiantCommandWall();
+      renderAllDesks();
+    }
+
+    function toggleModalAgentStandby() {
+      const ag = agents.find(a => a.id === officeState.selectedDeskId);
+      if (!ag) return;
+      ag.status = ag.status === 'STANDBY' ? 'WORKING' : 'STANDBY';
+      ag.statusText = ag.status === 'STANDBY' ? 'chờ lệnh' : 'đang làm';
+      openAgentDeskModal(ag.id);
+      renderGiantCommandWall();
+      renderAllDesks();
+    }
+
+    function openProductPreviewModal() {
+      document.getElementById('previewCodeIterationBadge').textContent = `Build v1.${officeState.codeTestLoopCount} • Passed QA`;
+      const codeSample = `// Tệp: AppDeliverable.tsx — Sinh bởi Bàn #3 (Đức) qua ${agents[2].llm}
+// Đã kiểm duyệt bởi Bàn #4 (Minh) tại Phòng DEV - Vòng QA #${officeState.codeTestLoopCount}
+
+export class VirtualOfficeDeliverable {
+  private project = "${officeState.projectTitle.replace(/"/g, '\\"')}";
+  public async runProductionBuild() {
+    return {
+      status: "200_OK",
+      approvedBySecretary: "Linh (#2)",
+      qaCoverage: officeState.strictQAScore + "% (Yêu cầu tuyệt đối 100%)",
+      totalOfficeCostUSD: "$${agents.reduce((s, a) => s + a.costUSD, 0).toFixed(2)}"
+    };
+  }
+}`;
+      document.getElementById('previewGeneratedCode').textContent = codeSample;
+
+      const checklistHTML = (officeState.strictQAChecklist || []).map(c => {
+        const is100 = c.score >= 100;
+        return `
+          <div class="p-2 rounded bg-slate-900 border ${is100 ? 'border-emerald-500/40 text-emerald-300' : 'border-rose-500/50 text-rose-300'} font-medium flex items-center justify-between gap-2">
+            <span>${is100 ? '✔ [ĐẠT 100%]' : '⛔ [BẮT LÀM LẠI]'} ${c.name} <span class="text-[10px] text-slate-400">(${c.worker})</span></span>
+            <span class="font-mono-code font-bold px-1.5 py-0.5 rounded bg-slate-950">${c.score}% / 100%</span>
+          </div>
+        `;
+      }).join('');
+      document.getElementById('previewTestChecklist').innerHTML = checklistHTML;
+
+      document.getElementById('previewVisualMockup').innerHTML = `
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="text-[10px] uppercase tracking-wider text-cyan-400 font-bold">SẢN PHẨM THỰC TẾ ĐÃ BUILD</div>
+            <div class="text-sm font-bold text-white mt-0.5">${officeState.projectTitle}</div>
+          </div>
+          <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">LIVE DEMO</span>
+        </div>
+        <div class="grid grid-cols-3 gap-2 pt-1">
+          <div class="bg-slate-950 border border-slate-800 rounded-lg p-2.5">
+            <div class="text-[10px] text-slate-400">Độ phủ QA</div>
+            <div class="text-base font-extrabold text-emerald-400">${officeState.strictQAScore}% / 100%</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-lg p-2.5">
+            <div class="text-[10px] text-slate-400">Vòng lặp Code⇄Test</div>
+            <div class="text-base font-extrabold text-cyan-400">${officeState.codeTestLoopCount} vòng</div>
+          </div>
+          <div class="bg-slate-950 border border-slate-800 rounded-lg p-2.5">
+            <div class="text-[10px] text-slate-400">Tiền AI dự án</div>
+            <div class="text-base font-extrabold text-amber-400">$${agents.reduce((s, a) => s + a.costUSD, 0).toFixed(2)}</div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('productPreviewModal').classList.remove('hidden');
+    }
+
+    function closeProductPreviewModal() {
+      document.getElementById('productPreviewModal').classList.add('hidden');
+    }
+
+    function openPluginHubModal() {
+      const grid = document.getElementById('pluginHubGrid');
+      grid.innerHTML = EXTERNAL_PLUGINS_CATALOG.map((p, idx) => `
+        <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-start justify-between gap-3">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-white">${p.name}</span>
+              <span class="px-1.5 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300">${p.category}</span>
+            </div>
+            <p class="text-xs text-slate-400 mt-1">${p.desc}</p>
+          </div>
+          <button onclick="toggleCatalogPlugin(${idx})" class="px-2.5 py-1 rounded-lg text-xs font-bold shrink-0 ${p.enabled ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-slate-800 text-slate-400'}">
+            ${p.enabled ? 'Đang bật' : 'Đã tắt'}
+          </button>
+        </div>
+      `).join('');
+      document.getElementById('pluginHubModal').classList.remove('hidden');
+    }
+
+    function toggleCatalogPlugin(idx) {
+      EXTERNAL_PLUGINS_CATALOG[idx].enabled = !EXTERNAL_PLUGINS_CATALOG[idx].enabled;
+      const enabledCount = EXTERNAL_PLUGINS_CATALOG.filter(p => p.enabled).length + 8;
+      document.getElementById('activePluginCount').textContent = String(enabledCount);
+      openPluginHubModal();
+    }
+
+    function closePluginHubModal() {
+      document.getElementById('pluginHubModal').classList.add('hidden');
+    }
+
+
+    let userGeminiKey = '';
+    let generatedDeliverableCustomText = '';
+
+
+    function saveRosterToStorage() {
+      try {
+        const simplified = agents.map(a => ({
+          id: a.id,
+          deskCode: a.deskCode,
+          name: a.name,
+          shortName: a.shortName,
+          department: a.department,
+          role: a.role,
+          assignedSpecialty: a.assignedSpecialty,
+          isCore: a.isCore,
+          avatar: a.avatar,
+          colorHex: a.colorHex,
+          status: a.status,
+          statusText: a.statusText,
+          grade: a.grade,
+          tokensK: a.tokensK,
+          costUSD: a.costUSD,
+          msgCount: a.msgCount,
+          deskPos: a.deskPos,
+          llm: a.llm,
+          plugins: a.plugins,
+          currentTask: a.currentTask,
+          speech: a.speech,
+          cardType: a.cardType,
+          terminalLines: a.terminalLines,
+          history: a.history,
+          inbox: a.inbox
+        }));
+        localStorage.setItem('holo_office_roster_v1', JSON.stringify(simplified));
+      } catch (e) {}
+    }
+
+    function loadSavedRosterFromStorage() {
+      try {
+        const raw = localStorage.getItem('holo_office_roster_v1');
+        if (!raw) return;
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed) && parsed.length >= 10) {
+          agents.length = 0;
+          parsed.forEach(item => agents.push(item));
+        }
+      } catch (e) {}
+    }
+
+    function saveAgentProfileChanges() {
+      const ag = agents.find(a => a.id === officeState.selectedDeskId);
+      if (!ag) return;
+      const newName = (document.getElementById('modalEditAgentName')?.value || '').trim();
+      const newDept = (document.getElementById('modalEditAgentDept')?.value || '').trim();
+      const newRole = (document.getElementById('modalEditAgentRole')?.value || '').trim();
+
+      if (newName) {
+        ag.name = newName;
+        ag.shortName = newName;
+      }
+      if (newDept) ag.department = newDept.toUpperCase();
+      if (newRole) {
+        ag.role = newRole;
+        ag.assignedSpecialty = newRole;
+        ag.currentTask = `[VIỆC] Thực hiện chuyên môn: ${newRole}`;
+      }
+      ag.speech = `Dạ Chị (CEO), em là ${ag.shortName} (${ag.department}), đã cập nhật chức năng mới: ${ag.role}!`;
+      ag.history.unshift(`CEO cập nhật hồ sơ: ${ag.shortName} - ${ag.department} (${ag.role})`);
+
+      // Rebuild 3D overlay labels so new name shows immediately on 3D floor
+      const overlay = document.getElementById('threeLabelsOverlay');
+      if (overlay) overlay.innerHTML = '';
+
+      saveRosterToStorage();
+      pushOfficeLog('Chị (CEO)', `${ag.deskCode} (${ag.shortName})`, 'core', `✏️ Đã cập nhật nhân sự thành: ${ag.shortName} — ${ag.department} (${ag.role})`);
+      openAgentDeskModal(ag.id);
+      renderGiantCommandWall();
+      renderAllDesks();
+    }
+
+    function ceoAddNewAgent3D() {
+      const nameVal = (document.getElementById('newAgentNameInput')?.value || '').trim() || 'Quân';
+      const deptVal = ((document.getElementById('newAgentDeptInput')?.value || '').trim() || 'CHUYÊN GIA MỚI').toUpperCase();
+      const roleVal = (document.getElementById('newAgentRoleInput')?.value || '').trim() || 'Chuyên viên đa nhiệm hỗ trợ dự án';
+
+      const newId = agents.length + 1;
+      const extraIndex = newId - 11;
+      // Đặt vị trí bàn 3D mới gọn gàng trên sàn văn phòng
+      const posOptions = [
+        { x: 6.8, z: -2.2 },
+        { x: 6.8, z: 6.8 },
+        { x: -16.8, z: 2.5 },
+        { x: -16.8, z: 6.8 },
+        { x: 12.8, z: -2.5 },
+        { x: 12.8, z: 8.2 }
+      ];
+      const chosenPos = posOptions[extraIndex % posOptions.length] || { x: 6.8, z: -2.2 + extraIndex * 2.5 };
+      const palette = [0x00f2fe, 0x34d399, 0xf472b6, 0xfbbf24, 0xa855f7, 0x60a5fa];
+      const colorHex = palette[newId % palette.length];
+
+      const newAgent = {
+        id: newId,
+        deskCode: `BÀN #${newId}`,
+        name: nameVal,
+        shortName: nameVal,
+        department: deptVal,
+        assignedSpecialty: roleVal,
+        role: roleVal,
+        isCore: false,
+        avatar: '🤖',
+        colorHex,
+        status: 'WORKING',
+        statusText: 'đang làm',
+        grade: 'A',
+        tokensK: 2.0,
+        costUSD: 0.02,
+        msgCount: 5,
+        deskPos: chosenPos,
+        llm: 'Claude 3.5 Sonnet (Anthropic)',
+        plugins: ['ChatGPT-4o Bridge', 'Perplexity Web Search'],
+        currentTask: `[VIỆC MỚI] ${roleVal}`,
+        speech: `Chào Chị (CEO) và cả phòng! Em là ${nameVal} (${deptVal}), nhân sự mới tại Bàn #${newId}!`,
+        cardType: 'Nhân sự mới',
+        terminalLines: [`> [NEW AGENT] Khởi tạo Bàn #${newId} (${nameVal} - ${deptVal})...`],
+        history: [`Được Chị (CEO) tuyển dụng vào vị trí ${deptVal}`],
+        inbox: [{ from: 'Chị (CEO)', text: `Chào mừng ${nameVal} gia nhập văn phòng AI ở vị trí ${roleVal}!`, time: new Date().toTimeString().slice(0, 5) }]
+      };
+
+      agents.push(newAgent);
+      if (scene) {
+        build3DAgentDeskAndRobot(newAgent);
+      }
+      const overlay = document.getElementById('threeLabelsOverlay');
+      if (overlay) overlay.innerHTML = '';
+
+      saveRosterToStorage();
+      pushOfficeLog('Chị (CEO)', `Bàn #${newId} (${nameVal})`, 'core', `➕ Đã tuyển thêm nhân sự AI mới: ${nameVal} (${deptVal} - ${roleVal}) và kê bàn 3D mới!`);
+      document.getElementById('newAgentNameInput').value = '';
+      document.getElementById('newAgentDeptInput').value = '';
+      document.getElementById('newAgentRoleInput').value = '';
+      closeCEOCommandDrawer();
+      renderGiantCommandWall();
+      renderAllDesks();
+    }
+
+    function loadOfficeSavedState() {
+      loadSavedRosterFromStorage();
+      try {
+        const savedKey = localStorage.getItem('holo_office_gemini_key');
+        if (savedKey) {
+          userGeminiKey = savedKey;
+          const inp = document.getElementById('geminiApiKeyInput');
+          if (inp) inp.value = savedKey;
+          const badge = document.getElementById('liveAiConnectionBadge');
+          if (badge) badge.textContent = '⚡ Đã kết nối Gemini AI Trực tiếp';
+        }
+        const savedTitle = localStorage.getItem('holo_office_project_title');
+        if (savedTitle) {
+          officeState.projectTitle = savedTitle;
+          const tInp = document.getElementById('ceoTaskInput');
+          if (tInp) tInp.value = savedTitle;
+        }
+      } catch (e) {}
+    }
+
+    function saveOfficeStateToStorage() {
+      try {
+        localStorage.setItem('holo_office_project_title', officeState.projectTitle);
+      } catch (e) {}
+    }
+
+    function openCloudAndAIModal() {
+      document.getElementById('cloudAndAIModal').classList.remove('hidden');
+    }
+
+    function closeCloudAndAIModal() {
+      document.getElementById('cloudAndAIModal').classList.add('hidden');
+    }
+
+    function saveGeminiApiKey() {
+      const inp = document.getElementById('geminiApiKeyInput');
+      userGeminiKey = inp ? inp.value.trim() : '';
+      try {
+        if (userGeminiKey) localStorage.setItem('holo_office_gemini_key', userGeminiKey);
+        else localStorage.removeItem('holo_office_gemini_key');
+      } catch (e) {}
+      const badge = document.getElementById('liveAiConnectionBadge');
+      if (badge) {
+        badge.textContent = userGeminiKey ? '⚡ Đã kết nối Gemini AI Trực tiếp' : 'Đang bật Bộ xử lý thông minh tích hợp';
+      }
+      pushOfficeLog('Chị (CEO)', 'Hệ thống Holo Office', 'external', userGeminiKey ? '🔑 Đã kích hoạt kết nối trực tiếp Gemini AI!' : 'Đã chuyển về Bộ xử lý thông minh tích hợp sẵn (0đ).');
+      closeCloudAndAIModal();
+    }
+
+    async function invokeRealOrSmartAI(promptText, agentObj) {
+      if (userGeminiKey) {
+        try {
+          const url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' + encodeURIComponent(userGeminiKey);
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ parts: [{ text: `Bạn là ${agentObj.name} (${agentObj.department}) trong văn phòng AI của nữ Giám đốc (Chị CEO). Hãy trả lời ngắn gọn, súc tích và thực hiện yêu cầu sau bằng tiếng Việt: ${promptText}` }] }]
+            })
+          });
+          const data = await res.json();
+          const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+          if (reply) return reply.trim();
+        } catch (err) {}
+      }
+      return `Dạ thưa Chị (CEO), em là ${agentObj.name} (${agentObj.deskCode}). Em đã phân tích yêu cầu "${promptText}" và hoàn thành bản dựng chi tiết kèm kiểm thử tự động để trình Chị duyệt!`;
+    }
+
+    function downloadStandaloneIndexHTML() {
+      const htmlContent = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'index.html';
+      a.click();
+    }
+
+    function exportOfficeStateJSON() {
+      const payload = {
+        exportedAt: new Date().toISOString(),
+        projectTitle: officeState.projectTitle,
+        progress: officeState.progress,
+        agents: agents.map(a => ({ id: a.id, name: a.name, status: a.status, tokensK: a.tokensK, currentTask: a.currentTask }))
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'ho-so-van-phong-ai-3d.json';
+      a.click();
+    }
+
+    function downloadCurrentDeliverable() {
+      const content = `# BÁO CÁO & SẢN PHẨM BÀN GIAO CHO CHỊ (CEO)\n\n` +
+        `- **Dự án:** ${officeState.projectTitle}\n` +
+        `- **Trưởng nhóm điều phối:** Khôi (Bàn #1)\n` +
+        `- **Thư ký trình duyệt:** Linh (Bàn #2)\n` +
+        `- **Kỹ sư thực hiện:** Đức (Bàn #3) & đội dự bị (Vy, Tùng, Vũ, Mai, Bách, Đạt)\n` +
+        `- **Kỹ sư kiểm thử:** Minh (Bàn #4 - Đạt 98.8% độ phủ QA, ${officeState.codeTestLoopCount} vòng kiểm thử)\n\n` +
+        `## Nội dung / Mã nguồn sản phẩm:\n\n` +
+        (generatedDeliverableCustomText || document.getElementById('previewGeneratedCode')?.textContent || 'Sản phẩm đã hoàn tất kiểm thử.');
+      const blob = new Blob([content], { type: 'text/markdown;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'san-pham-ban-giao-ceo.md';
+      a.click();
+    }
+
+    function resetOfficeSavedState() {
+      try {
+        localStorage.removeItem('holo_office_project_title');
+        localStorage.removeItem('holo_office_roster_v1');
+      } catch (e) {}
+      closeCloudAndAIModal();
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadOfficeSavedState();
+      renderGiantCommandWall();
+      renderLiveCommsFeed();
+      renderCEOInbox();
+      renderAllDesks();
+      initThreeJSOffice();
+      startSimulationLoop();
+      setInterval(updateLiveClockAndHUD, 1000);
+    });
+  </script>
+</body>
+</html>
