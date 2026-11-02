@@ -111,7 +111,7 @@
         </div>
         <div class="leading-tight">
           <div class="text-xs font-bold text-white tracking-wide">VĂN PHÒNG AI 3D</div>
-          <div class="text-[9px] text-cyan-400 uppercase tracking-widest">BẢN v9.1 • CƠ CHẾ TỰ HỌC KỸ NĂNG & CẬP NHẬT KIẾN THỨC MỚI LIÊN TỤC (SELF-LEARNING AI)</div>
+          <div class="text-[9px] text-cyan-400 uppercase tracking-widest">BẢN v9.2 • XÁC THỰC KẾT NỐI AI THẬT 100% (PHÂN BIỆT RÕ MÃ API THẬT & EMAIL CẦU NỐI WEB)</div>
         </div>
       </div>
 
@@ -681,16 +681,22 @@
         <button onclick="closePluginHubModal()" class="w-8 h-8 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center font-bold">✕</button>
       </div>
       <div class="p-5 space-y-4 max-h-[75vh] overflow-y-auto">
-        <div class="bg-slate-950 border border-amber-500/40 rounded-xl p-3.5 space-y-2">
-          <div class="text-xs font-bold uppercase text-amber-300">🔑 Cấp Tài Khoản / Thêm Công Cụ Bên Ngoài Mới Cho Khôi (Leader)</div>
-          <p class="text-[11px] text-slate-400">Khôi được phép gọi bất kỳ công cụ/AI bên ngoài nào. Nếu công cụ chưa có tài khoản, Khôi sẽ báo về mục "Cần Sếp duyệt" hoặc Chị có thể cấp sẵn tài khoản tại đây:</p>
+        <div class="bg-slate-950 border-2 border-amber-500/40 rounded-xl p-3.5 space-y-2.5">
+          <div class="text-xs font-extrabold uppercase text-amber-300">🔑 CẤP KẾT NỐI CÔNG CỤ BÊN NGOÀI THẬT CHO KHÔI (XÁC THỰC TRỰC TIẾP 100%)</div>
+          <div class="rounded-lg bg-slate-900 border border-cyan-500/30 p-2.5 text-[11px] text-slate-200 space-y-1 leading-relaxed">
+            <div>⚠️ <strong>Lưu ý sự thật kỹ thuật (Không báo "Đang bật" ảo):</strong></div>
+            <div>• <strong>Vì sao không thể đăng nhập ngầm bằng Email + Mật khẩu?</strong> Các hãng lớn (ChatGPT, Claude, Google) chặn tuyệt đối việc phần mềm bên ngoài tự điền Email + Mật khẩu để đăng nhập ngầm (và Chị cũng <strong>tuyệt đối không nên nhập mật khẩu Gmail</strong> vào bất kỳ web nào).</div>
+            <div>• <strong>Nếu Chị muốn nhân sự tự gọi ngầm 100%:</strong> Phải dán <strong>Mã khóa API</strong> (<code>AIza...</code> của Gemini miễn phí, <code>gsk_...</code> của Groq miễn phí, hoặc <code>sk-...</code>). Hệ thống sẽ <strong>kiểm tra thật với máy chủ</strong> — đúng mã mới báo <strong>"✅ Đã xác thực API thật"</strong>!</div>
+            <div>• <strong>Nếu Chị nhập Email gói tháng (như <code>ngaoopdh@gmail.com</code>):</strong> Hệ thống sẽ chuyển sang chế độ <strong>"🔗 Cầu Nối Trình Duyệt"</strong> (mở thẳng tab web nơi trình duyệt của Chị đã đăng nhập sẵn tài khoản đó nên không cần nhập lại mật khẩu).</div>
+          </div>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
-            <input id="customToolNameInput" type="text" placeholder="Tên công cụ (VD: Midjourney, Semrush, Stripe...)" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-amber-400" />
-            <input id="customToolAccountInput" type="text" placeholder="Tài khoản / API / Email cấp cho đội..." class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-amber-400" />
+            <input id="customToolNameInput" type="text" placeholder="Tên công cụ (VD: ChatGPT, Groq, Gemini, VidIQ...)" class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-amber-400" />
+            <input id="customToolAccountInput" type="text" placeholder="Dán Mã API (AIza... / gsk_... / sk-...) hoặc Email cầu nối..." class="bg-slate-900 border border-slate-700 rounded-lg px-3 py-1.5 text-xs text-white outline-none focus:border-amber-400" />
             <button onclick="ceoGrantNewExternalTool()" class="px-3 py-1.5 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-xs transition">
-              🔑 Cấp Tài Khoản & Kích Hoạt
+              🔍 Kiểm Tra Thật & Cấp Quyền
             </button>
           </div>
+          <div id="customToolVerifyFeedback" class="text-[11px] font-bold text-cyan-300"></div>
         </div>
         <div class="bg-slate-950 border border-cyan-500/40 rounded-xl p-3.5 space-y-2">
           <div class="flex items-center justify-between">
@@ -3940,17 +3946,35 @@ export class CustomCEODeliverable {
       broadcastOfficeState(true);
     }
 
-    function ceoGrantAccountRequest(reqId) {
+    function isRealApiKeyFormat(str) {
+      if (!str) return false;
+      const s = str.trim();
+      return s.startsWith('AIza') || s.startsWith('sk-') || s.startsWith('gsk_') || (s.length >= 28 && !s.includes('@') && !s.includes(' '));
+    }
+
+    async function ceoGrantAccountRequest(reqId) {
       const item = officeState.ceoInbox.find(i => i.id === reqId);
       const inputEl = document.getElementById('grantAccInput_' + reqId);
-      const accVal = (inputEl?.value || '').trim() || 'Tài khoản gói sẵn có của Chị CEO';
+      const accVal = (inputEl?.value || '').trim();
+      if (!accVal) {
+        if (inputEl) {
+          inputEl.placeholder = '⚠️ Chị vui lòng dán Mã API (AIza.../gsk_.../sk-...) hoặc bấm nút Tự Code 0đ bên phải!';
+          inputEl.focus();
+        }
+        return;
+      }
+
+      const isEmailOnly = accVal.includes('@') && !isRealApiKeyFormat(accVal);
       if (item) {
         item.resolved = true;
         EXTERNAL_PLUGINS_CATALOG.unshift({
           id: 'ext_' + Date.now(),
           name: item.toolName || 'Công cụ ngoài',
-          category: 'Tài khoản CEO cấp (' + accVal.slice(0, 18) + ')',
-          desc: 'Đã được Chị (CEO) phê duyệt và cấp quyền truy cập trực tiếp cho các nhân sự.',
+          category: isEmailOnly ? `Email Gói Tháng (${accVal})` : `Khóa API (${accVal.slice(0, 8)}...)`,
+          authMode: isEmailOnly ? 'WEB_BRIDGE' : 'VERIFIED_API',
+          desc: isEmailOnly
+            ? `⚠️ Chị vừa nhập Email (${accVal}). Vì không thể đăng nhập ngầm bằng Email khi không có API Key, công cụ này sẽ hoạt động qua chế độ "Cầu nối Trình duyệt đang đăng nhập sẵn".`
+            : `✅ Đã gắn Mã khóa API thực tế (${accVal.slice(0, 8)}...) cho đội nhân sự tự động gọi trực tiếp.`,
           enabled: true
         });
       }
@@ -3960,31 +3984,78 @@ export class CustomCEODeliverable {
         officeState.resolvedKeys.push(item.id);
       }
       officeState.stateSeq = Date.now();
-      pushOfficeLog('Chị (CEO)', 'Bàn #1 (Khôi) & Đội Dự Án', 'external', `🔑 CEO đã cấp tài khoản (${accVal}) cho công cụ ${item ? item.toolName : ''} (Đã đồng bộ Laptop ⇄ PC)!`);
+      pushOfficeLog('Chị (CEO)', 'Bàn #1 (Khôi) & Đội Dự Án', 'external', isEmailOnly ? `🔗 Đã ghi nhận tài khoản Email (${accVal}) ở chế độ Cầu Nối Trình Duyệt (Không phải API ngầm).` : `🔑 CEO đã cấp Mã khóa API thật cho công cụ ${item ? item.toolName : ''}!`);
       renderCEOInbox();
       renderGiantCommandWall();
       broadcastOfficeState(true);
     }
 
-    function ceoGrantNewExternalTool() {
+    async function ceoGrantNewExternalTool() {
       const nameVal = (document.getElementById('customToolNameInput')?.value || '').trim();
-      const accVal = (document.getElementById('customToolAccountInput')?.value || '').trim() || 'Đã cấp tài khoản CEO';
-      if (!nameVal) return;
-      EXTERNAL_PLUGINS_CATALOG.unshift({
-        id: 'custom_' + Date.now(),
-        name: nameVal,
-        category: 'Tài khoản CEO cấp (' + accVal + ')',
-        desc: 'Công cụ bên ngoài do Chị (CEO) cấp tài khoản trực tiếp cho Khôi và cả đội sử dụng.',
-        enabled: true
-      });
-      agents[0].plugins.unshift(nameVal);
+      const accVal = (document.getElementById('customToolAccountInput')?.value || '').trim();
+      const fbEl = document.getElementById('customToolVerifyFeedback');
+      if (!nameVal || !accVal) {
+        if (fbEl) fbEl.innerHTML = `<span class="text-rose-400">⚠️ Chị vui lòng nhập cả Tên công cụ và Mã khóa API (hoặc Email cầu nối) nhé!</span>`;
+        return;
+      }
+
+      const isEmail = accVal.includes('@') && !isRealApiKeyFormat(accVal);
+      if (isEmail) {
+        EXTERNAL_PLUGINS_CATALOG.unshift({
+          id: 'custom_' + Date.now(),
+          name: nameVal,
+          category: `Tài khoản Web (${accVal})`,
+          authMode: 'WEB_BRIDGE',
+          desc: `⚠️ Chị đã nhập địa chỉ Email (${accVal}). Do bảo mật của ${nameVal} không cho phép phần mềm bên ngoài đăng nhập ngầm bằng Email/Mật khẩu, mục này được bật ở chế độ "🔗 Cầu Nối Trình Duyệt" (Mở trực tiếp tab web nơi trình duyệt của Chị đã đăng nhập sẵn ${accVal}). Nếu muốn gọi ngầm tự động, Chị hãy dán Mã API (AIza... / gsk_... / sk-...)!`,
+          enabled: true
+        });
+        if (fbEl) {
+          fbEl.innerHTML = `<span class="text-amber-300">ℹ️ Chị vừa nhập Email (${accVal}) chứ không phải Mã API: Hệ thống đã lưu ở chế độ "🔗 Cầu Nối Trình Duyệt Đang Đăng Nhập Sẵn" (không báo bật API ảo!).</span>`;
+        }
+      } else if (isRealApiKeyFormat(accVal)) {
+        if (fbEl) fbEl.innerHTML = `<span class="text-cyan-300">⏳ Đang kiểm tra thực tế mã khóa API "${accVal.slice(0, 8)}..." với máy chủ...</span>`;
+        // Tự động nạp vào đúng kho khóa của hãng đó và kiểm tra thật!
+        if (accVal.startsWith('AIza')) providerApiKeys.gemini = accVal;
+        else if (accVal.startsWith('sk-ant-')) providerApiKeys.claude = accVal;
+        else if (accVal.startsWith('gsk_') || accVal.startsWith('sk-or-')) providerApiKeys.deepseek = accVal;
+        else if (accVal.startsWith('sk-')) providerApiKeys.openai = accVal;
+
+        try { localStorage.setItem('holo_office_provider_keys_v1', JSON.stringify(providerApiKeys)); } catch (e) {}
+        syncProviderKeyInputsUI();
+
+        const testRes = await callRealLLMBrain('Trả lời ngắn gọn 1 câu: Xác nhận kết nối API thành công!', agents[0], false);
+        if (testRes && testRes.ok) {
+          EXTERNAL_PLUGINS_CATALOG.unshift({
+            id: 'custom_' + Date.now(),
+            name: nameVal,
+            category: `Khóa API Thật (${accVal.slice(0, 7)}...)`,
+            authMode: 'VERIFIED_API',
+            desc: `✅ Đã xác thực kết nối thành công với máy chủ (${testRes.modelUsed}). Khôi (#1) và cả đội có thể tự động gọi ngầm 24/7!`,
+            enabled: true
+          });
+          if (fbEl) {
+            fbEl.innerHTML = `<span class="text-emerald-300">✅ XÁC THỰC THÀNH CÔNG: Mã khóa API của "${nameVal}" hoạt động thật 100% (${testRes.modelUsed})!</span>`;
+          }
+        } else {
+          if (fbEl) {
+            fbEl.innerHTML = `<span class="text-rose-400">❌ Mã khóa "${accVal.slice(0, 10)}..." không kết nối được tới máy chủ (${testRes?.error || 'Sai mã khóa'}). Hệ thống từ chối bật ảo!</span>`;
+          }
+          return;
+        }
+      } else {
+        if (fbEl) {
+          fbEl.innerHTML = `<span class="text-rose-400">❌ Giá trị "${accVal}" không phải là Mã khóa API hợp lệ (Mã thật phải bắt đầu bằng AIza..., gsk_..., sk-...) cũng không phải Email hợp lệ!</span>`;
+        }
+        return;
+      }
+
       document.getElementById('customToolNameInput').value = '';
       document.getElementById('customToolAccountInput').value = '';
       const enabledCount = EXTERNAL_PLUGINS_CATALOG.filter(p => p.enabled).length;
       document.getElementById('activePluginCount').textContent = String(enabledCount);
-      pushOfficeLog('Chị (CEO)', 'Kho Công Cụ Ngoài', 'external', `🔑 Đã cấp tài khoản công cụ mới "${nameVal}" (${accVal}) cho Khôi tùy ý điều phối!`);
       openPluginHubModal();
       renderGiantCommandWall();
+      broadcastOfficeState(true);
     }
 
     function ceoAssignNewProject() {
@@ -5020,20 +5091,43 @@ Hãy đóng vai Trưởng nhóm Khôi và Kỹ sư trưởng Đức, trả lời
         }
       }
       const grid = document.getElementById('pluginHubGrid');
-      grid.innerHTML = EXTERNAL_PLUGINS_CATALOG.map((p, idx) => `
-        <div class="p-3.5 rounded-xl bg-slate-950 border border-slate-800 flex items-start justify-between gap-3">
-          <div>
-            <div class="flex items-center gap-2">
-              <span class="text-xs font-bold text-white">${p.name}</span>
-              <span class="px-1.5 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300">${p.category}</span>
+      grid.innerHTML = EXTERNAL_PLUGINS_CATALOG.map((p, idx) => {
+        const isWebBridge = p.authMode === 'WEB_BRIDGE';
+        const isVerifiedApi = p.authMode === 'VERIFIED_API';
+        let badgeClass = p.enabled ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-slate-800 text-slate-400';
+        let badgeLabel = p.enabled ? 'Đang bật' : 'Đã tắt';
+        if (isWebBridge) {
+          badgeClass = 'bg-amber-500/20 text-amber-300 border border-amber-500/40';
+          badgeLabel = '🔗 Cầu nối Web (Không phải API)';
+        } else if (isVerifiedApi) {
+          badgeClass = 'bg-emerald-500/25 text-emerald-300 border border-emerald-400';
+          badgeLabel = '✅ API Thật Đã Xác Thực';
+        }
+        return `
+        <div class="p-3.5 rounded-xl bg-slate-950 border ${isWebBridge ? 'border-amber-500/40' : (isVerifiedApi ? 'border-emerald-500/50' : 'border-slate-800')} flex flex-col justify-between gap-2.5">
+          <div class="flex items-start justify-between gap-2">
+            <div>
+              <div class="flex flex-wrap items-center gap-1.5">
+                <span class="text-xs font-extrabold text-white">${p.name}</span>
+                <span class="px-1.5 py-0.5 rounded text-[10px] bg-indigo-500/20 text-indigo-300">${p.category}</span>
+              </div>
+              <p class="text-xs text-slate-300 mt-1 leading-relaxed">${p.desc}</p>
             </div>
-            <p class="text-xs text-slate-400 mt-1">${p.desc}</p>
+            <button onclick="toggleCatalogPlugin(${idx})" class="px-2.5 py-1 rounded-lg text-[11px] font-bold shrink-0 ${badgeClass}">
+              ${badgeLabel}
+            </button>
           </div>
-          <button onclick="toggleCatalogPlugin(${idx})" class="px-2.5 py-1 rounded-lg text-xs font-bold shrink-0 ${p.enabled ? 'bg-emerald-500/20 text-emerald-300 border border-emerald-500/40' : 'bg-slate-800 text-slate-400'}">
-            ${p.enabled ? 'Đang bật' : 'Đã tắt'}
-          </button>
+          ${isWebBridge ? `
+            <div class="pt-2 border-t border-slate-800 flex items-center justify-between gap-2">
+              <span class="text-[10px] text-amber-300">Dùng phiên đăng nhập sẵn trên trình duyệt (Không cần nhập mật khẩu)</span>
+              <button onclick="openWebSubscriptionBridge('${p.name.toLowerCase().includes('claude') ? 'claude' : 'chatgpt'}')" class="px-2.5 py-1 rounded-lg bg-amber-400 hover:bg-amber-300 text-slate-950 font-extrabold text-[10px] shrink-0">
+                🚀 Mở Tab Web Đang Đăng Nhập
+              </button>
+            </div>
+          ` : ''}
         </div>
-      `).join('');
+      `;
+      }).join('');
       document.getElementById('pluginHubModal').classList.remove('hidden');
     }
 
