@@ -111,7 +111,7 @@
         </div>
         <div class="leading-tight">
           <div class="text-xs font-bold text-white tracking-wide">VĂN PHÒNG AI 3D</div>
-          <div class="text-[9px] text-cyan-400 uppercase tracking-widest">BẢN v9.4 • KIỂM TRA ĐỘC LẬP TỪNG KHÓA (GEMINI + GROQ) & TỰ ĐỘNG CHIA TẢI SONG SONG 2 BỘ NÃO 0Đ</div>
+          <div class="text-[9px] text-cyan-400 uppercase tracking-widest">BẢN v9.5 • TỰ ĐỘNG DÒ DANH SÁCH MODEL ĐANG HOẠT ĐỘNG CHO CẢ GEMINI LẪN GROQ (100% XANH CẢ 2 Ô)</div>
         </div>
       </div>
 
@@ -5202,6 +5202,7 @@ Hãy đóng vai Trưởng nhóm Khôi và Kỹ sư trưởng Đức, trả lời
       deepseek: ''
     };
     let cachedValidGeminiModels = {};
+    let cachedValidGroqModels = {};
     let generatedDeliverableCustomText = '';
 
 
@@ -5797,12 +5798,15 @@ Hãy đóng vai Trưởng nhóm Khôi và Kỹ sư trưởng Đức, trả lời
 
       const resultsHTML = [];
       let anySuccess = false;
+      let geminiOk = false;
+      let groqOk = false;
       let lastModelNames = [];
 
       if (providerApiKeys.gemini) {
         const gRes = await callGeminiDirect(providerApiKeys.gemini, 'Trả lời ngắn gọn 5 từ: Kết nối Gemini thành công!', false);
         if (gRes && gRes.ok) {
           anySuccess = true;
+          geminiOk = true;
           lastModelNames.push(gRes.modelUsed);
           resultsHTML.push(`<div class="text-emerald-300 font-bold">✅ Ô số 1 — Google Gemini: KẾT NỐI THÀNH CÔNG 100% (Mô hình: <code>${gRes.modelUsed}</code>)</div>`);
         } else {
@@ -5814,6 +5818,7 @@ Hãy đóng vai Trưởng nhóm Khôi và Kỹ sư trưởng Đức, trả lời
         const grRes = await callGroqDirect(providerApiKeys.groq, 'Trả lời ngắn gọn 5 từ tiếng Việt: Kết nối Groq thành công!');
         if (grRes && grRes.ok) {
           anySuccess = true;
+          groqOk = true;
           lastModelNames.push(grRes.modelUsed);
           resultsHTML.push(`<div class="text-emerald-300 font-bold">✅ Ô số 2 — Groq AI 0đ: KẾT NỐI THÀNH CÔNG 100% (Mô hình: <code>${grRes.modelUsed}</code>)</div>`);
         } else {
@@ -5845,7 +5850,7 @@ Hãy đóng vai Trưởng nhóm Khôi và Kỹ sư trưởng Đức, trả lời
 
       if (anySuccess) {
         updateAiBrainBadgesUI(lastModelNames.join(' + '));
-        if (providerApiKeys.gemini && providerApiKeys.groq) {
+        if (geminiOk && groqOk) {
           resultsHTML.push(`<div class="text-cyan-300 pt-1">⚡ <strong>Chế độ Song Kiếm Hợp Bích (Gemini + Groq 0đ):</strong> Hệ thống đã tự động chia tải cho 10 nhân sự dùng song song cả <strong>Gemini</strong> và <strong>Groq (Llama 3.3 70B & DeepSeek R1)</strong> để nhân đôi tốc độ và hạn mức miễn phí!</div>`);
         }
         if (testBox) testBox.innerHTML = `<div class="space-y-1 bg-slate-900/90 border border-emerald-500/40 rounded-xl p-3 mt-1">${resultsHTML.join('')}</div>`;
@@ -5930,17 +5935,66 @@ Hãy đóng vai Trưởng nhóm Khôi và Kỹ sư trưởng Đức, trả lời
       return { ok: false, error: lastErr || 'Claude error' };
     }
 
-    // HÀM GỌI TRỰC TIẾP GROQ CLOUD MIỄN PHÍ 0Đ (gsk_...) VỚI CƠ CHẾ TỰ DÒ MODEL HỢP LỆ
-    async function callGroqDirect(apiKey, promptText) {
-      const groqModels = [
+    // HÀM TỰ ĐỘNG GỌI GET /openai/v1/models CỦA GROQ ĐỂ LẤY ĐÚNG DANH SÁCH MODEL ĐANG HOẠT ĐỘNG TRÊN TÀI KHOẢN CỦA CHỊ!
+    async function discoverValidGroqModelsForKey(apiKey) {
+      if (cachedValidGroqModels[apiKey] && cachedValidGroqModels[apiKey].length > 0) {
+        return cachedValidGroqModels[apiKey];
+      }
+      try {
+        const res = await fetch('https://api.groq.com/openai/v1/models', {
+          method: 'GET',
+          headers: { 'Authorization': 'Bearer ' + apiKey }
+        });
+        const data = await res.json();
+        if (Array.isArray(data?.data)) {
+          const valid = data.data
+            .filter(m => {
+              if (m.active === false) return false;
+              const id = (m.id || '').toLowerCase();
+              if (!id) return false;
+              // Loại bỏ các model âm thanh (whisper/tts), bảo vệ (guard), nhúng (embed) để chỉ lấy model Chat thông minh
+              if (id.includes('whisper') || id.includes('guard') || id.includes('tts') || id.includes('playai') || id.includes('orpheus') || id.includes('embed') || id.includes('allam') || id.includes('safeguard')) {
+                return false;
+              }
+              return true;
+            })
+            .map(m => m.id);
+
+          valid.sort((a, b) => {
+            const score = (s) => {
+              const low = s.toLowerCase();
+              if (low.includes('llama-3.3-70b')) return 100;
+              if (low.includes('llama-4')) return 96;
+              if (low.includes('qwen') || low.includes('deepseek')) return 92;
+              if (low.includes('70b')) return 88;
+              if (low.includes('llama-3.1-8b')) return 84;
+              if (low.includes('llama')) return 78;
+              if (low.includes('gemma')) return 70;
+              return 50;
+            };
+            return score(b) - score(a);
+          });
+
+          if (valid.length > 0) {
+            cachedValidGroqModels[apiKey] = valid;
+            return valid;
+          }
+        }
+      } catch (e) {}
+
+      return [
         'llama-3.3-70b-versatile',
-        'deepseek-r1-distill-llama-70b',
+        'meta-llama/llama-4-scout-17b-16e-instruct',
         'llama-3.1-8b-instant',
-        'gemma2-9b-it',
-        'mixtral-8x7b-32768'
+        'qwen-qwq-32b'
       ];
+    }
+
+    // HÀM GỌI TRỰC TIẾP GROQ CLOUD MIỄN PHÍ 0Đ (gsk_...) VỚI DANH SÁCH MODEL TỰ ĐỘNG CẬP NHẬT TỪ MÁY CHỦ GROQ
+    async function callGroqDirect(apiKey, promptText) {
+      const groqModels = await discoverValidGroqModelsForKey(apiKey);
       let lastErr = '';
-      for (const m of groqModels) {
+      for (const m of groqModels.slice(0, 8)) {
         try {
           const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
             method: 'POST',
@@ -5961,7 +6015,7 @@ Hãy đóng vai Trưởng nhóm Khôi và Kỹ sư trưởng Đức, trả lời
             return {
               ok: true,
               text: cleanReply || reply.trim(),
-              modelUsed: `Groq (${m.split('-').slice(0, 3).join('-')})`,
+              modelUsed: `Groq (${m})`,
               inTok: data?.usage?.prompt_tokens || Math.ceil(promptText.length / 3.5),
               outTok: data?.usage?.completion_tokens || Math.ceil(reply.length / 3.5)
             };
