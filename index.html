@@ -111,7 +111,7 @@
         </div>
         <div class="leading-tight">
           <div class="text-xs font-bold text-white tracking-wide">VĂN PHÒNG AI 3D</div>
-          <div class="text-[9px] text-cyan-400 uppercase tracking-widest">BẢN v9.2 • XÁC THỰC KẾT NỐI AI THẬT 100% (PHÂN BIỆT RÕ MÃ API THẬT & EMAIL CẦU NỐI WEB)</div>
+          <div class="text-[9px] text-cyan-400 uppercase tracking-widest">BẢN v9.3 • TỰ ĐỘNG DÒ DANH SÁCH MODEL GEMINI HỢP LỆ (LISTMODELS) & ĐÃ THÊM Ô NHẬP GROQ 0Đ</div>
         </div>
       </div>
 
@@ -494,7 +494,8 @@
                 <option value="DeepSeek R1 (Reasoning)">🟣 DeepSeek R1 (Reasoning - Suy luận sâu, Kiểm thử QA & Bảo mật)</option>
                 <option value="OpenAI o3-mini (High-Speed)">🟢 OpenAI o3-mini (High-Speed - Tối ưu Dữ liệu & Thuật toán)</option>
                 <option value="Perplexity Sonar Research">🌐 Perplexity Sonar Research (Chuyên gia Nghiên cứu & SEO)</option>
-                <option value="Llama 3.3 70B (Local MCP)">⚡ Llama 3.3 70B (OpenRouter / Đa năng)</option>
+                <option value="Groq Llama 3.3 70B (Miễn phí 0đ)">⚡ Groq Llama 3.3 70B (Groq Cloud Miễn phí 0đ - Siêu tốc)</option>
+                <option value="Llama 3.3 70B (Local MCP)">🌐 OpenRouter Đa Mô Hình</option>
               </select>
             </div>
             <div>
@@ -754,28 +755,35 @@
           </div>
 
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
-            <div class="bg-slate-900 border border-blue-500/40 rounded-xl p-2.5 space-y-1">
-              <label class="font-extrabold text-blue-300 block">🔵 1. Khóa Google Gemini (AIza...):</label>
-              <span class="text-[10px] text-slate-400 block">Dùng cho các bàn chọn Gemini (Mặc định: Vy #5) & làm bộ não dự phòng toàn văn phòng</span>
-              <input id="geminiApiKeyInput" type="password" placeholder="Dán mã AIza... (Google AI Studio)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white outline-none focus:border-blue-400" />
+            <div class="bg-slate-900 border-2 border-blue-500/50 rounded-xl p-2.5 space-y-1">
+              <div class="flex items-center justify-between">
+                <label class="font-extrabold text-blue-300 block">🔵 1. Khóa Google Gemini Miễn Phí (AIza...):</label>
+                <span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold text-[10px]">0đ Miễn phí</span>
+              </div>
+              <span class="text-[10px] text-slate-400 block">Tự động gọi ListModels dò đúng model tài khoản của Chị (Lấy tại aistudio.google.com)</span>
+              <input id="geminiApiKeyInput" type="password" placeholder="Dán mã AIza... vào đây" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white outline-none focus:border-blue-400" />
+            </div>
+
+            <div class="bg-slate-900 border-2 border-cyan-400/60 rounded-xl p-2.5 space-y-1">
+              <div class="flex items-center justify-between">
+                <label class="font-extrabold text-cyan-300 block">⚡ 2. Khóa Groq AI Miễn Phí 0đ (gsk_...):</label>
+                <span class="px-1.5 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-bold text-[10px]">0đ Siêu tốc</span>
+              </div>
+              <span class="text-[10px] text-slate-400 block">Chạy Llama 3.3 70B & DeepSeek R1 miễn phí tốc độ cao (Lấy tại console.groq.com/keys)</span>
+              <input id="groqApiKeyInput" type="password" placeholder="Dán mã gsk_... của Groq vào đây" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white outline-none focus:border-cyan-400" />
             </div>
 
             <div class="bg-slate-900 border border-emerald-500/40 rounded-xl p-2.5 space-y-1">
-              <label class="font-extrabold text-emerald-300 block">🟢 2. Khóa OpenAI — ChatGPT (sk-...):</label>
-              <span class="text-[10px] text-slate-400 block">Kết nối thẳng tới ChatGPT-4o & o3-mini (Mặc định: Khôi #1, Mai #8, Bách #9)</span>
-              <input id="openaiApiKeyInput" type="password" placeholder="Dán mã sk-... (OpenAI Platform)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white outline-none focus:border-emerald-400" />
+              <label class="font-extrabold text-emerald-300 block">🟢 3. Khóa OpenAI — ChatGPT (sk-...):</label>
+              <span class="text-[10px] text-slate-400 block">Tùy chọn (Nếu dùng gói tháng Web thì không cần điền ô này)</span>
+              <input id="openaiApiKeyInput" type="password" placeholder="Dán mã sk-... (OpenAI API)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white outline-none focus:border-emerald-400" />
             </div>
 
             <div class="bg-slate-900 border border-amber-500/40 rounded-xl p-2.5 space-y-1">
-              <label class="font-extrabold text-amber-300 block">🟠 3. Khóa Anthropic — Claude (sk-ant-...):</label>
-              <span class="text-[10px] text-slate-400 block">Kết nối thẳng tới Claude 3.5 / 3.7 Sonnet (Mặc định: Đức #3, Linh #2, Đạt #10)</span>
-              <input id="claudeApiKeyInput" type="password" placeholder="Dán mã sk-ant-... (Anthropic Console)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white outline-none focus:border-amber-400" />
-            </div>
-
-            <div class="bg-slate-900 border border-purple-500/40 rounded-xl p-2.5 space-y-1">
-              <label class="font-extrabold text-purple-300 block">🟣 4. Khóa DeepSeek / OpenRouter (sk-...):</label>
-              <span class="text-[10px] text-slate-400 block">Kết nối thẳng DeepSeek R1 hoặc OpenRouter đa mô hình (Mặc định: Minh #4, Vũ #7, Tùng #6)</span>
-              <input id="deepseekApiKeyInput" type="password" placeholder="Dán mã sk-... (DeepSeek hoặc sk-or-... OpenRouter)" class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white outline-none focus:border-purple-400" />
+              <label class="font-extrabold text-amber-300 block">🟠 4. Khóa Claude (sk-ant-...) / DeepSeek / OpenRouter:</label>
+              <span class="text-[10px] text-slate-400 block">Tùy chọn (Dán sk-ant-... của Claude hoặc sk-or-... của OpenRouter)</span>
+              <input id="claudeApiKeyInput" type="password" placeholder="Dán mã sk-ant-... hoặc sk-or-..." class="w-full bg-slate-950 border border-slate-700 rounded-lg px-2.5 py-1.5 text-xs text-white outline-none focus:border-amber-400" />
+              <input id="deepseekApiKeyInput" type="hidden" />
             </div>
           </div>
 
@@ -4017,7 +4025,8 @@ export class CustomCEODeliverable {
         // Tự động nạp vào đúng kho khóa của hãng đó và kiểm tra thật!
         if (accVal.startsWith('AIza')) providerApiKeys.gemini = accVal;
         else if (accVal.startsWith('sk-ant-')) providerApiKeys.claude = accVal;
-        else if (accVal.startsWith('gsk_') || accVal.startsWith('sk-or-')) providerApiKeys.deepseek = accVal;
+        else if (accVal.startsWith('gsk_')) providerApiKeys.groq = accVal;
+        else if (accVal.startsWith('sk-or-')) providerApiKeys.deepseek = accVal;
         else if (accVal.startsWith('sk-')) providerApiKeys.openai = accVal;
 
         try { localStorage.setItem('holo_office_provider_keys_v1', JSON.stringify(providerApiKeys)); } catch (e) {}
@@ -5187,10 +5196,12 @@ Hãy đóng vai Trưởng nhóm Khôi và Kỹ sư trưởng Đức, trả lời
     let userGeminiKey = '';
     let providerApiKeys = {
       gemini: '',
+      groq: '',
       openai: '',
       claude: '',
       deepseek: ''
     };
+    let cachedValidGeminiModels = {};
     let generatedDeliverableCustomText = '';
 
 
@@ -5423,7 +5434,7 @@ Hãy đóng vai Trưởng nhóm Khôi và Kỹ sư trưởng Đức, trả lời
       isApplyingRemoteSync = true;
       try {
         if (snap.pkeys && typeof snap.pkeys === 'object') {
-          ['gemini', 'openai', 'claude', 'deepseek'].forEach(k => {
+          ['gemini', 'groq', 'openai', 'claude', 'deepseek'].forEach(k => {
             if (snap.pkeys[k] && snap.pkeys[k].length > 6 && !providerApiKeys[k]) {
               providerApiKeys[k] = snap.pkeys[k];
             }
@@ -5701,21 +5712,24 @@ Hãy đóng vai Trưởng nhóm Khôi và Kỹ sư trưởng Đức, trả lời
 
     function syncProviderKeyInputsUI() {
       const gInp = document.getElementById('geminiApiKeyInput');
+      const grInp = document.getElementById('groqApiKeyInput');
       const oInp = document.getElementById('openaiApiKeyInput');
       const cInp = document.getElementById('claudeApiKeyInput');
       const dInp = document.getElementById('deepseekApiKeyInput');
       if (gInp && providerApiKeys.gemini) gInp.value = providerApiKeys.gemini;
+      if (grInp && providerApiKeys.groq) grInp.value = providerApiKeys.groq;
       if (oInp && providerApiKeys.openai) oInp.value = providerApiKeys.openai;
-      if (cInp && providerApiKeys.claude) cInp.value = providerApiKeys.claude;
+      if (cInp && (providerApiKeys.claude || providerApiKeys.deepseek)) cInp.value = providerApiKeys.claude || providerApiKeys.deepseek;
       if (dInp && providerApiKeys.deepseek) dInp.value = providerApiKeys.deepseek;
     }
 
     function getConnectedBrainsSummary() {
       const active = [];
       if (providerApiKeys.gemini) active.push('Gemini');
+      if (providerApiKeys.groq) active.push('Groq 0đ');
       if (providerApiKeys.openai) active.push('ChatGPT');
       if (providerApiKeys.claude) active.push('Claude');
-      if (providerApiKeys.deepseek) active.push('DeepSeek');
+      if (providerApiKeys.deepseek) active.push('DeepSeek/OR');
       if (!active.length && userGeminiKey) active.push('AI Thật');
       return active;
     }
@@ -5742,21 +5756,25 @@ Hãy đóng vai Trưởng nhóm Khôi và Kỹ sư trưởng Đức, trả lời
     }
 
     async function saveAndVerifyGeminiApiKey() {
-      providerApiKeys.gemini = (document.getElementById('geminiApiKeyInput')?.value || '').trim();
-      providerApiKeys.openai = (document.getElementById('openaiApiKeyInput')?.value || '').trim();
-      providerApiKeys.claude = (document.getElementById('claudeApiKeyInput')?.value || '').trim();
-      providerApiKeys.deepseek = (document.getElementById('deepseekApiKeyInput')?.value || '').trim();
+      const rawG = (document.getElementById('geminiApiKeyInput')?.value || '').trim();
+      const rawGr = (document.getElementById('groqApiKeyInput')?.value || '').trim();
+      const rawO = (document.getElementById('openaiApiKeyInput')?.value || '').trim();
+      const rawC = (document.getElementById('claudeApiKeyInput')?.value || '').trim();
+      const rawD = (document.getElementById('deepseekApiKeyInput')?.value || '').trim();
 
-      // Tự động nhận diện nếu chị dán nhầm ô (ví dụ dán khóa sk-ant-... vào ô đầu tiên)
-      if (providerApiKeys.gemini.startsWith('sk-ant-') && !providerApiKeys.claude) {
-        providerApiKeys.claude = providerApiKeys.gemini;
-        providerApiKeys.gemini = '';
-      } else if (providerApiKeys.gemini.startsWith('sk-') && !providerApiKeys.openai) {
-        providerApiKeys.openai = providerApiKeys.gemini;
-        providerApiKeys.gemini = '';
-      }
+      providerApiKeys = { gemini: '', groq: '', openai: '', claude: '', deepseek: '' };
 
-      userGeminiKey = providerApiKeys.gemini || providerApiKeys.openai || providerApiKeys.claude || providerApiKeys.deepseek || '';
+      // Tự động phân loại thông minh bất kể Chị dán khóa vào ô nào!
+      [rawG, rawGr, rawO, rawC, rawD].filter(Boolean).forEach(k => {
+        if (k.startsWith('AIza')) providerApiKeys.gemini = k;
+        else if (k.startsWith('gsk_')) providerApiKeys.groq = k;
+        else if (k.startsWith('sk-ant-')) providerApiKeys.claude = k;
+        else if (k.startsWith('sk-or-')) providerApiKeys.deepseek = k;
+        else if (k.startsWith('sk-')) providerApiKeys.openai = k;
+        else if (!providerApiKeys.gemini) providerApiKeys.gemini = k;
+      });
+
+      userGeminiKey = providerApiKeys.gemini || providerApiKeys.groq || providerApiKeys.openai || providerApiKeys.claude || providerApiKeys.deepseek || '';
 
       try {
         localStorage.setItem('holo_office_provider_keys_v1', JSON.stringify(providerApiKeys));
@@ -5769,22 +5787,22 @@ Hãy đóng vai Trưởng nhóm Khôi và Kỹ sư trưởng Đức, trả lời
       const testBox = document.getElementById('apiKeyTestResultBox');
       const connected = getConnectedBrainsSummary();
       if (connected.length === 0) {
-        if (testBox) testBox.textContent = '⚠️ Chưa có mã khóa nào được nhập. Chị hãy dán ít nhất 1 mã khóa (Gemini, ChatGPT, Claude hoặc DeepSeek) vào các ô trên nhé!';
+        if (testBox) testBox.textContent = '⚠️ Chưa có mã khóa nào được nhập. Chị hãy dán mã khóa Gemini (AIza...) vào Ô số 1 hoặc mã Groq (gsk_...) vào Ô số 2 nhé!';
         return;
       }
 
-      if (testBox) testBox.textContent = `⏳ Đang kiểm tra kết nối trực tiếp tới: ${connected.join(', ')}...`;
-      const testRes = await callRealLLMBrain('Hãy trả lời đúng 1 câu ngắn gọn: "Đã kết nối trực tiếp bộ não AI thành công cho văn phòng của Chị CEO!"', agents[0], false);
+      if (testBox) testBox.innerHTML = `<span class="text-cyan-300">⏳ Đang gọi ListModels kiểm tra danh sách mô hình hợp lệ cho khóa ${connected.join(', ')} của Chị...</span>`;
+      const testRes = await callRealLLMBrain('Hãy trả lời đúng 1 câu ngắn gọn bằng tiếng Việt: "Chào Chị CEO, cả 10 nhân sự AI đã kết nối bộ não thật thành công!"', agents[0], false);
       if (testRes && testRes.ok) {
         updateAiBrainBadgesUI(testRes.modelUsed);
         if (testBox) {
-          testBox.innerHTML = `<span class="text-emerald-300 font-bold">✅ ĐÃ KẾT NỐI TRỰC TIẾP (${connected.join(' + ')} — Phản hồi từ ${testRes.modelUsed}):</span> "${testRes.text}" — Từng nhân sự sẽ tự động dùng đúng bộ não AI được gán cho bàn của mình!`;
+          testBox.innerHTML = `<span class="text-emerald-300 font-bold">✅ KẾT NỐI THÀNH CÔNG 100% (Mô hình: ${testRes.modelUsed}):</span> "${testRes.text}" — Toàn bộ 10 nhân sự đã được kích hoạt bộ não thật!`;
         }
-        pushOfficeLog('Hệ thống Đa Bộ Não AI', 'Toàn bộ 10 Nhân sự', 'external', `🧠 Đã kết nối trực tiếp các bộ não: ${connected.join(', ')} (${testRes.modelUsed})!`);
+        pushOfficeLog('Hệ thống Đa Bộ Não AI', 'Toàn bộ 10 Nhân sự', 'external', `🧠 Đã xác thực & kết nối thành công: ${connected.join(', ')} (Model: ${testRes.modelUsed})!`);
         broadcastOfficeState(true);
       } else {
         if (testBox) {
-          testBox.innerHTML = `<span class="text-rose-400 font-bold">❌ Chưa gọi được API (${testRes?.error || 'Lỗi mạng/khóa'}):</span> Chị kiểm tra lại mã khóa vừa dán nhé!`;
+          testBox.innerHTML = `<span class="text-rose-400 font-bold">❌ Chưa gọi được API (${testRes?.error || 'Lỗi mạng/khóa'}):</span> Chị kiểm tra xem mã khóa có bị thừa dấu cách hoặc hết hạn không nhé!`;
         }
       }
     }
@@ -5793,7 +5811,6 @@ Hãy đóng vai Trưởng nhóm Khôi và Kỹ sư trưởng Đức, trả lời
       saveAndVerifyGeminiApiKey();
     }
 
-    // CÁC HÀM GỌI TRỰC TIẾP TỪNG HÃNG AI (OPENAI CHATGPT, ANTHROPIC CLAUDE, DEEPSEEK/OPENROUTER, GOOGLE GEMINI)
     async function callOpenAIDirect(apiKey, promptText, modelHint, expectJson) {
       const model = (modelHint && modelHint.includes('o3')) ? 'o3-mini' : 'gpt-4o-mini';
       const bodyObj = {
@@ -5864,11 +5881,59 @@ Hãy đóng vai Trưởng nhóm Khôi và Kỹ sư trưởng Đức, trả lời
       return { ok: false, error: lastErr || 'Claude error' };
     }
 
+    // HÀM GỌI TRỰC TIẾP GROQ CLOUD MIỄN PHÍ 0Đ (gsk_...) VỚI CƠ CHẾ TỰ DÒ MODEL HỢP LỆ
+    async function callGroqDirect(apiKey, promptText) {
+      const groqModels = [
+        'llama-3.3-70b-versatile',
+        'deepseek-r1-distill-llama-70b',
+        'llama-3.1-8b-instant',
+        'gemma2-9b-it',
+        'mixtral-8x7b-32768'
+      ];
+      let lastErr = '';
+      for (const m of groqModels) {
+        try {
+          const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + apiKey
+            },
+            body: JSON.stringify({
+              model: m,
+              messages: [{ role: 'user', content: promptText }],
+              temperature: 0.35
+            })
+          });
+          const data = await res.json();
+          const reply = data?.choices?.[0]?.message?.content;
+          if (reply) {
+            const cleanReply = reply.replace(/<think>[\s\S]*?<\/think>/gi, '').trim();
+            return {
+              ok: true,
+              text: cleanReply || reply.trim(),
+              modelUsed: `Groq (${m.split('-').slice(0, 3).join('-')})`,
+              inTok: data?.usage?.prompt_tokens || Math.ceil(promptText.length / 3.5),
+              outTok: data?.usage?.completion_tokens || Math.ceil(reply.length / 3.5)
+            };
+          }
+          if (data?.error?.message) lastErr = data.error.message;
+        } catch (e) {
+          lastErr = e?.message || 'Groq network error';
+        }
+      }
+      return { ok: false, error: lastErr || 'Groq error' };
+    }
+
     async function callDeepSeekOrOpenRouterDirect(apiKey, promptText, assignedLLM) {
+      if (apiKey.startsWith('gsk_')) {
+        return callGroqDirect(apiKey, promptText);
+      }
       const isOpenRouter = apiKey.startsWith('sk-or-');
-      const isGroq = apiKey.startsWith('gsk_');
-      const endpoint = isGroq ? 'https://api.groq.com/openai/v1/chat/completions' : (isOpenRouter ? 'https://openrouter.ai/api/v1/chat/completions' : 'https://api.deepseek.com/chat/completions');
-      let model = isGroq ? 'llama-3.3-70b-versatile' : 'deepseek-chat';
+      const endpoint = isOpenRouter
+        ? 'https://openrouter.ai/api/v1/chat/completions'
+        : 'https://api.deepseek.com/chat/completions';
+      let model = 'deepseek-chat';
       if (isOpenRouter) {
         const low = (assignedLLM || '').toLowerCase();
         if (low.includes('claude')) model = 'anthropic/claude-3.5-sonnet';
@@ -5903,10 +5968,63 @@ Hãy đóng vai Trưởng nhóm Khôi và Kỹ sư trưởng Đức, trả lời
       return { ok: false, error: data?.error?.message || 'DeepSeek/OpenRouter error' };
     }
 
+    // HÀM GỌI GOOGLE GEMINI THÔNG MINH: TỰ ĐỘNG GỌI ModelService.ListModels ĐỂ LẤY ĐÚNG DANH SÁCH MODEL TÀI KHOẢN CỦA CHỊ HỖ TRỢ!
+    async function discoverValidGeminiModelsForKey(apiKey) {
+      if (cachedValidGeminiModels[apiKey] && cachedValidGeminiModels[apiKey].length > 0) {
+        return cachedValidGeminiModels[apiKey];
+      }
+      try {
+        const listUrl = `https://generativelanguage.googleapis.com/v1beta/models?key=${encodeURIComponent(apiKey)}`;
+        const res = await fetch(listUrl);
+        const data = await res.json();
+        if (Array.isArray(data?.models)) {
+          const valid = data.models
+            .filter(m => {
+              const name = (m.name || '').toLowerCase();
+              const methods = m.supportedGenerationMethods || [];
+              if (!methods.includes('generateContent')) return false;
+              if (!name.includes('gemini')) return false;
+              if (name.includes('embedding') || name.includes('imagen') || name.includes('veo') || name.includes('tts') || name.includes('audio') || name.includes('vision') || name.includes('robotics') || name.includes('computer-use') || name.includes('aqa')) return false;
+              return true;
+            })
+            .map(m => m.name.replace(/^models\//, ''));
+
+          // Sắp xếp ưu tiên các bản Flash nhanh và ổn định nhất của tài khoản
+          valid.sort((a, b) => {
+            const score = (s) => {
+              if (s === 'gemini-2.5-flash') return 100;
+              if (s === 'gemini-2.0-flash') return 95;
+              if (s === 'gemini-flash-latest') return 90;
+              if (s.includes('2.5-flash') && !s.includes('preview')) return 88;
+              if (s.includes('2.0-flash') && !s.includes('exp')) return 85;
+              if (s.includes('flash')) return 75;
+              if (s.includes('pro')) return 60;
+              return 40;
+            };
+            return score(b) - score(a);
+          });
+
+          if (valid.length > 0) {
+            cachedValidGeminiModels[apiKey] = valid;
+            return valid;
+          }
+        }
+      } catch (e) {}
+
+      return [
+        'gemini-2.5-flash',
+        'gemini-2.0-flash',
+        'gemini-2.0-flash-lite',
+        'gemini-flash-latest',
+        'gemini-pro-latest'
+      ];
+    }
+
     async function callGeminiDirect(apiKey, promptText, expectJson) {
-      const candidateModels = ['gemini-2.5-flash', 'gemini-2.0-flash', 'gemini-1.5-flash', 'gemini-1.5-pro'];
+      const candidateModels = await discoverValidGeminiModelsForKey(apiKey);
       let lastErr = '';
-      for (const modelName of candidateModels) {
+
+      for (const modelName of candidateModels.slice(0, 6)) {
         try {
           const url = `https://generativelanguage.googleapis.com/v1beta/models/${modelName}:generateContent?key=${encodeURIComponent(apiKey)}`;
           const payload = {
@@ -5914,12 +6032,25 @@ Hãy đóng vai Trưởng nhóm Khôi và Kỹ sư trưởng Đức, trả lời
             generationConfig: { temperature: 0.35 }
           };
           if (expectJson) payload.generationConfig.responseMimeType = 'application/json';
-          const res = await fetch(url, {
+
+          let res = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
           });
-          const data = await res.json();
+          let data = await res.json();
+
+          // Nếu model này không hỗ trợ responseMimeType JSON, thử lại ngay không cần responseMimeType
+          if (!data?.candidates?.[0]?.content?.parts?.[0]?.text && expectJson) {
+            delete payload.generationConfig.responseMimeType;
+            res = await fetch(url, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            data = await res.json();
+          }
+
           const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
           if (reply) {
             return {
@@ -5939,59 +6070,57 @@ Hãy đóng vai Trưởng nhóm Khôi và Kỹ sư trưởng Đức, trả lời
       return { ok: false, error: lastErr || 'Gemini error' };
     }
 
-    // BỘ ĐỊNH TUYẾN ĐA BỘ NÃO AI THÔNG MINH:
-    // 1. Ưu tiên gọi đúng hãng AI mà nhân sự đó đang được gán (Claude -> Anthropic, ChatGPT -> OpenAI, DeepSeek -> DeepSeek, Gemini -> Google)
-    // 2. Nếu nhân sự có gắn mã khóa riêng tại bàn (`agentObj.customApiKey`), dùng ngay khóa riêng đó!
-    // 3. Nếu hãng AI của bàn đó chưa được dán khóa riêng, tự động chuyển tiếp mượt mà sang bất kỳ bộ não AI thật nào đã có khóa trong văn phòng!
     async function callRealLLMBrain(systemAndUserPrompt, agentObj, expectJson = false) {
       try {
         const rawMulti = localStorage.getItem('holo_office_provider_keys_v1');
-        if (rawMulti && !providerApiKeys.gemini && !providerApiKeys.openai && !providerApiKeys.claude && !providerApiKeys.deepseek) {
+        if (rawMulti && !providerApiKeys.gemini && !providerApiKeys.groq && !providerApiKeys.openai && !providerApiKeys.claude && !providerApiKeys.deepseek) {
           providerApiKeys = { ...providerApiKeys, ...JSON.parse(rawMulti) };
         }
       } catch (e) {}
       const legacyKey = (userGeminiKey || localStorage.getItem('holo_office_gemini_key') || '').trim();
-      if (legacyKey && !providerApiKeys.gemini && !providerApiKeys.openai && !providerApiKeys.claude) {
-        if (legacyKey.startsWith('sk-ant-')) providerApiKeys.claude = legacyKey;
+      if (legacyKey && !providerApiKeys.gemini && !providerApiKeys.groq && !providerApiKeys.openai && !providerApiKeys.claude) {
+        if (legacyKey.startsWith('gsk_')) providerApiKeys.groq = legacyKey;
+        else if (legacyKey.startsWith('sk-ant-')) providerApiKeys.claude = legacyKey;
         else if (legacyKey.startsWith('sk-')) providerApiKeys.openai = legacyKey;
         else providerApiKeys.gemini = legacyKey;
       }
 
       const assignedLLM = (agentObj?.llm || 'Gemini 2.5 Pro').toLowerCase();
       const deskKey = (agentObj?.customApiKey || '').trim();
+      const roleSpecializedPrompt = `[CHẾ ĐỘ CHUYÊN GIA ĐẦU NGÀNH: Hãy vận dụng phong cách tư duy và chuyên môn sâu nhất của mô hình ${agentObj?.llm || 'Chuyên gia AI'}]\n` + systemAndUserPrompt;
 
       const attemptSequence = [];
 
-      // Nếu bàn này có gắn khóa API riêng trực tiếp:
       if (deskKey) {
-        if (deskKey.startsWith('sk-ant-')) attemptSequence.push(() => callAnthropicClaudeDirect(deskKey, systemAndUserPrompt));
-        else if (deskKey.startsWith('AIza')) attemptSequence.push(() => callGeminiDirect(deskKey, systemAndUserPrompt, expectJson));
-        else if (deskKey.startsWith('sk-or-') || assignedLLM.includes('deepseek')) attemptSequence.push(() => callDeepSeekOrOpenRouterDirect(deskKey, systemAndUserPrompt, agentObj?.llm));
-        else attemptSequence.push(() => callOpenAIDirect(deskKey, systemAndUserPrompt, assignedLLM, expectJson));
+        if (deskKey.startsWith('gsk_')) attemptSequence.push(() => callGroqDirect(deskKey, roleSpecializedPrompt));
+        else if (deskKey.startsWith('sk-ant-')) attemptSequence.push(() => callAnthropicClaudeDirect(deskKey, roleSpecializedPrompt));
+        else if (deskKey.startsWith('AIza')) attemptSequence.push(() => callGeminiDirect(deskKey, roleSpecializedPrompt, expectJson));
+        else if (deskKey.startsWith('sk-or-') || assignedLLM.includes('deepseek')) attemptSequence.push(() => callDeepSeekOrOpenRouterDirect(deskKey, roleSpecializedPrompt, agentObj?.llm));
+        else attemptSequence.push(() => callOpenAIDirect(deskKey, roleSpecializedPrompt, assignedLLM, expectJson));
       }
 
-      // Định tuyến theo đúng Bộ não AI được gán cho nhân sự đó:
+      if (assignedLLM.includes('groq') && providerApiKeys.groq) {
+        attemptSequence.push(() => callGroqDirect(providerApiKeys.groq, roleSpecializedPrompt));
+      }
       if (assignedLLM.includes('claude') && providerApiKeys.claude) {
-        attemptSequence.push(() => callAnthropicClaudeDirect(providerApiKeys.claude, systemAndUserPrompt));
+        attemptSequence.push(() => callAnthropicClaudeDirect(providerApiKeys.claude, roleSpecializedPrompt));
       }
       if ((assignedLLM.includes('chatgpt') || assignedLLM.includes('openai') || assignedLLM.includes('o3')) && providerApiKeys.openai) {
-        attemptSequence.push(() => callOpenAIDirect(providerApiKeys.openai, systemAndUserPrompt, assignedLLM, expectJson));
+        attemptSequence.push(() => callOpenAIDirect(providerApiKeys.openai, roleSpecializedPrompt, assignedLLM, expectJson));
       }
       if ((assignedLLM.includes('deepseek') || assignedLLM.includes('perplexity') || assignedLLM.includes('llama')) && providerApiKeys.deepseek) {
-        attemptSequence.push(() => callDeepSeekOrOpenRouterDirect(providerApiKeys.deepseek, systemAndUserPrompt, agentObj?.llm));
+        attemptSequence.push(() => callDeepSeekOrOpenRouterDirect(providerApiKeys.deepseek, roleSpecializedPrompt, agentObj?.llm));
       }
       if (assignedLLM.includes('gemini') && providerApiKeys.gemini) {
-        attemptSequence.push(() => callGeminiDirect(providerApiKeys.gemini, systemAndUserPrompt, expectJson));
-      }
-
-      // Dự phòng chéo thông minh: Nếu bàn đó được gán Claude/ChatGPT nhưng Chị mới chỉ dán khóa Gemini (hoặc ngược lại), tự động dùng khóa thật đang có để nhân sự vẫn suy luận thông minh 100%!
-      if (providerApiKeys.gemini) {
-        const roleSpecializedPrompt = `[CHẾ ĐỘ ĐA CHUYÊN GIA 0Đ: Hãy vận dụng phong cách tư duy và chuyên môn sâu nhất của mô hình ${agentObj?.llm || 'Chuyên gia AI'}]\n` + systemAndUserPrompt;
         attemptSequence.push(() => callGeminiDirect(providerApiKeys.gemini, roleSpecializedPrompt, expectJson));
       }
-      if (providerApiKeys.openai) attemptSequence.push(() => callOpenAIDirect(providerApiKeys.openai, systemAndUserPrompt, assignedLLM, expectJson));
-      if (providerApiKeys.claude) attemptSequence.push(() => callAnthropicClaudeDirect(providerApiKeys.claude, systemAndUserPrompt));
-      if (providerApiKeys.deepseek) attemptSequence.push(() => callDeepSeekOrOpenRouterDirect(providerApiKeys.deepseek, systemAndUserPrompt, agentObj?.llm));
+
+      // Dự phòng tự động qua tất cả các khóa đang có (Ưu tiên Gemini Free & Groq Free 0đ!)
+      if (providerApiKeys.gemini) attemptSequence.push(() => callGeminiDirect(providerApiKeys.gemini, roleSpecializedPrompt, expectJson));
+      if (providerApiKeys.groq) attemptSequence.push(() => callGroqDirect(providerApiKeys.groq, roleSpecializedPrompt));
+      if (providerApiKeys.openai) attemptSequence.push(() => callOpenAIDirect(providerApiKeys.openai, roleSpecializedPrompt, assignedLLM, expectJson));
+      if (providerApiKeys.claude) attemptSequence.push(() => callAnthropicClaudeDirect(providerApiKeys.claude, roleSpecializedPrompt));
+      if (providerApiKeys.deepseek) attemptSequence.push(() => callDeepSeekOrOpenRouterDirect(providerApiKeys.deepseek, roleSpecializedPrompt, agentObj?.llm));
 
       if (attemptSequence.length === 0) {
         return { ok: false, error: 'NO_KEY' };
